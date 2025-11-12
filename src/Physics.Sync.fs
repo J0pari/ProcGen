@@ -335,6 +335,10 @@ module Sync =
         member _.ApplyImpulse(handle: Service.BodyHandle, impulse: System.Numerics.Vector3) : unit =
             worker.EnqueueCommand(Command.ApplyImpulse(handle, impulse))
 
+        /// Insert fence into command queue
+        member _.InsertFence() : SyncFence =
+            worker.InsertFence()
+
         /// Sync point - wait for all queued commands (with timeout)
         member _.Sync(timeoutMs: int) : bool =
             let fence = worker.InsertFence()

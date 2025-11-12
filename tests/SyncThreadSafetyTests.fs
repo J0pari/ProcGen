@@ -37,11 +37,11 @@ module SyncThreadSafetyTests =
 
     [<Fact>]
     let ``Fence synchronization blocks until signaled`` () =
-        let queue = PhysicsCommandQueue()
-        let fence = queue.CreateFence()
+        use manager = new ThreadSafePhysicsManager()
+        manager.Start()
+        let fence = manager.InsertFence()
         shouldSignal fence (fun () ->
-            queue.Enqueue(AddBody(rigidBodyBuilder().Build()))
-            queue.Flush()
+            manager.AddBodyAsync(rigidBodyBuilder().BuildData()) |> Async.RunSynchronously |> ignore
             fence.WaitFor(TimeSpan.FromSeconds(1.0)))
 
     [<Fact>]
