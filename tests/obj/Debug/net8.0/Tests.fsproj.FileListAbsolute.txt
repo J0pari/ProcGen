@@ -1,0 +1,5 @@
+c:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.fsproj.AssemblyReference.cache
+c:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.AssemblyInfoInputs.cache
+c:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.AssemblyInfo.fs
+c:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.fsproj.CoreCompileInputs.cache
+c:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.sourcelink.json

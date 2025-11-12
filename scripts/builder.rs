@@ -188,11 +188,20 @@ impl BuildContext {
     fn phase_server(&mut self) -> Result<(), String> {
         let src_dir = self.root.join("src");
 
+        // Force restore to get fresh package state after GPU.Compute build
+        self.run_command("restore_server",
+            Command::new("dotnet")
+                .current_dir(&src_dir)
+                .arg("restore")
+                .arg("Server.fsproj")
+                .arg("--force"))?;
+
         self.run_command("build_server",
             Command::new("dotnet")
                 .current_dir(&src_dir)
                 .arg("build")
-                .arg("Server.fsproj"))?;
+                .arg("Server.fsproj")
+                .arg("--no-restore"))?;
 
         let dll = src_dir.join("bin/Debug/net8.0/Server.dll");
         if !dll.exists() {
