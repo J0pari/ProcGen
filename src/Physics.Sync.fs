@@ -300,7 +300,13 @@ module Sync =
 
         /// Constructor with default config
         new() =
-            let defaultConfig = { Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f) }
+            let defaultConfig = {
+                Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f)
+                TimeStep = 0.016<s>
+                SubSteps = 4
+                SolverIterations = 10
+                EnableSleeping = true
+            }
             ThreadSafePhysicsManager(defaultConfig, 60.0)
 
         /// Start physics simulation thread
