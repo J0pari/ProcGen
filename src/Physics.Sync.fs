@@ -12,16 +12,13 @@ module Sync =
         Id: int64
         Timestamp: DateTime
         mutable IsSignaled: bool
+        Event: ManualResetEventSlim
     }
         with
         /// Wait for fence to be signaled
         member this.WaitFor(timeout: TimeSpan) : bool =
-            let timeoutMs = int timeout.TotalMilliseconds
-            let mutable elapsed = 0
-            while not this.IsSignaled && elapsed < timeoutMs do
-                Thread.Sleep(1)
-                elapsed <- elapsed + 1
-            this.IsSignaled
+            if this.IsSignaled then true
+            else this.Event.Wait(timeout)
 
     /// Command buffer for deferred physics operations
     type Command =
@@ -58,6 +55,7 @@ module Sync =
                 Id = id
                 Timestamp = DateTime.UtcNow
                 IsSignaled = false
+                Event = new ManualResetEventSlim(false)
             }
             activeFences.[id] <- fence
             queue.Enqueue(Command.Fence fence)
@@ -96,6 +94,7 @@ module Sync =
                     world.Step()
                 | Fence fence ->
                     fence.IsSignaled <- true
+                    fence.Event.Set()
                     activeFences.TryRemove(fence.Id) |> ignore
 
                 count <- count + 1
@@ -108,13 +107,15 @@ module Sync =
 
             count
 
-        /// Flush fences only (for tests - does not execute commands)
+        /// Flush queue and signal all fences (test-only: commands are discarded, not executed)
+        /// WARNING: This is for testing fence synchronization in isolation. Do not use in production.
         member _.Flush() : unit =
             let mutable cmd = Unchecked.defaultof<Command>
             while queue.TryDequeue(&cmd) do
                 match cmd with
                 | Fence fence ->
                     fence.IsSignaled <- true
+                    fence.Event.Set()
                     activeFences.TryRemove(fence.Id) |> ignore
                 | _ -> ()
 
