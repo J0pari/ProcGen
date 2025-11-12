@@ -189,12 +189,14 @@ impl BuildContext {
         let src_dir = self.root.join("src");
 
         // Force restore to get fresh package state after GPU.Compute build
+        // Use --force-evaluate to re-evaluate all dependencies including Giraffe
         self.run_command("restore_server",
             Command::new("dotnet")
                 .current_dir(&src_dir)
                 .arg("restore")
                 .arg("Server.fsproj")
-                .arg("--force"))?;
+                .arg("--force")
+                .arg("--force-evaluate"))?;
 
         self.run_command("build_server",
             Command::new("dotnet")
