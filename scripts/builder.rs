@@ -216,6 +216,31 @@ impl BuildContext {
         Ok(())
     }
 
+    fn phase_cli(&mut self) -> Result<(), String> {
+        let src_dir = self.root.join("src");
+
+        self.run_command("restore_cli",
+            Command::new("dotnet")
+                .current_dir(&src_dir)
+                .arg("restore")
+                .arg("CLI.fsproj"))?;
+
+        self.run_command("build_cli",
+            Command::new("dotnet")
+                .current_dir(&src_dir)
+                .arg("build")
+                .arg("CLI.fsproj"))?;
+
+        let dll = src_dir.join("bin/Debug/net8.0/CLI.dll");
+        if !dll.exists() {
+            return Err("CLI.dll not found after build".to_string());
+        }
+
+        let hash = self.compute_sha256(&dll)?;
+        self.metrics.record_artifact("cli", &hash);
+        Ok(())
+    }
+
     fn phase_tests(&mut self, run_tests: bool) -> Result<(), String> {
         let tests_dir = self.root.join("tests");
 
@@ -293,6 +318,9 @@ fn main() {
     let run_tests = std::env::args().nth(1).as_deref() == Some("tests");
 
     let result = ctx.phase_cuda()
+        .and_then(|_| ctx.phase_gpu_compute())
+        .and_then(|_| ctx.phase_server())
+        .and_then(|_| ctx.phase_cli())
         .and_then(|_| ctx.phase_tests(run_tests));
 
     ctx.finalize();

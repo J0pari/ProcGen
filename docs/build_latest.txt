@@ -1,0 +1,15 @@
+[08:14:28] ========== BUILD STARTING ==========
+[08:14:28]   CUDA kernels up-to-date (skipping)
+[08:14:28] restore_tests
+  Determining projects to restore...
+  Restored c:\Users\tmdru\Downloads\files\tests\Tests.fsproj (in 614 ms).
+[08:14:29] restore_tests OK (1424ms)
+[08:14:31] build_tests FAILED
+[08:14:31]   Error log: c:\Users\tmdru\Downloads\files\docs/build_tests_20251112_081429.txt
+
+========== BUILD SUMMARY ==========
+Total build time: 3203ms
+Telemetry: c:\Users\tmdru\Downloads\files\logs\telemetry_20251112_081431.json
+===================================
+
+Build failed: Tests build failed
