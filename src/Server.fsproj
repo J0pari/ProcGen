@@ -8,7 +8,6 @@
   <ItemGroup>
     <Compile Include="AdaptiveConfig.fs" />
     <Compile Include="SpatialHash.fs" />
-    <Compile Include="ThreadSafe.fs" />
     <Compile Include="Execution.fs" />
     <Compile Include="ParallelTempering.Core.fs" />
     <Compile Include="ProceduralGeneration.fs" />

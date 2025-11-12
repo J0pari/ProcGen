@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Compile Include="SpatialHash.fs" />
-    <Compile Include="ThreadSafe.fs" />
     <Compile Include="Execution.fs" />
     <Compile Include="ParallelTempering.Core.fs" />
     <Compile Include="GPU.Compute.fs" />
