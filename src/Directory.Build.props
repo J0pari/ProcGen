@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath Condition="$(MSBuildProjectName.Contains('GPU.Compute'))">obj\GPU.Compute\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath Condition="$(MSBuildProjectName.Contains('Server'))">obj\Server\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath Condition="$(MSBuildProjectName.Contains('CLI'))">obj\CLI\</BaseIntermediateOutputPath>
+
+    <BaseOutputPath Condition="$(MSBuildProjectName.Contains('GPU.Compute'))">bin\GPU.Compute\</BaseOutputPath>
+    <BaseOutputPath Condition="$(MSBuildProjectName.Contains('Server'))">bin\Server\</BaseOutputPath>
+    <BaseOutputPath Condition="$(MSBuildProjectName.Contains('CLI'))">bin\CLI\</BaseOutputPath>
+  </PropertyGroup>
+</Project>

@@ -67,7 +67,7 @@ module PhysicsQueriesTests =
 
     [<Property>]
     let ``All hit normals are unit vectors`` (origin: Vector3) (direction: Vector3) =
-        Vector3.Length(direction) > 0.01f ==> lazy (
+        System.Numerics.Vector3.Length(direction) > 0.01f ==> lazy (
             let world = physicsWorld().WithBody(body().At(Vector3(0.0f, 0.0f, 5.0f)).Build()).Build()
             let ray = rayBuilder().From(origin).Direction(Vector3.Normalize(direction)).MaxDistance(100.0f).Build()
             match raycast world ray with

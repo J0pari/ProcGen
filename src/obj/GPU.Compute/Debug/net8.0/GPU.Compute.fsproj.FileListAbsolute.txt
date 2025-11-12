@@ -1,0 +1,12 @@
+c:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.deps.json
+c:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.dll
+c:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.pdb
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\GPU.Compute.fsproj.AssemblyReference.cache
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\GPU.Compute.AssemblyInfoInputs.cache
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\GPU.Compute.AssemblyInfo.fs
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\GPU.Compute.fsproj.CoreCompileInputs.cache
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\GPU.Compute.sourcelink.json
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\GPU.Compute.dll
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\refint\GPU.Compute.dll
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\GPU.Compute.pdb
+c:\Users\tmdru\Downloads\files\src\obj\GPU.Compute\Debug\net8.0\ref\GPU.Compute.dll

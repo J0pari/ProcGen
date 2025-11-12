@@ -89,7 +89,7 @@ module CacheTests =
 
     [<Property>]
     let ``LRU access promotes key`` () =
-        forAll (Arb.fromGen (Gen.listOf (Arb.Default.Int32().Generator))) (fun keys ->
+        forAll (Arb.fromGen (Gen.listOf (FsCheck.Arb.Default.Int32().Generator))) (fun keys ->
             let cache = LRUCache<int, int>(10)
             keys |> List.iter (fun k -> cache.Set(k, k, 1.0))
             let firstKey = List.head keys

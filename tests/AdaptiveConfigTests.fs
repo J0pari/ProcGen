@@ -54,7 +54,7 @@ module AdaptiveConfigTests =
 
     [<Fact>]
     let ``Getter setter symmetry`` () =
-        roundTrip (Arb.fromGen (Arb.Default.Derive<SpatialHashConfigData>().Generator))
+        roundTrip (Arb.fromGen (FsCheck.Arb.Default.Derive<SpatialHashConfigData>().Generator))
             (fun cfg -> SpatialHashConfig.update cfg; cfg)
             (fun _ -> SpatialHashConfig.get())
 
@@ -67,14 +67,14 @@ module AdaptiveConfigTests =
     [<Fact>]
     let ``Default configs always accessible`` () =
         let defaultCfg = { DeviceId = 0; MaxThreadsPerBlock = 256; SharedMemorySize = 48 * 1024 }
-        checkMonoid (Arb.fromGen (Arb.Default.Derive<GPUConfigData>().Generator)) {
+        checkMonoid (Arb.fromGen (FsCheck.Arb.Default.Derive<GPUConfigData>().Generator)) {
             Semigroup = { Append = fun a b -> defaultCfg }
             Empty = defaultCfg
         }
 
     [<Property>]
     let ``Roundtrip symmetry for all configs`` () =
-        forAll (Arb.fromGen (Arb.Default.Derive<GPUConfigData>().Generator)) (fun cfg ->
+        forAll (Arb.fromGen (FsCheck.Arb.Default.Derive<GPUConfigData>().Generator)) (fun cfg ->
             TestInfrastructure.Lifecycle.withConfig GPUConfig.get GPUConfig.update (fun _ ->
                 GPUConfig.update cfg)
             cfg = GPUConfig.get())

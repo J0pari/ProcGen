@@ -175,7 +175,7 @@ impl BuildContext {
                 .arg("build")
                 .arg("GPU.Compute.fsproj"))?;
 
-        let dll = src_dir.join("bin/Debug/net8.0/GPU.Compute.dll");
+        let dll = src_dir.join("bin/GPU.Compute/Debug/net8.0/GPU.Compute.dll");
         if !dll.exists() {
             return Err("GPU.Compute.dll not found after build".to_string());
         }
@@ -188,26 +188,13 @@ impl BuildContext {
     fn phase_server(&mut self) -> Result<(), String> {
         let src_dir = self.root.join("src");
 
-        // Clean obj/bin to force fresh package resolution
-        let _ = std::fs::remove_dir_all(src_dir.join("obj"));
-        let _ = std::fs::remove_dir_all(src_dir.join("bin"));
-
-        // Force restore to get fresh package state after GPU.Compute build
-        self.run_command("restore_server",
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("restore")
-                .arg("Server.fsproj")
-                .arg("--force"))?;
-
         self.run_command("build_server",
             Command::new("dotnet")
                 .current_dir(&src_dir)
                 .arg("build")
-                .arg("Server.fsproj")
-                .arg("--no-restore"))?;
+                .arg("Server.fsproj"))?;
 
-        let dll = src_dir.join("bin/Debug/net8.0/Server.dll");
+        let dll = src_dir.join("bin/Server/Debug/net8.0/Server.dll");
         if !dll.exists() {
             return Err("Server.dll not found after build".to_string());
         }
@@ -226,7 +213,7 @@ impl BuildContext {
                 .arg("build")
                 .arg("CLI.fsproj"))?;
 
-        let dll = src_dir.join("bin/Debug/net8.0/CLI.dll");
+        let dll = src_dir.join("bin/CLI/Debug/net8.0/CLI.dll");
         if !dll.exists() {
             return Err("CLI.dll not found after build".to_string());
         }
@@ -239,16 +226,6 @@ impl BuildContext {
     fn phase_tests(&mut self, run_tests: bool) -> Result<(), String> {
         let tests_dir = self.root.join("tests");
 
-        // Clean test artifacts
-        let _ = fs::remove_dir_all(tests_dir.join("bin"));
-        let _ = fs::remove_dir_all(tests_dir.join("obj"));
-
-        self.run_command("restore_tests",
-            Command::new("dotnet")
-                .current_dir(&tests_dir)
-                .arg("restore")
-                .arg("Tests.fsproj"))?;
-
         let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
         let output_file = self.root.join(format!("docs/build_tests_{}.txt", timestamp));
 
@@ -256,7 +233,6 @@ impl BuildContext {
             .current_dir(&tests_dir)
             .arg("build")
             .arg("Tests.fsproj")
-            .arg("--no-restore")
             .output()
             .map_err(|e| format!("Failed to execute build: {}", e))?;
 
