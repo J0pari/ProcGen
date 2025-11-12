@@ -23,6 +23,7 @@ module SyncThreadSafetyTests =
                 if tid % 2 = 0 then buf.Write(tid) else buf.Read() |> ignore
             Threads = 8
             OperationsPerThread = 10000
+            Duration = TimeSpan.FromSeconds(5.0)
             Cleanup = ignore
             ValidateInvariant = None
         }
@@ -31,7 +32,10 @@ module SyncThreadSafetyTests =
     let ``Command queue thread-safe enqueue`` () =
         let queue = PhysicsCommandQueue()
         withAsync (fun () ->
-            let operations = [| for i in 1..100 -> async { queue.Enqueue(AddBody(rigidBodyBuilder().Build())) } |]
+            let operations = [| for i in 1..100 -> async {
+                let (replyChannel, replyAsync) = AsyncReplyChannel.CreateWithTimeout(1000)
+                queue.Enqueue(AddBody(rigidBodyBuilder().BuildData(), replyChannel))
+            } |]
             Async.Parallel operations |> Async.RunSynchronously |> ignore
             Assert.True(queue.Count > 0))
 
@@ -69,7 +73,7 @@ module SyncThreadSafetyTests =
     [<Fact>]
     let ``Snapshot interpolation extrapolates position`` () =
         let manager = SnapshotManager()
-        let body = rigidBodyBuilder().At(Vector3.Zero).WithVelocity(Vector3(10.0f, 0.0f, 0.0f)).Build()
+        let body = rigidBodyBuilder().At(System.Numerics.Vector3.Zero).WithVelocity(Vector3(10.0f, 0.0f, 0.0f)).BuildData()
         manager.Capture(body)
         shouldInterpolate manager 0.5f (fun interpolated ->
             abs(interpolated.Position.X - 5.0f) < 0.1f)
@@ -77,14 +81,14 @@ module SyncThreadSafetyTests =
     [<Fact>]
     let ``ThreadSafePhysicsManager AddBodySync returns valid handle`` () =
         let manager = ThreadSafePhysicsManager()
-        let handle = manager.AddBodySync(rigidBodyBuilder().Build())
+        let handle = manager.AddBodySync(rigidBodyBuilder().BuildData())
         shouldBeValidHandle handle
 
     [<Fact>]
     let ``Sync waits for worker to process commands`` () =
         let manager = ThreadSafePhysicsManager()
         manager.Start()
-        manager.AddBodyAsync(rigidBodyBuilder().Build()) |> ignore
+        manager.AddBodyAsync(rigidBodyBuilder().BuildData()) |> ignore
         shouldCompleteWithin 1000.0 (fun () -> manager.Sync())
         manager.Stop()
 
