@@ -302,10 +302,11 @@ module Sync =
         new() =
             let defaultConfig = {
                 Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f)
-                TimeStep = 0.016<s>
-                SubSteps = 4
-                SolverIterations = 10
-                EnableSleeping = true
+                Service.TimeStep = 0.016<s>
+                Service.SubSteps = 4
+                Service.SolverIterations = 10
+                Service.EnableSleeping = true
+                Service.SleepThreshold = 0.01
             }
             ThreadSafePhysicsManager(defaultConfig, 60.0)
 

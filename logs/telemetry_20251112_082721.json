@@ -1,0 +1,12 @@
+{
+  "artifacts": {
+    "gpu_compute": "d82adc2a3de0e2c910703731575f522ca3ee16e771c625b8b09c4badea533a29"
+  },
+  "durations": {
+    "build_gpu_compute": 3936,
+    "build_server": 12691,
+    "restore_gpu_compute": 1193,
+    "restore_server": 1127
+  },
+  "total_phases": 4
+}
