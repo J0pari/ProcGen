@@ -107,18 +107,6 @@ module Sync =
 
             count
 
-        /// Flush queue and signal all fences (test-only: commands are discarded, not executed)
-        /// WARNING: This is for testing fence synchronization in isolation. Do not use in production.
-        member _.Flush() : unit =
-            let mutable cmd = Unchecked.defaultof<Command>
-            while queue.TryDequeue(&cmd) do
-                match cmd with
-                | Fence fence ->
-                    fence.IsSignaled <- true
-                    fence.Event.Set()
-                    activeFences.TryRemove(fence.Id) |> ignore
-                | _ -> ()
-
     /// Physics worker thread for background simulation
     type PhysicsWorker(world: Service.PhysicsWorld, targetHz: float) =
         let queue = PhysicsCommandQueue()

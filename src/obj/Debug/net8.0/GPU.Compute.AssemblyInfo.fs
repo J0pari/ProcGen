@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("GPU.Compute")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1d3f5b92eed62db1ddbc36b75cbaef13b85dde4")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ceecbcf6b8da95d0b65b293add0dab317a81c928")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("GPU.Compute")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("GPU.Compute")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
