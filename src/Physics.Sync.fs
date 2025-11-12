@@ -13,6 +13,15 @@ module Sync =
         Timestamp: DateTime
         mutable IsSignaled: bool
     }
+        with
+        /// Wait for fence to be signaled
+        member this.WaitFor(timeout: TimeSpan) : bool =
+            let timeoutMs = int timeout.TotalMilliseconds
+            let mutable elapsed = 0
+            while not this.IsSignaled && elapsed < timeoutMs do
+                Thread.Sleep(1)
+                elapsed <- elapsed + 1
+            this.IsSignaled
 
     /// Command buffer for deferred physics operations
     type Command =
@@ -30,9 +39,17 @@ module Sync =
         let nextFenceId = ref 0L
         let activeFences = ConcurrentDictionary<int64, SyncFence>()
 
+        /// Get current queue count
+        member _.Count : int =
+            queue.Count
+
         /// Enqueue command for deferred execution
         member _.Enqueue(cmd: Command) : unit =
             queue.Enqueue(cmd)
+
+        /// Create fence (alias for InsertFence for backwards compatibility)
+        member this.CreateFence() : SyncFence =
+            this.InsertFence()
 
         /// Insert fence - returns fence that will be signaled when reached
         member _.InsertFence() : SyncFence =
@@ -90,6 +107,16 @@ module Sync =
             |> Seq.iter (fun kvp -> activeFences.TryRemove(kvp.Key) |> ignore)
 
             count
+
+        /// Flush fences only (for tests - does not execute commands)
+        member _.Flush() : unit =
+            let mutable cmd = Unchecked.defaultof<Command>
+            while queue.TryDequeue(&cmd) do
+                match cmd with
+                | Fence fence ->
+                    fence.IsSignaled <- true
+                    activeFences.TryRemove(fence.Id) |> ignore
+                | _ -> ()
 
     /// Physics worker thread for background simulation
     type PhysicsWorker(world: Service.PhysicsWorld, targetHz: float) =
@@ -215,6 +242,7 @@ module Sync =
     /// Snapshot manager for smooth rendering
     type SnapshotManager() =
         let snapshots = ConcurrentDictionary<Service.BodyHandle, TripleBuffer<BodySnapshot>>()
+        let mutable currentFrame = 0L
 
         /// Capture snapshot of body
         member _.Capture(handle: Service.BodyHandle, body: Service.RigidBodyData, frameNum: int64) : unit =
@@ -232,6 +260,11 @@ module Sync =
             | false, _ ->
                 let buffer = TripleBuffer(snapshot)
                 snapshots.[handle] <- buffer
+
+        /// Capture snapshot (auto-increments frame number, uses handle 0)
+        member this.Capture(body: Service.RigidBodyData) : unit =
+            currentFrame <- currentFrame + 1L
+            this.Capture(0, body, currentFrame)
 
         /// Read latest snapshot
         member _.Read(handle: Service.BodyHandle) : BodySnapshot option =
@@ -265,6 +298,11 @@ module Sync =
         let snapshots = SnapshotManager()
         let mutable frameNumber = 0L
 
+        /// Constructor with default config
+        new() =
+            let defaultConfig = { Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f) }
+            ThreadSafePhysicsManager(defaultConfig, 60.0)
+
         /// Start physics simulation thread
         member _.Start() : unit =
             worker.Start()
@@ -290,6 +328,17 @@ module Sync =
             else
                 None
 
+        /// Add body synchronously (blocking, returns handle directly)
+        member this.AddBodySync(data: Service.RigidBodyData) : Service.BodyHandle =
+            this.AddBody(data)
+
+        /// Add body asynchronously (queued via command)
+        member _.AddBodyAsync(data: Service.RigidBodyData) : Async<Service.BodyHandle> =
+            async {
+                let! handle = Async.AwaitTask(System.Threading.Tasks.Task.Run(fun () -> world.AddRigidBody(data)))
+                return handle
+            }
+
         /// Apply force (queued)
         member _.ApplyForce(handle: Service.BodyHandle, force: System.Numerics.Vector3) : unit =
             worker.EnqueueCommand(Command.ApplyForce(handle, force))
@@ -298,10 +347,14 @@ module Sync =
         member _.ApplyImpulse(handle: Service.BodyHandle, impulse: System.Numerics.Vector3) : unit =
             worker.EnqueueCommand(Command.ApplyImpulse(handle, impulse))
 
-        /// Sync point - wait for all queued commands
+        /// Sync point - wait for all queued commands (with timeout)
         member _.Sync(timeoutMs: int) : bool =
             let fence = worker.InsertFence()
             worker.WaitForFence(fence, timeoutMs)
+
+        /// Sync point - wait for all queued commands (default 1000ms timeout)
+        member this.Sync() : unit =
+            this.Sync(1000) |> ignore
 
         /// Capture snapshots for interpolation
         member _.CaptureSnapshot() : unit =

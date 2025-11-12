@@ -312,7 +312,7 @@ module Constraints =
     let boundary (maxRadius: float) (graph: SpatialGraph<'T>) : float =
         graph.Positions
         |> Array.sumBy (fun p ->
-            let dist = float (Vector3.Length(p))
+            let dist = float (p.Length())
             if dist > maxRadius then
                 let overflow = dist - maxRadius
                 overflow * overflow
