@@ -169,12 +169,6 @@ impl BuildContext {
     fn phase_gpu_compute(&mut self) -> Result<(), String> {
         let src_dir = self.root.join("src");
 
-        self.run_command("restore_gpu_compute",
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("restore")
-                .arg("GPU.Compute.fsproj"))?;
-
         self.run_command("build_gpu_compute",
             Command::new("dotnet")
                 .current_dir(&src_dir)
@@ -194,12 +188,6 @@ impl BuildContext {
     fn phase_server(&mut self) -> Result<(), String> {
         let src_dir = self.root.join("src");
 
-        self.run_command("restore_server",
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("restore")
-                .arg("Server.fsproj"))?;
-
         self.run_command("build_server",
             Command::new("dotnet")
                 .current_dir(&src_dir)
@@ -218,12 +206,6 @@ impl BuildContext {
 
     fn phase_cli(&mut self) -> Result<(), String> {
         let src_dir = self.root.join("src");
-
-        self.run_command("restore_cli",
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("restore")
-                .arg("CLI.fsproj"))?;
 
         self.run_command("build_cli",
             Command::new("dotnet")
