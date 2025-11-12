@@ -1,48 +1,0 @@
-[08:25:13] ========== BUILD STARTING ==========
-[08:25:13]   CUDA kernels up-to-date (skipping)
-[08:25:13] restore_gpu_compute
-  Determining projects to restore...
-  Restored c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj (in 198 ms).
-[08:25:14] restore_gpu_compute OK (998ms)
-[08:25:14] build_gpu_compute
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(34,24): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(42,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(43,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(44,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(53,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(54,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(63,23): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(71,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(72,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(76,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(79,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(114,12): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-
-Build FAILED.
-
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(34,24): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(42,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(43,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(44,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(53,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(54,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(63,23): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(71,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(72,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(76,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(79,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(114,12): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
-    0 Warning(s)
-    12 Error(s)
-
-Time Elapsed 00:00:02.50
-[08:25:17] build_gpu_compute FAILED
-
-========== BUILD SUMMARY ==========
-Total build time: 3774ms
-Telemetry: c:\Users\tmdru\Downloads\files\logs\telemetry_20251112_082517.json
-===================================
-
-Build failed: build_gpu_compute failed with exit code Some(1)

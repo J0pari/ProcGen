@@ -23,7 +23,6 @@ module SyncThreadSafetyTests =
                 if tid % 2 = 0 then buf.Write(tid) else buf.Read() |> ignore
             Threads = 8
             OperationsPerThread = 10000
-            Duration = None
             Cleanup = ignore
             ValidateInvariant = None
         }
@@ -31,32 +30,26 @@ module SyncThreadSafetyTests =
     [<Fact>]
     let ``Command queue thread-safe enqueue`` () =
         let queue = PhysicsCommandQueue()
-        let mutable count = 0
         withAsync (fun () ->
-            let operations = [| for i in 1..100 -> async {
-                let (replyAsync, replyChannel) = Async.StartAsTask(async { return 0 }) |> ignore; (async { return 0 }, AsyncReplyChannel<Physics.Service.BodyHandle>(fun _ -> ()))
-                queue.Enqueue(AddBody(body().BuildData(), replyChannel))
-                Interlocked.Increment(&count) |> ignore
-            } |]
+            let operations = [| for i in 1..100 -> async { queue.Enqueue(AddBody(rigidBodyBuilder().Build())) } |]
             Async.Parallel operations |> Async.RunSynchronously |> ignore
-            Assert.True(count > 0))
+            Assert.True(queue.Count > 0))
 
     [<Fact>]
     let ``Fence synchronization blocks until signaled`` () =
         let queue = PhysicsCommandQueue()
-        let config = { Physics.Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f) }
-        let world = Physics.Service.PhysicsWorld(config)
-        let fence = queue.InsertFence()
+        let fence = queue.CreateFence()
         shouldSignal fence (fun () ->
-            queue.Flush(world) |> ignore
-            queue.WaitForFence(fence, 1000))
+            queue.Enqueue(AddBody(rigidBodyBuilder().Build()))
+            queue.Flush()
+            fence.WaitFor(TimeSpan.FromSeconds(1.0)))
 
     [<Fact>]
     let ``Fence timeout returns false`` () =
         let queue = PhysicsCommandQueue()
-        let fence = queue.InsertFence()
+        let fence = queue.CreateFence()
         shouldTimeout fence (fun () ->
-            not (queue.WaitForFence(fence, 10)))
+            not (fence.WaitFor(TimeSpan.FromMilliseconds(10.0))))
 
     [<Fact>]
     let ``Worker thread maintains target Hz`` () =
@@ -76,30 +69,23 @@ module SyncThreadSafetyTests =
     [<Fact>]
     let ``Snapshot interpolation extrapolates position`` () =
         let manager = SnapshotManager()
-        let bodyData = body().At(System.Numerics.Vector3.Zero).WithVelocity(System.Numerics.Vector3(10.0f, 0.0f, 0.0f)).BuildData()
-        let handle = 1
-        manager.Capture(handle, bodyData, 0L)
-        match manager.Interpolate(handle, 0.5f) with
-        | Some (pos, _) -> Assert.True(abs(pos.X - 0.08f) < 0.1f)
-        | None -> Assert.True(false, "Interpolation failed")
+        let body = rigidBodyBuilder().At(Vector3.Zero).WithVelocity(Vector3(10.0f, 0.0f, 0.0f)).Build()
+        manager.Capture(body)
+        shouldInterpolate manager 0.5f (fun interpolated ->
+            abs(interpolated.Position.X - 5.0f) < 0.1f)
 
     [<Fact>]
     let ``ThreadSafePhysicsManager AddBodySync returns valid handle`` () =
-        let config = { Physics.Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f) }
-        let manager = ThreadSafePhysicsManager(config, 60.0)
-        manager.Start()
-        match manager.AddBodySync(body().BuildData(), 1000) with
-        | Some handle -> shouldBeValidHandle handle
-        | None -> Assert.True(false, "AddBodySync timeout")
-        manager.Stop()
+        let manager = ThreadSafePhysicsManager()
+        let handle = manager.AddBodySync(rigidBodyBuilder().Build())
+        shouldBeValidHandle handle
 
     [<Fact>]
     let ``Sync waits for worker to process commands`` () =
-        let config = { Physics.Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f) }
-        let manager = ThreadSafePhysicsManager(config, 60.0)
+        let manager = ThreadSafePhysicsManager()
         manager.Start()
-        let handle = manager.AddBody(body().BuildData())
-        shouldCompleteWithin 1000.0 (fun () -> Thread.Sleep(50))
+        manager.AddBodyAsync(rigidBodyBuilder().Build()) |> ignore
+        shouldCompleteWithin 1000.0 (fun () -> manager.Sync())
         manager.Stop()
 
     [<Fact>]
@@ -116,10 +102,9 @@ module SyncThreadSafetyTests =
 
     [<Fact>]
     let ``Disposal stops background threads`` () =
-        let config = { Physics.Service.Gravity = System.Numerics.Vector3(0.0f, -9.8f, 0.0f) }
-        let manager = ThreadSafePhysicsManager(config, 60.0)
+        let manager = ThreadSafePhysicsManager()
         manager.Start()
-        manager.Stop()
+        manager.Dispose()
         Thread.Sleep(100)
         Assert.True(true)
 
