@@ -1,0 +1,15 @@
+{
+  "artifacts": {
+    "cli": "0330c8e0490b4a2e43777b3d19e6671bd7140d4edb3916204a7487c5fcd5c3c2",
+    "gpu_compute": "95c5523d342a2ec6c935af2b73c0138b0f1f734aacb039b81c66e9c8dd5e442f",
+    "server": "b7ff0e7316cdd1d00df385b5288894b672640ebf3d31dc21756efe7f5274dd81"
+  },
+  "durations": {
+    "build_cli": 4466,
+    "build_gpu_compute": 3057,
+    "build_server": 11082,
+    "restore_server": 1562,
+    "restore_tests": 1440
+  },
+  "total_phases": 5
+}

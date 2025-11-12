@@ -32,10 +32,12 @@ module SyncThreadSafetyTests =
     let ``Command queue thread-safe enqueue`` () =
         let queue = PhysicsCommandQueue()
         withAsync (fun () ->
-            let operations = [| for i in 1..100 -> async {
-                let (replyChannel, replyAsync) = AsyncReplyChannel.CreateWithTimeout(1000)
-                queue.Enqueue(AddBody(rigidBodyBuilder().BuildData(), replyChannel))
-            } |]
+            let operations = [|
+                for i in 1..100 -> async {
+                    let (replyChannel, replyAsync) = AsyncReplyChannel.CreateWithTimeout(1000)
+                    queue.Enqueue(AddBody(rigidBodyBuilder().BuildData(), replyChannel))
+                }
+            |]
             Async.Parallel operations |> Async.RunSynchronously |> ignore
             Assert.True(queue.Count > 0))
 
