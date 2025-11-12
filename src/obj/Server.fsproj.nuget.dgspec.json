@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {}
+    "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {}
   },
   "projects": {
-    "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
+    "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
+        "projectUniqueName": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
         "projectName": "GPU.Compute",
-        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
+        "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
         "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
+        "outputPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -66,14 +66,14 @@
         }
       }
     },
-    "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
+    "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
+        "projectUniqueName": "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
         "projectName": "Server",
-        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
+        "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
         "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
+        "outputPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -89,8 +89,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
-                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
+              "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
+                "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
               }
             }
           }
