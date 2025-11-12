@@ -1,0 +1,5 @@
+c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\CLI.fsproj.AssemblyReference.cache
+c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\CLI.AssemblyInfoInputs.cache
+c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\CLI.AssemblyInfo.fs
+c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\CLI.fsproj.CoreCompileInputs.cache
+c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\CLI.sourcelink.json
