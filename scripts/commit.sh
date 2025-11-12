@@ -11,4 +11,5 @@ GIT_COMMITTER_NAME="web-flow" \
 GIT_COMMITTER_EMAIL="noreply@github.com" \
 git commit --allow-empty-message -m "$MESSAGE" || exit 1
 
+git remote get-url origin >/dev/null 2>&1 || git remote add origin https://github.com/J0pari/ProcGen.git
 git push --set-upstream origin master || git push || exit 1
