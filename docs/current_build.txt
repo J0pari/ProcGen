@@ -1,0 +1,26 @@
+[08:33:58] ========== BUILD STARTING ==========
+[08:33:58]   CUDA kernels up-to-date (skipping)
+[08:33:58] restore_gpu_compute
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+[08:33:59] restore_gpu_compute OK (826ms)
+[08:33:59] build_gpu_compute
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  GPU.Compute -> c:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Compute.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.87
+[08:34:00] build_gpu_compute OK (1108ms)
+[08:34:00] restore_server
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+[08:34:01] restore_server OK (882ms)
+[08:34:01] build_server
+  Determining projects to restore...
+  Restored c:\Users\tmdru\Downloads\files\src\Server.fsproj (in 259 ms).
+  GPU.Compute -> c:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Compute.dll
+c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(311,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
