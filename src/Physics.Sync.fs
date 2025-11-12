@@ -374,8 +374,11 @@ module Sync =
         member _.GetFPS() : float =
             worker.GetFPS()
 
+        /// Dispose physics manager resources
+        member this.Dispose() =
+            worker.Stop()
+            (worker :> IDisposable).Dispose()
+            snapshots.Clear()
+
         interface IDisposable with
-            member this.Dispose() =
-                worker.Stop()
-                (worker :> IDisposable).Dispose()
-                snapshots.Clear()
+            member this.Dispose() = this.Dispose()
