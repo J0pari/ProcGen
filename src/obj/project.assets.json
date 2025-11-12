@@ -113,9 +113,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\tmdru\\Downloads\\files\\src\\CLI.fsproj",
-      "projectName": "CLI",
-      "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\CLI.fsproj",
+      "projectUniqueName": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
+      "projectName": "GPU.Compute",
+      "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
       "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
       "outputPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
       "projectStyle": "PackageReference",

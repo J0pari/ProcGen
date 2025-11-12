@@ -188,15 +188,17 @@ impl BuildContext {
     fn phase_server(&mut self) -> Result<(), String> {
         let src_dir = self.root.join("src");
 
+        // Clean obj/bin to force fresh package resolution
+        let _ = std::fs::remove_dir_all(src_dir.join("obj"));
+        let _ = std::fs::remove_dir_all(src_dir.join("bin"));
+
         // Force restore to get fresh package state after GPU.Compute build
-        // Use --force-evaluate to re-evaluate all dependencies including Giraffe
         self.run_command("restore_server",
             Command::new("dotnet")
                 .current_dir(&src_dir)
                 .arg("restore")
                 .arg("Server.fsproj")
-                .arg("--force")
-                .arg("--force-evaluate"))?;
+                .arg("--force"))?;
 
         self.run_command("build_server",
             Command::new("dotnet")

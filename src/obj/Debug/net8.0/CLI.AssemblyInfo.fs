@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("CLI")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1f5ec36b55abc2a88e10f612129c01d9efbb3520")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f168430a68b75ccdc7dd70d9a9096a4473af2a23")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("CLI")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("CLI")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]

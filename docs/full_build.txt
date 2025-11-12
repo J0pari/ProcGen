@@ -1,106 +1,0 @@
-[08:31:44] ========== BUILD STARTING ==========
-[08:31:44]   CUDA kernels up-to-date (skipping)
-[08:31:44] restore_gpu_compute
-  Determining projects to restore...
-  Restored c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj (in 199 ms).
-[08:31:45] restore_gpu_compute OK (1016ms)
-[08:31:45] build_gpu_compute
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  GPU.Compute -> c:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Compute.dll
-
-Build succeeded.
-    0 Warning(s)
-    0 Error(s)
-
-Time Elapsed 00:00:02.91
-[08:31:48] build_gpu_compute OK (3171ms)
-[08:31:48] restore_server
-  Determining projects to restore...
-  Restored c:\Users\tmdru\Downloads\files\src\Server.fsproj (in 287 ms).
-[08:31:49] restore_server OK (1165ms)
-[08:31:49] build_server
-  Determining projects to restore...
-  Restored c:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj (in 261 ms).
-  GPU.Compute -> c:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Compute.dll
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(306,17): error FS0039: The record label 'SubSteps' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(307,17): error FS0039: The record label 'SolverIterations' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(308,17): error FS0039: The record label 'EnableSleeping' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(303,33): error FS0656: This record contains fields from inconsistent types [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(310,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(9,6): error FS0039: The namespace or module 'Giraffe' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(89,69): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(90,9): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes   statusCode   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(90,38): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(95,23): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(100,32): error FS0072: Lookup on object of indeterminate type based on information prior to this program point. A type annotation may be needed prior to this program point to constrain the type of the object. This may allow the lookup to be resolved. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(207,22): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(208,26): error FS0039: The value or constructor 'setHttpHeader' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(209,26): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(213,19): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(222,13): error FS0039: The value or constructor 'text' is not defined. Maybe you want one of the following:   Text   exn   exp   exn   next [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(225,18): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(254,14): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes   statusCode   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(254,43): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(257,22): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(268,13): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(271,22): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(275,13): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(278,25): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(281,32): error FS0072: Lookup on object of indeterminate type based on information prior to this program point. A type annotation may be needed prior to this program point to constrain the type of the object. This may allow the lookup to be resolved. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(305,22): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(306,26): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(312,9): error FS0039: The value or constructor 'choose' is not defined. Maybe you want one of the following:   Choice [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(325,9): error FS0039: The value or constructor 'clearResponse' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(326,13): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(327,13): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(338,14): error FS0039: The type 'IApplicationBuilder' does not define the field, constructor or member 'UseGiraffeErrorHandler'. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(344,14): error FS0039: The type 'IServiceCollection' does not define the field, constructor or member 'AddGiraffe'. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-
-Build FAILED.
-
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(310,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(306,17): error FS0039: The record label 'SubSteps' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(307,17): error FS0039: The record label 'SolverIterations' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(308,17): error FS0039: The record label 'EnableSleeping' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(303,33): error FS0656: This record contains fields from inconsistent types [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(9,6): error FS0039: The namespace or module 'Giraffe' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(89,69): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(90,9): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes   statusCode   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(90,38): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(95,23): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(100,32): error FS0072: Lookup on object of indeterminate type based on information prior to this program point. A type annotation may be needed prior to this program point to constrain the type of the object. This may allow the lookup to be resolved. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(207,22): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(208,26): error FS0039: The value or constructor 'setHttpHeader' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(209,26): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(213,19): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(222,13): error FS0039: The value or constructor 'text' is not defined. Maybe you want one of the following:   Text   exn   exp   exn   next [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(225,18): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(254,14): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes   statusCode   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(254,43): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(257,22): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(268,13): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(271,22): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(275,13): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(278,25): error FS0039: The type 'HttpHandler' is not defined. Maybe you want one of the following:   HttpContext [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(281,32): error FS0072: Lookup on object of indeterminate type based on information prior to this program point. A type annotation may be needed prior to this program point to constrain the type of the object. This may allow the lookup to be resolved. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(305,22): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(306,26): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json   JsonElement   JsonDocument   JsonProperty   JsonDocument [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(312,9): error FS0039: The value or constructor 'choose' is not defined. Maybe you want one of the following:   Choice [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(325,9): error FS0039: The value or constructor 'clearResponse' is not defined. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(326,13): error FS0039: The value or constructor 'setStatusCode' is not defined. Maybe you want one of the following:   StatusCodes [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(327,13): error FS0039: The value or constructor 'json' is not defined. Maybe you want one of the following:   Json [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(338,14): error FS0039: The type 'IApplicationBuilder' does not define the field, constructor or member 'UseGiraffeErrorHandler'. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-c:\Users\tmdru\Downloads\files\src\Server.Production.fs(344,14): error FS0039: The type 'IServiceCollection' does not define the field, constructor or member 'AddGiraffe'. [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-    1 Warning(s)
-    32 Error(s)
-
-Time Elapsed 00:00:07.12
-[08:31:57] build_server FAILED
-
-========== BUILD SUMMARY ==========
-Total build time: 12812ms
-Telemetry: c:\Users\tmdru\Downloads\files\logs\telemetry_20251112_083157.json
-===================================
-
-Build failed: build_server failed with exit code Some(1)

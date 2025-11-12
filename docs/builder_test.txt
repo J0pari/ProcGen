@@ -1,72 +1,0 @@
-[08:45:29] ========== BUILD STARTING ==========
-[08:45:29]   CUDA kernels up-to-date (skipping)
-[08:45:29] build_gpu_compute
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  GPU.Compute -> c:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Compute.dll
-
-Build succeeded.
-    0 Warning(s)
-    0 Error(s)
-
-Time Elapsed 00:00:00.81
-[08:45:30] build_gpu_compute OK (1061ms)
-[08:45:30] build_server
-  Determining projects to restore...
-  Restored c:\Users\tmdru\Downloads\files\src\Server.fsproj (in 269 ms).
-  GPU.Compute -> c:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Compute.dll
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(311,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-  Server -> c:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Server.dll
-
-Build succeeded.
-
-c:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(311,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [c:\Users\tmdru\Downloads\files\src\Server.fsproj]
-    1 Warning(s)
-    0 Error(s)
-
-Time Elapsed 00:00:11.48
-[08:45:42] build_server OK (11727ms)
-[08:45:42] build_cli
-  Determining projects to restore...
-  Restored c:\Users\tmdru\Downloads\files\src\CLI.fsproj (in 232 ms).
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(34,24): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(42,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(43,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(44,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(53,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(54,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(63,23): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(71,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(72,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(76,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(79,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(114,12): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ProceduralGeneration.fs(40,28): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-
-Build FAILED.
-
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(34,24): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(42,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(43,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(44,14): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(53,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(54,21): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(63,23): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(71,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(72,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(76,19): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(79,37): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(114,12): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-c:\Users\tmdru\Downloads\files\src\ProceduralGeneration.fs(40,28): error FS0039: The value, namespace, type or module 'ThreadSafeRandom' is not defined. Maybe you want one of the following:   Threading [c:\Users\tmdru\Downloads\files\src\CLI.fsproj]
-    0 Warning(s)
-    13 Error(s)
-
-Time Elapsed 00:00:03.13
-[08:45:45] build_cli FAILED
-
-========== BUILD SUMMARY ==========
-Total build time: 16231ms
-Telemetry: c:\Users\tmdru\Downloads\files\logs\telemetry_20251112_084545.json
-===================================
-
-Build failed: build_cli failed with exit code Some(1)
