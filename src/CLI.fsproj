@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SpatialHash.fs" />
+    <Compile Include="ThreadSafe.fs" />
+    <Compile Include="Execution.fs" />
+    <Compile Include="ParallelTempering.Core.fs" />
+    <Compile Include="ProceduralGeneration.fs" />
+    <Compile Include="Physics.fs" />
+    <Compile Include="Deterministic.fs" />
+    <Compile Include="CLI.fs" />
+  </ItemGroup>
+
+</Project>

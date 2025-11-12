@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <IsTestProject>true</IsTestProject>
+    <OtherFlags>--maxerrors:10000</OtherFlags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Core.fs" />
+    <Compile Include="Generators.fs" />
+    <Compile Include="Builders.fs" />
+    <Compile Include="Random.fs" />
+    <Compile Include="Statistics.fs" />
+    <Compile Include="Metrology.fs" />
+    <Compile Include="TemporalLogic.fs" />
+    <Compile Include="Concurrency.fs" />
+    <Compile Include="Performance.fs" />
+    <Compile Include="AlgebraicLaws.fs" />
+    <Compile Include="PropertyDSL.fs" />
+    <Compile Include="Assertions.fs" />
+    <Compile Include="Lifecycle.fs" />
+    <Compile Include="Random.fs" />
+    <Compile Include="TestData.fs" />
+    <Compile Include="TestSpecifications.fs" />
+    <Compile Include="AcceptanceTests.fs" />
+    <Compile Include="AdaptiveConfigTests.fs" />
+    <Compile Include="CacheTests.fs" />
+    <Compile Include="CExportTests.fs" />
+    <Compile Include="ConstraintsTests.fs" />
+    <Compile Include="PhysicsTests.fs" />
+    <Compile Include="SpatialHashTests.fs" />
+    <Compile Include="PhysicsQueriesTests.fs" />
+    <Compile Include="PhysicsServiceTests.fs" />
+    <Compile Include="SyncThreadSafetyTests.fs" />
+    <Compile Include="ThreadSafeRandomTests.fs" />
+    <Compile Include="UnitsOfMeasureTests.fs" />
+    <Compile Include="MutationsTests.fs" />
+    <Compile Include="ParallelTemperingTests.fs" />
+    <Compile Include="GPUIntegrationTests.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Server">
+      <HintPath>..\src\bin\Debug\net8.0\Server.dll</HintPath>
+    </Reference>
+    <Reference Include="GPU.Compute">
+      <HintPath>..\src\bin\Debug\net8.0\GPU.Compute.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Accord" Version="3.8.0" />
+    <PackageReference Include="Accord.Math" Version="3.8.0" />
+    <PackageReference Include="Accord.Statistics" Version="3.8.0" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.6" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="FsCheck" Version="3.3.2" />
+    <PackageReference Include="FsCheck.Xunit" Version="3.3.2" />
+    <PackageReference Include="FSharp.Stats" Version="0.6.0" />
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageReference Include="MathNet.Numerics.FSharp" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Unquote" Version="7.0.1" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+</Project>

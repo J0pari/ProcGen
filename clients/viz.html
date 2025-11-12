@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedural Environment - Live</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        #canvas { 
+            width: 100vw; 
+            height: 100vh; 
+            display: block;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2a 100%);
+        }
+        .hud {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 250px;
+        }
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            background: rgba(74, 158, 255, 0.2);
+            border: 1px solid rgba(74, 158, 255, 0.5);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: rgba(74, 158, 255, 0.4);
+            border-color: #4a9eff;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 13px;
+        }
+        .metric-label { color: #888; }
+        .metric-value { color: #4a9eff; font-family: monospace; }
+        h2 { font-size: 16px; margin-bottom: 15px; font-weight: 600; }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(74, 158, 255, 0.1);
+            border-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="hud">
+        <h2>Environment Stats</h2>
+        <div class="metric">
+            <span class="metric-label">Nodes:</span>
+            <span class="metric-value" id="nodes">-</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Edges:</span>
+            <span class="metric-value" id="edges">-</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Energy:</span>
+            <span class="metric-value" id="energy">-</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">FPS:</span>
+            <span class="metric-value" id="fps">60</span>
+        </div>
+        <div class="status" id="status">Ready</div>
+    </div>
+    
+    <div class="controls">
+        <button onclick="generate()">Generate</button>
+        <button onclick="togglePhysics()">Physics: <span id="physicsState">OFF</span></button>
+        <button onclick="exportScene()">Export</button>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+        import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+        import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+
+        // Scene setup
+        const canvas = document.getElementById('canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0a0a1a, 0.02);
+        
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(10, 10, 10);
+        
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas, 
+            antialias: true,
+            powerPreference: "high-performance"
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        
+        // Post-processing
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            0.8,  // strength
+            0.4,  // radius
+            0.85  // threshold
+        );
+        composer.addPass(bloomPass);
+        
+        // Controls
+        const controls = new OrbitControls(camera, canvas);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 50;
+        controls.minDistance = 2;
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404060, 0.5);
+        scene.add(ambientLight);
+        
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        keyLight.position.set(10, 20, 10);
+        keyLight.castShadow = true;
+        keyLight.shadow.mapSize.width = 2048;
+        keyLight.shadow.mapSize.height = 2048;
+        scene.add(keyLight);
+        
+        const fillLight = new THREE.DirectionalLight(0x4a9eff, 0.8);
+        fillLight.position.set(-10, 10, -10);
+        scene.add(fillLight);
+        
+        const rimLight = new THREE.DirectionalLight(0xff4a9e, 0.6);
+        rimLight.position.set(0, -10, 15);
+        scene.add(rimLight);
+        
+        // Ground plane with grid
+        const gridHelper = new THREE.GridHelper(50, 50, 0x4a9eff, 0x1a1a2a);
+        gridHelper.position.y = -5;
+        scene.add(gridHelper);
+        
+        // Environment mapping
+        const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        const envScene = new THREE.Scene();
+        envScene.background = new THREE.Color(0x0a0a1a);
+        const envMap = pmremGenerator.fromScene(envScene).texture;
+        scene.environment = envMap;
+        
+        // State
+        let graphData = null;
+        let nodeMeshes = [];
+        let edgeLines = [];
+        let physicsEnabled = false;
+        
+        // Node material - PBR with emission
+        const createNodeMaterial = (color, emissive) => {
+            return new THREE.MeshStandardMaterial({
+                color: color,
+                emissive: emissive,
+                emissiveIntensity: 0.5,
+                metalness: 0.8,
+                roughness: 0.2,
+                envMapIntensity: 1.0
+            });
+        };
+        
+        const nodeColors = {
+            origin: { color: 0x4a9eff, emissive: 0x2a5eff },
+            terminal: { color: 0xff4a4a, emissive: 0xff2a2a },
+            standard: { color: 0x888888, emissive: 0x444444 }
+        };
+        
+        // Render graph
+        window.renderGraph = (graph) => {
+            // Clear existing
+            nodeMeshes.forEach(m => scene.remove(m));
+            edgeLines.forEach(l => scene.remove(l));
+            nodeMeshes = [];
+            edgeLines = [];
+            
+            graphData = graph;
+            
+            // Update HUD
+            document.getElementById('nodes').textContent = graph.nodes.length;
+            document.getElementById('edges').textContent = graph.edges.length;
+            document.getElementById('energy').textContent = 
+                graph.metadata?.energy ? parseFloat(graph.metadata.energy).toFixed(2) : '-';
+            
+            // Create nodes 
+            graph.nodes.forEach((node, i) => {
+                const geometry = new THREE.IcosahedronGeometry(0.3, 2); // More faces for smoothness
+                const colors = nodeColors[node.nodeType] || nodeColors.standard;
+                const material = createNodeMaterial(colors.color, colors.emissive);
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(...node.position);
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                
+                // Add glow sphere for special nodes
+                if (node.nodeType === 'origin' || node.nodeType === 'terminal') {
+                    const glowGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+                    const glowMaterial = new THREE.MeshBasicMaterial({
+                        color: colors.emissive,
+                        transparent: true,
+                        opacity: 0.3
+                    });
+                    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+                    mesh.add(glow);
+                }
+                
+                scene.add(mesh);
+                nodeMeshes.push(mesh);
+            });
+            
+            // Create edges 
+            graph.edges.forEach(edge => {
+                const from = new THREE.Vector3(...graph.nodes[edge.from].position);
+                const to = new THREE.Vector3(...graph.nodes[edge.to].position);
+                
+                const points = [from, to];
+                const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                
+                const material = new THREE.LineBasicMaterial({
+                    color: 0x4a9eff,
+                    transparent: true,
+                    opacity: 0.4,
+                    linewidth: 2
+                });
+                
+                const line = new THREE.Line(geometry, material);
+                scene.add(line);
+                edgeLines.push(line);
+            });
+            
+            document.getElementById('status').textContent = 'Rendered';
+        };
+        
+        // Generate
+        window.generate = async () => {
+            document.getElementById('status').textContent = 'Generating...';
+            try {
+                const response = await fetch('http://localhost:5000/api/graphs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nodeCount: 20,
+                        iterations: 500
+                    })
+                });
+                const data = await response.json();
+                renderGraph(data);
+            } catch (error) {
+                console.error('Generation failed:', error);
+                document.getElementById('status').textContent = 'Error: Server not running';
+            }
+        };
+        
+        // Physics toggle
+        window.togglePhysics = () => {
+            physicsEnabled = !physicsEnabled;
+            document.getElementById('physicsState').textContent = physicsEnabled ? 'ON' : 'OFF';
+        };
+        
+        // Export
+        window.exportScene = () => {
+            if (!graphData) return;
+            
+            const dataStr = JSON.stringify(graphData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `environment_${Date.now()}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        };
+        
+        // Animation loop with physics
+        let lastTime = performance.now();
+        let frames = 0;
+        let lastFpsUpdate = lastTime;
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const currentTime = performance.now();
+            const deltaTime = (currentTime - lastTime) / 1000;
+            lastTime = currentTime;
+            
+            // FPS counter
+            frames++;
+            if (currentTime - lastFpsUpdate > 1000) {
+                document.getElementById('fps').textContent = frames;
+                frames = 0;
+                lastFpsUpdate = currentTime;
+            }
+            
+            // Physics simulation
+            if (physicsEnabled && nodeMeshes.length > 0) {
+                nodeMeshes.forEach((mesh, i) => {
+                    if (!mesh.userData.velocity) {
+                        mesh.userData.velocity = new THREE.Vector3();
+                    }
+                    
+                    const force = new THREE.Vector3();
+                    
+                    // Springs from edges
+                    if (graphData) {
+                        graphData.edges.forEach(edge => {
+                            if (edge.from === i || edge.to === i) {
+                                const other = edge.from === i ? edge.to : edge.from;
+                                const otherPos = nodeMeshes[other].position;
+                                const delta = otherPos.clone().sub(mesh.position);
+                                const dist = delta.length();
+                                
+                                if (dist > 0.01) {
+                                    const springForce = delta.normalize().multiplyScalar((dist - edge.weight) * 0.5);
+                                    force.add(springForce);
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Damping
+                    force.sub(mesh.userData.velocity.clone().multiplyScalar(0.5));
+                    
+                    // Update
+                    mesh.userData.velocity.add(force.multiplyScalar(deltaTime));
+                    mesh.position.add(mesh.userData.velocity.clone().multiplyScalar(deltaTime));
+                    
+                    // Rotation for visual interest
+                    mesh.rotation.y += deltaTime * 0.5;
+                });
+                
+                // Update edge lines
+                edgeLines.forEach((line, i) => {
+                    const edge = graphData.edges[i];
+                    const from = nodeMeshes[edge.from].position;
+                    const to = nodeMeshes[edge.to].position;
+                    line.geometry.setFromPoints([from, to]);
+                });
+            } else {
+                // Idle animation
+                nodeMeshes.forEach((mesh, i) => {
+                    mesh.rotation.y += deltaTime * 0.3;
+                    const offset = Math.sin(currentTime * 0.001 + i) * 0.05;
+                    mesh.position.y += offset * deltaTime;
+                });
+            }
+            
+            controls.update();
+            composer.render();
+        }
+        
+        animate();
+        
+        // Handle resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Auto-generate on load
+        generate();
+    </script>
+</body>
+</html>

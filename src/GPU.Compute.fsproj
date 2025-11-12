@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SpatialHash.fs" />
+    <Compile Include="Execution.fs" />
+    <Compile Include="ParallelTempering.Core.fs" />
+    <Compile Include="GPU.Compute.fs" />
+  </ItemGroup>
+
+</Project>
