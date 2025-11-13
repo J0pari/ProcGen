@@ -1,0 +1,17 @@
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Terrain.deps.json
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Terrain.dll
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Terrain.pdb
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.pdb
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.pdb
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Interop.pdb
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Physics.pdb
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.fsproj.AssemblyReference.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.AssemblyInfoInputs.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.AssemblyInfo.fs
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.fsproj.CoreCompileInputs.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.sourcelink.json
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.fsproj.Up2Date
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.dll
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\refint\Terrain.dll
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.pdb
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\ref\Terrain.dll

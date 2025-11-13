@@ -39,15 +39,15 @@ def fix_file(filepath):
     content = re.sub(r'\bVector3\.cross\s+(\w+)\s+(\w+)', r'Vector3.Cross(\1, \2)', content)
 
     # Fix: { X = x; Y = y; Z = z } -> Vector3(x, y, z)
-    # This regex handles the record construction syntax
+    # Use DOTALL to match across newlines
     content = re.sub(
-        r'\{\s*X\s*=\s*([^;]+)\s*;\s*Y\s*=\s*([^;]+)\s*;\s*Z\s*=\s*([^}]+)\s*\}',
+        r'\{\s*X\s*=\s*([^;]+?)\s*;\s*Y\s*=\s*([^;]+?)\s*;\s*Z\s*=\s*([^}]+?)\s*\}',
         r'Vector3(\1, \2, \3)',
-        content
+        content,
+        flags=re.DOTALL
     )
 
     # Fix: { v with X = value } -> Vector3(value, v.Y, v.Z)
-    # This is trickier - need to handle record update syntax
     def replace_record_update(match):
         base_var = match.group(1)
         field = match.group(2)
@@ -62,14 +62,16 @@ def fix_file(filepath):
         return match.group(0)
 
     content = re.sub(
-        r'\{\s*(\w+)\s+with\s+([XYZ])\s*=\s*([^}]+)\s*\}',
+        r'\{\s*(\w+)\s+with\s+([XYZ])\s*=\s*([^}]+?)\s*\}',
         replace_record_update,
-        content
+        content,
+        flags=re.DOTALL
     )
 
-    # Fix type annotations: (v: Vector3) when TestInfrastructure.Core is in scope
-    # This requires adding System.Numerics prefix in some contexts
-    # For now, ensure Vector3 refers to System.Numerics.Vector3
+    # Fix: Core.Vector3.zero -> Vector3.Zero (already handled above)
+    # Fix: Core.Vector3 type references in function signatures
+    content = re.sub(r'\bCore\.Vector3\b', 'Vector3', content)
+    content = re.sub(r'\bTestInfrastructure\.Core\.Vector3\b', 'Vector3', content)
 
     if content != original:
         with open(filepath, 'w', encoding='utf-8') as f:

@@ -28,14 +28,14 @@ module Builders =
         member _.Build() = { Nodes = nodes; Edges = edges }
 
     type BodyBuilder() =
-        let mutable position = Vector3.Zero
-        let mutable velocity = Vector3.Zero
+        let mutable position = Vector3.zero
+        let mutable velocity = Vector3.zero
         let mutable mass = 1.0f
         let mutable radius = 1.0f
         let mutable isFixed = false
 
         member __.At(x: float32, y: float32, z: float32) =
-            position <- Vector3(x, y, z )
+            position <- { X = x; Y = y; Z = z }
             __
 
         member __.At(pos: Vector3) =
@@ -47,7 +47,7 @@ module Builders =
             __
 
         member __.WithVelocity(vx: float32, vy: float32, vz: float32) =
-            velocity <- Vector3(vx, vy, vz )
+            velocity <- { X = vx; Y = vy; Z = vz }
             __
 
         member __.WithVelocityVector(vel: Vector3) =
@@ -121,7 +121,7 @@ module Builders =
         let mutable bodies = [||]
         let mutable springs = []
         let mutable timeStep = 0.016f
-        let mutable gravity = Vector3(0.0f, -9.81f, 0.0f )
+        let mutable gravity = { X = 0.0f; Y = -9.81f; Z = 0.0f }
 
         member __.WithBodies(bodyArray: RigidBody array) =
             bodies <- bodyArray
@@ -144,7 +144,7 @@ module Builders =
             __
 
         member __.WithGravity(gx: float32, gy: float32, gz: float32) =
-            gravity <- Vector3(gx, gy, gz )
+            gravity <- { X = gx; Y = gy; Z = gz }
             __
 
         member _.Build() = {
@@ -190,8 +190,8 @@ module Builders =
             let bodies =
                 Array.init nodeCount (fun i ->
                     {
-                        Position = Vector3(float32 i * spacing, 0.0f, 0.0f )
-                        Velocity = Vector3.Zero
+                        Position = { X = float32 i * spacing; Y = 0.0f; Z = 0.0f }
+                        Velocity = Vector3.zero
                         Mass = bodyMass
                         Radius = bodyRadius
                         Fixed = false
@@ -212,7 +212,7 @@ module Builders =
                 Bodies = bodies
                 Springs = springs
                 TimeStep = 0.016f
-                Gravity = Vector3(0.0f, -9.81f, 0.0f )
+                Gravity = { X = 0.0f; Y = -9.81f; Z = 0.0f }
             }
 
     type ConfigBuilder() =
@@ -472,7 +472,8 @@ module Builders =
         let newBodies =
             Array.mapi (fun i _ ->
                 {
-                    Position = Vector3(integrated.Positions.[i].X
+                    Position = {
+                        X = integrated.Positions.[i].X
                         Y = integrated.Positions.[i].Y
                         Z = integrated.Positions.[i].Z
                     }
@@ -496,12 +497,12 @@ module Builders =
         let delta = pos2 - pos1
         let dist = delta.Length()
 
-        if dist < 0.001f then Core.Vector3.Zero
+        if dist < 0.001f then Core.Vector3.zero
         else
             let direction = delta / dist
             let displacement = dist - spring.RestLength
             let force = direction * (displacement * spring.Stiffness)
-            { X = force.X, force.Y, force.Z )
+            { X = force.X; Y = force.Y; Z = force.Z }
 
     /// Detect collisions using Physics.Collision module
     let detectCollisions (minDist: float32) (positions: System.Numerics.Vector3 array) : (int * int) list =
@@ -515,8 +516,8 @@ module Builders =
             nodeList
             |> List.mapi (fun i _ ->
                 {
-                    Core.RigidBody.Position = Vector3(float32 i * 10.0f, 0.0f, 0.0f )
-                    Velocity = Core.Vector3.Zero
+                    Core.RigidBody.Position = { X = float32 i * 10.0f; Y = 0.0f; Z = 0.0f }
+                    Velocity = Core.Vector3.zero
                     Mass = 1.0f
                     Radius = 1.0f
                     Fixed = (i = 0 || i = nodeList.Length - 1)  // Fix endpoints
@@ -540,7 +541,7 @@ module Builders =
             Core.PhysicsState.Bodies = bodies
             Springs = springs
             TimeStep = 0.016f
-            Gravity = Vector3(0.0f, 0.0f, 0.0f )
+            Gravity = { X = 0.0f; Y = 0.0f; Z = 0.0f }
         }
 
     /// Relax physics state over multiple iterations

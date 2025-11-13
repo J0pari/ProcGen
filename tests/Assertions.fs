@@ -147,12 +147,12 @@ module Assertions =
         shouldBeWithin 0.001 1.0 sum
 
     let shouldBeOrthogonal (v1: Vector3) (v2: Vector3) : unit =
-        let dot = Vector3.Dot(v1, v2)
+        let dot = Vector3.dot v1 v2
         shouldBeWithin 0.001 0.0 (float dot)
 
     let shouldBeParallel (v1: Vector3) (v2: Vector3) : unit =
-        let cross = Vector3.Cross(v1, v2)
-        let mag = cross.Length()
+        let cross = Vector3.cross v1 v2
+        let mag = Vector3.magnitude cross
         shouldBeWithin 0.001 0.0 (float mag)
 
     let shouldBeBounded (lower: float) (upper: float) (values: float seq) : unit =
@@ -196,8 +196,8 @@ module Assertions =
 
     let shouldPreserveNorm (f: Vector3 -> Vector3) (v: Vector3) : unit =
         let vOut = f v
-        let magIn = v.Length()
-        let magOut = vOut.Length()
+        let magIn = Vector3.magnitude v
+        let magOut = Vector3.magnitude vOut
         shouldBeWithin 0.001 (float magIn) (float magOut)
 
     let shouldPreserveSum (f: float array -> float array) (values: float array) : unit =
