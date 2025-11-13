@@ -571,14 +571,7 @@ module Builders =
 
     // Additional builders for missing functionality
 
-    // Ray builder for physics queries
-    type Ray = { Origin: System.Numerics.Vector3; Direction: System.Numerics.Vector3; MaxDistance: float32 }
-    type QueryFilter = { ExcludeStatic: bool; ExcludeDynamic: bool }
-    type SphereQuery = { Center: System.Numerics.Vector3; Radius: float32; Filter: QueryFilter option }
-    type BoxQuery = { Min: System.Numerics.Vector3; Max: System.Numerics.Vector3 }
-    type RaycastHit = { Distance: float32; Normal: System.Numerics.Vector3; BodyHandle: int }
-    type PhysicsWorld = { Bodies: Core.RigidBody array }
-
+    // Ray builder for physics queries - returns REAL Physics.Queries.Ray
     type RayBuilder() =
         let mutable from = System.Numerics.Vector3.Zero
         let mutable direction = System.Numerics.Vector3.UnitZ
@@ -604,8 +597,8 @@ module Builders =
             maxDistance <- d
             this
 
-        member this.Build() =
-            { Origin = from; Direction = direction; MaxDistance = maxDistance }
+        member this.Build() : Physics.Queries.Ray =
+            { Origin = from; Direction = direction; MaxDistance = float maxDistance }
 
     let rayBuilder() = RayBuilder()
 
@@ -613,7 +606,6 @@ module Builders =
     type SphereQueryBuilder() =
         let mutable center = System.Numerics.Vector3.Zero
         let mutable radius = 1.0f
-        let mutable filter = None
 
         member this.At(x: float32, y: float32, z: float32) =
             center <- System.Numerics.Vector3(x, y, z)
@@ -627,16 +619,12 @@ module Builders =
             radius <- r
             this
 
-        member this.WithFilter(f: QueryFilter) =
-            filter <- Some f
-            this
-
-        member this.Build() =
-            { Center = center; Radius = radius; Filter = filter }
+        member this.Build() : Physics.Queries.Sphere =
+            { Center = center; Radius = float radius }
 
     let sphereQuery() = SphereQueryBuilder()
 
-    // Box query builder
+    // Box query builder - converts AABB (min/max) to REAL Box (center/halfextents)
     type BoxQueryBuilder() =
         let mutable min = System.Numerics.Vector3.Zero
         let mutable max = System.Numerics.Vector3.One
@@ -657,8 +645,10 @@ module Builders =
             max <- v
             this
 
-        member this.Build() =
-            { Min = min; Max = max }
+        member this.Build() : Physics.Queries.Box =
+            let center = (min + max) * 0.5f
+            let halfExtents = (max - min) * 0.5f
+            { Center = center; HalfExtents = halfExtents; Rotation = System.Numerics.Quaternion.Identity }
 
     let boxQuery() = BoxQueryBuilder()
 
@@ -688,8 +678,23 @@ module Builders =
             bodies <- body :: bodies
             this
 
-        member this.Build() =
-            { Bodies = bodies |> List.rev |> List.toArray }
+        member this.Build() : Physics.Service.PhysicsWorld =
+            let config = Physics.Service.defaultWorldConfig
+            let world = Physics.Service.PhysicsWorld(config)
+            for testBody in List.rev bodies do
+                // Convert test Core.RigidBody to real Physics.Service.RigidBodyData
+                let realBody : Physics.Service.RigidBodyData = {
+                    Position = System.Numerics.Vector3(testBody.Position.X, testBody.Position.Y, testBody.Position.Z)
+                    Rotation = System.Numerics.Quaternion.Identity
+                    Velocity = System.Numerics.Vector3(testBody.Velocity.X, testBody.Velocity.Y, testBody.Velocity.Z)
+                    AngularVelocity = System.Numerics.Vector3.Zero
+                    Mass = float testBody.Mass * 1.0<Physics.kg>
+                    Inertia = System.Numerics.Vector3.One
+                    IsKinematic = false
+                    IsStatic = testBody.Fixed
+                }
+                world.AddRigidBody(realBody) |> ignore
+            world
 
     let physicsWorld() = PhysicsWorldBuilder()
 

@@ -95,6 +95,12 @@ module Service =
             | true, body -> Some body.Data
             | false, _ -> None
 
+        /// Check if body is sleeping
+        member _.IsBodySleeping(handle: BodyHandle) : bool option =
+            match bodies.TryGetValue(handle) with
+            | true, body -> Some body.IsSleeping
+            | false, _ -> None
+
         /// Update body data (kinematic control)
         member _.SetRigidBody(handle: BodyHandle, data: RigidBodyData) : bool =
             match bodies.TryGetValue(handle) with

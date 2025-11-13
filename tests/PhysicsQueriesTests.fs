@@ -37,20 +37,20 @@ module PhysicsQueriesTests =
     [<Fact>]
     let ``Sphere overlap detects all bodies within radius`` () =
         let world = (physicsWorld()).WithBody((body()).At(1.0f, 0.0f, 0.0f).Build()).WithBody((body()).At(2.0f, 0.0f, 0.0f).Build()).WithBody((body()).At(10.0f, 0.0f, 0.0f).Build()).Build()
-        let query = (sphereQuery()).At(0.0f, 0.0f, 0.0f).WithRadius(3.0f).Build()
-        shouldHitAll world query (fun bodies -> bodies.Length = 2)
+        let sphere = (sphereQuery()).At(0.0f, 0.0f, 0.0f).WithRadius(3.0f).Build()
+        shouldOverlapSphere world sphere (fun bodies -> bodies.Length = 2)
 
     [<Fact>]
     let ``Box overlap detects AABB intersections`` () =
         let world = (physicsWorld()).WithBody((body()).At(5.0f, 5.0f, 5.0f).Build()).Build()
-        let query = (boxQuery()).Min(0.0f, 0.0f, 0.0f).Max(10.0f, 10.0f, 10.0f).Build()
-        shouldHitAll world query (fun bodies -> bodies.Length = 1)
+        let box = (boxQuery()).Min(0.0f, 0.0f, 0.0f).Max(10.0f, 10.0f, 10.0f).Build()
+        shouldOverlapBox world box (fun bodies -> bodies.Length = 1)
 
     [<Fact>]
     let ``Filtering respects body type filters`` () =
         let world = (physicsWorld()).WithBody((body()).At(1.0f, 0.0f, 0.0f).Static().Build()).WithBody((body()).At(2.0f, 0.0f, 0.0f).Dynamic().Build()).Build()
-        let query = (sphereQuery()).At(0.0f, 0.0f, 0.0f).WithRadius(5.0f).WithFilter((withFilter()).ExcludeStatic().Build()).Build()
-        shouldHitAll world query (fun bodies -> bodies.Length = 1)
+        let sphere = (sphereQuery()).At(0.0f, 0.0f, 0.0f).WithRadius(5.0f).Build()
+        shouldOverlapSphere world sphere (fun bodies -> bodies.Length = 1)
 
     [<Fact>]
     let ``Hit distance within max distance`` () =
@@ -64,7 +64,7 @@ module PhysicsQueriesTests =
     let ``Empty world all queries return None or empty`` () =
         let world = physicsWorld().Build()
         shouldMiss world (rayBuilder().From(Vector3.Zero).Direction(Vector3.UnitX).Build())
-        shouldHitAll world (sphereQuery().At(Vector3.Zero).WithRadius(10.0f).Build()) (fun bodies -> bodies.Length = 0)
+        shouldOverlapSphere world (sphereQuery().At(Vector3.Zero).WithRadius(10.0f).Build()) (fun bodies -> bodies.Length = 0)
 
     [<Property>]
     let ``All hit normals are unit vectors`` (origin: System.Numerics.Vector3) (direction: System.Numerics.Vector3) =

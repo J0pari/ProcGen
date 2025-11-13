@@ -390,29 +390,46 @@ module Assertions =
         test <@ avgRatio < 1.0 @>
 
     // Physics queries and service assertions
-    let shouldHit (world: 'World) (ray: 'Ray) (predicate: 'Hit -> bool) : unit =
-        Assert.True(true)
+    let shouldHit (world: Physics.Service.PhysicsWorld) (ray: Physics.Queries.Ray) (predicate: Physics.Queries.RaycastHit -> bool) : unit =
+        match Physics.Queries.raycast world ray Physics.Queries.defaultFilter with
+        | Some hit -> Assert.True(predicate hit, "Hit predicate failed")
+        | None -> Assert.True(false, "Expected raycast hit but got None")
 
-    let shouldMiss (world: 'World) (ray: 'Ray) : unit =
-        Assert.True(true)
+    let shouldMiss (world: Physics.Service.PhysicsWorld) (ray: Physics.Queries.Ray) : unit =
+        match Physics.Queries.raycast world ray Physics.Queries.defaultFilter with
+        | Some _ -> Assert.True(false, "Expected miss but got hit")
+        | None -> ()
 
-    let shouldHitAll (world: 'World) (query: 'Query) (predicate: 'T array -> bool) : unit =
-        Assert.True(predicate [||])
+    let shouldOverlapSphere (world: Physics.Service.PhysicsWorld) (sphere: Physics.Queries.Sphere) (predicate: Physics.Service.BodyHandle array -> bool) : unit =
+        let hits = Physics.Queries.overlapSphere world sphere Physics.Queries.defaultFilter
+        Assert.True(predicate hits, "shouldOverlapSphere predicate failed")
 
-    let shouldRetrieveBody (world: 'World) (handle: int) (predicate: 'Body option -> bool) : unit =
-        Assert.True(predicate None)
+    let shouldOverlapBox (world: Physics.Service.PhysicsWorld) (box: Physics.Queries.Box) (predicate: Physics.Service.BodyHandle array -> bool) : unit =
+        let hits = Physics.Queries.overlapBox world box Physics.Queries.defaultFilter
+        Assert.True(predicate hits, "shouldOverlapBox predicate failed")
 
-    let shouldRespectBodyType (world: 'World) (handle: int) (predicate: 'Body -> bool) : unit =
-        Assert.True(true)
+    let shouldRetrieveBody (world: Physics.Service.PhysicsWorld) (handle: Physics.Service.BodyHandle) (predicate: Physics.Service.RigidBodyData option -> bool) : unit =
+        let retrieved = world.GetRigidBody(handle)
+        Assert.True(predicate retrieved, "shouldRetrieveBody predicate failed")
 
-    let shouldDetectCollision (world: 'World) (predicate: 'Events array -> bool) : unit =
-        Assert.True(predicate [||])
+    let shouldRespectBodyType (world: Physics.Service.PhysicsWorld) (handle: Physics.Service.BodyHandle) (predicate: Physics.Service.RigidBodyData -> bool) : unit =
+        match world.GetRigidBody(handle) with
+        | Some body -> Assert.True(predicate body, "shouldRespectBodyType predicate failed")
+        | None -> Assert.True(false, "shouldRespectBodyType: body not found")
 
-    let shouldSleep (world: 'World) (handle: int) : unit =
-        Assert.True(true)
+    let shouldDetectCollision (world: Physics.Service.PhysicsWorld) (predicate: Physics.Service.CollisionEvent array -> bool) : unit =
+        let events = world.GetCollisionEvents()
+        Assert.True(predicate events, "shouldDetectCollision predicate failed")
 
-    let shouldTrack (world: 'World) (predicate: 'Stats -> bool) : unit =
-        Assert.True(predicate (Unchecked.defaultof<'Stats>))
+    let shouldSleep (world: Physics.Service.PhysicsWorld) (handle: Physics.Service.BodyHandle) : unit =
+        match world.IsBodySleeping(handle) with
+        | Some true -> ()
+        | Some false -> Assert.True(false, "shouldSleep: body is not sleeping")
+        | None -> Assert.True(false, "shouldSleep: body not found")
+
+    let shouldTrack (world: Physics.Service.PhysicsWorld) (predicate: {| TotalTime: float<Physics.s>; FrameCount: int64; BodyCount: int; ActiveBodies: int |} -> bool) : unit =
+        let stats = world.GetStatistics()
+        Assert.True(predicate stats, "shouldTrack predicate failed")
 
     let shouldSignal (fence: 'Fence) (operation: unit -> bool) : unit =
         Assert.True(operation())
@@ -423,8 +440,12 @@ module Assertions =
     let shouldMaintainHz (actualHz: float) (targetHz: float) (tolerance: float) : unit =
         shouldBeWithin (targetHz * tolerance) targetHz actualHz
 
-    let shouldInterpolate (manager: 'Manager) (alpha: float32) (predicate: 'Body -> bool) : unit =
-        Assert.True(true)
+    let shouldInterpolate (manager: Physics.Sync.SnapshotManager) (alpha: float32) (predicate: {| Position: System.Numerics.Vector3; Rotation: System.Numerics.Quaternion |} -> bool) : unit =
+        match manager.Interpolate(0, alpha) with
+        | Some (pos, rot) ->
+            let interpolated = {| Position = pos; Rotation = rot |}
+            Assert.True(predicate interpolated, "shouldInterpolate predicate failed")
+        | None -> Assert.True(false, "shouldInterpolate: no interpolated state available")
 
     let shouldPreventRaces (spec: 'Spec) : unit =
         Assert.True(true)
