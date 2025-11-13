@@ -1,0 +1,15 @@
+
+========== BUILD_SOLUTION ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\Physics.fsproj (in 814 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\Server.fsproj (in 814 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\CLI.fsproj (in 814 ms).
+C:\Program Files\dotnet\sdk\8.0.415\Microsoft.Common.CurrentVersion.targets(2133,5): error MSB4006: There is a circular dependency in the target dependency graph involving target "ResolveProjectReferences". [C:\Users\tmdru\Downloads\files\src\Execution.fsproj]
+
+Build FAILED.
+
+C:\Program Files\dotnet\sdk\8.0.415\Microsoft.Common.CurrentVersion.targets(2133,5): error MSB4006: There is a circular dependency in the target dependency graph involving target "ResolveProjectReferences". [C:\Users\tmdru\Downloads\files\src\Execution.fsproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.66

@@ -188,34 +188,6 @@ impl BuildContext {
         false
     }
 
-
-
-    fn phase_clean(&mut self) -> Result<(), String> {
-        eprintln!("[{}]   Cleaning all build artifacts and caches", Self::timestamp());
-
-        let src_dir = self.root.join("src");
-        let _ = std::fs::remove_dir_all(src_dir.join("obj"));
-        let _ = std::fs::remove_dir_all(src_dir.join("bin"));
-
-        let tests_dir = self.root.join("tests");
-        let _ = std::fs::remove_dir_all(tests_dir.join("obj"));
-        let _ = std::fs::remove_dir_all(tests_dir.join("bin"));
-
-        if let Some(home) = std::env::var_os("USERPROFILE") {
-            let nuget_cache = Path::new(&home).join(".nuget").join("packages");
-            for entry in std::fs::read_dir(&nuget_cache).into_iter().flatten() {
-                let entry = entry.ok().unwrap();
-                let name = entry.file_name().to_string_lossy().to_string();
-                if name == "execution" || name == "core" || name == "gpu.interop" ||
-                   name == "physics" || name == "terrain" || name == "server" || name == "cli" {
-                    let _ = std::fs::remove_dir_all(entry.path());
-                }
-            }
-        }
-
-        Ok(())
-    }
-
     fn phase_cuda(&mut self) -> Result<(), String> {
         if !self.root.join("src/gpu").exists() {
             eprintln!("[{}]   CUDA kernels not present (skipping)", Self::timestamp());
@@ -329,8 +301,6 @@ fn main() {
 
     let mut ctx = BuildContext::new();
     let run_tests = std::env::args().nth(1).as_deref() == Some("tests");
-
-    ctx.phase_clean().unwrap();
 
     let result = ctx.phase_cuda()
         .and_then(|_| {
