@@ -185,7 +185,7 @@ module Generators =
                 Core.PhysicsState.Bodies = bodies
                 Springs = springs
                 TimeStep = timeStep
-                Gravity = { Vector3.X = 0.0f; Y = -9.81f; Z = 0.0f }
+                Gravity = Vector3(0.0f, -9.81f, 0.0f)
             }
         }
 
