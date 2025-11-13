@@ -48,7 +48,6 @@ struct BuildContext {
 impl BuildContext {
     fn new() -> Self {
         let mut root = std::env::current_dir().unwrap();
-        // If we're in scripts/, move up to parent
         if root.ends_with("scripts") {
             root = root.parent().unwrap().to_path_buf();
         }
@@ -60,31 +59,77 @@ impl BuildContext {
     }
 
     fn run_command(&mut self, name: &str, cmd: &mut Command) -> Result<(), String> {
-        eprintln!("[{}] {}", Self::timestamp(), name);
+        use std::io::{BufRead, BufReader};
+        use std::sync::{Arc, Mutex};
+        use std::thread;
+
+        eprintln!("[{}] {} →", Self::timestamp(), name);
         let start = Instant::now();
 
-        let output = cmd.output().map_err(|e| format!("Failed to execute: {}", e))?;
+        let mut child = cmd
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .map_err(|e| format!("Failed to spawn: {}", e))?;
+
+        let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
+        let output_file = self.root.join(format!("docs/{}_{}.txt", name, timestamp));
+        let stderr_file = output_file.with_extension("stderr");
+
+        let stdout_lines = Arc::new(Mutex::new(Vec::new()));
+        let stderr_lines = Arc::new(Mutex::new(Vec::new()));
+
+        let stdout_thread = {
+            let lines = Arc::clone(&stdout_lines);
+            child.stdout.take().map(|stdout| {
+                thread::spawn(move || {
+                    let reader = BufReader::new(stdout);
+                    for line in reader.lines().flatten() {
+                        eprintln!("[{}]   {}", BuildContext::timestamp(), line);
+                        lines.lock().unwrap().push(line);
+                    }
+                })
+            })
+        };
+
+        let stderr_thread = {
+            let lines = Arc::clone(&stderr_lines);
+            child.stderr.take().map(|stderr| {
+                thread::spawn(move || {
+                    let reader = BufReader::new(stderr);
+                    for line in reader.lines().flatten() {
+                        eprintln!("[{}]   {}", BuildContext::timestamp(), line);
+                        lines.lock().unwrap().push(line);
+                    }
+                })
+            })
+        };
+
+        if let Some(t) = stdout_thread {
+            let _ = t.join();
+        }
+        if let Some(t) = stderr_thread {
+            let _ = t.join();
+        }
+
+        let status = child.wait().map_err(|e| format!("Failed to wait: {}", e))?;
 
         let duration = start.elapsed().as_millis();
         self.metrics.record_duration(name, duration);
 
-        // Save ALL output to docs/
-        let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
-        let output_file = self.root.join(format!("docs/{}_{}.txt", name, timestamp));
+        let stdout_content = stdout_lines.lock().unwrap().join("\n");
+        let stderr_content = stderr_lines.lock().unwrap().join("\n");
 
-        let stdout_str = String::from_utf8_lossy(&output.stdout);
-        let stderr_str = String::from_utf8_lossy(&output.stderr);
+        fs::write(&output_file, stdout_content).map_err(|e| e.to_string())?;
+        fs::write(&stderr_file, stderr_content).map_err(|e| e.to_string())?;
 
-        fs::write(&output_file, stdout_str.as_bytes()).map_err(|e| e.to_string())?;
-        fs::write(output_file.with_extension("stderr"), stderr_str.as_bytes()).map_err(|e| e.to_string())?;
-
-        if !output.status.success() {
-            eprintln!("[{}] {} FAILED", Self::timestamp(), name);
+        if !status.success() {
+            eprintln!("[{}] {} ✗ ({}ms)", Self::timestamp(), name, duration);
             eprintln!("[{}]   Error log: {}", Self::timestamp(), output_file.display());
             return Err(format!("{} failed", name));
         }
 
-        eprintln!("[{}] {} OK ({}ms)", Self::timestamp(), name, duration);
+        eprintln!("[{}] {} ✓ ({}ms)", Self::timestamp(), name, duration);
         Ok(())
     }
 

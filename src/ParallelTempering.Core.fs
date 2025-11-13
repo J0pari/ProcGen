@@ -518,16 +518,14 @@ module Convergence =
                 onProgress step chains finalStatus
                 (chains, finalStatus)
             else
-                // Optimization step (parallel across chains)
-                let updatedChains = Execution.Parallel.map (optimizationStep mutate cost) chains
+                let updatedChains = Execution.Parallel.map (ParallelTempering.optimizationStep mutate cost) chains
 
-                // Replica exchange (collect swap outcomes)
                 let mutable swapOutcomes = []
                 let swappedChains =
                     if step % swapFreq = 0 then
                         let mutable chains = updatedChains
                         for i in 0 .. chains.Length - 2 do
-                            let (c1, c2, accepted) = attemptSwap chains.[i] chains.[i+1]
+                            let (c1, c2, accepted) = ParallelTempering.attemptSwap chains.[i] chains.[i+1]
                             chains.[i] <- c1
                             chains.[i+1] <- c2
                             swapOutcomes <- accepted :: swapOutcomes

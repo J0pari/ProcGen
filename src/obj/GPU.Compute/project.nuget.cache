@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oKVCTVeCV2M=",
+  "dgSpecHash": "APrwqzso5Ws=",
   "success": true,
-  "projectFilePath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
+  "projectFilePath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
   "expectedPackageFiles": [
     "C:\\Users\\tmdru\\.nuget\\packages\\fsharp.core\\8.0.403\\fsharp.core.8.0.403.nupkg.sha512"
   ],

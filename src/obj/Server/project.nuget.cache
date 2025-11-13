@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f4rTduTnP+w=",
+  "dgSpecHash": "376fnTUBiAw=",
   "success": true,
-  "projectFilePath": "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
+  "projectFilePath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
   "expectedPackageFiles": [
     "C:\\Users\\tmdru\\.nuget\\packages\\fsharp.core\\8.0.403\\fsharp.core.8.0.403.nupkg.sha512",
     "C:\\Users\\tmdru\\.nuget\\packages\\fsharp.systemtextjson\\1.3.13\\fsharp.systemtextjson.1.3.13.nupkg.sha512",

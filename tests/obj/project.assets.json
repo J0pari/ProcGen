@@ -8530,11 +8530,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\tmdru\\Downloads\\files\\tests\\Tests.fsproj",
+      "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\tests\\Tests.fsproj",
       "projectName": "Tests",
-      "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\tests\\Tests.fsproj",
+      "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\tests\\Tests.fsproj",
       "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\tmdru\\Downloads\\files\\tests\\obj\\",
+      "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -8550,11 +8550,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
-              "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
             },
-            "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
-              "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj"
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj"
             }
           }
         }

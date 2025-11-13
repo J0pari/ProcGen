@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Vv2lNE1Ygjo=",
+  "dgSpecHash": "9hbgHdRPPFE=",
   "success": true,
-  "projectFilePath": "c:\\Users\\tmdru\\Downloads\\files\\tests\\Tests.fsproj",
+  "projectFilePath": "C:\\Users\\tmdru\\Downloads\\files\\tests\\Tests.fsproj",
   "expectedPackageFiles": [
     "C:\\Users\\tmdru\\.nuget\\packages\\accord\\3.8.0\\accord.3.8.0.nupkg.sha512",
     "C:\\Users\\tmdru\\.nuget\\packages\\accord.math\\3.8.0\\accord.math.3.8.0.nupkg.sha512",

@@ -1,0 +1,14 @@
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\Server.fsproj (in 245 ms).
+  1 of 2 projects are up-to-date for restore.
+  GPU.Compute -> C:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.dll
+C:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(292,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\src\Server.fsproj]
+  Server -> C:\Users\tmdru\Downloads\files\src\bin\Server\Debug\net8.0\Server.dll
+
+Build succeeded.
+
+C:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(292,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\src\Server.fsproj]
+    1 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:08.62

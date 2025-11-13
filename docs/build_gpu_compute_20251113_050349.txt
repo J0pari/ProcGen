@@ -1,0 +1,13 @@
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj (in 971 ms).
+C:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(522,61): error FS0039: The value or constructor 'optimizationStep' is not defined. [C:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
+C:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(530,54): error FS0039: The value or constructor 'attemptSwap' is not defined. [C:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
+
+Build FAILED.
+
+C:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(522,61): error FS0039: The value or constructor 'optimizationStep' is not defined. [C:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
+C:\Users\tmdru\Downloads\files\src\ParallelTempering.Core.fs(530,54): error FS0039: The value or constructor 'attemptSwap' is not defined. [C:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj]
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:03.68

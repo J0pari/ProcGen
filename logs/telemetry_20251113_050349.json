@@ -1,0 +1,8 @@
+{
+  "artifacts": {},
+  "durations": {
+    "build_gpu_compute": 3923,
+    "cuda_build": 37645
+  },
+  "total_phases": 2
+}
