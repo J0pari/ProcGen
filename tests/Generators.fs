@@ -8,6 +8,7 @@ module Generators =
     open Core
     open AdaptiveConfig
     open Physics
+    open System.Numerics
 
     let genPositiveFloat : Gen<float> =
         Gen.choose (1, 100000)

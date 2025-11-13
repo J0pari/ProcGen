@@ -13,6 +13,7 @@ module SyncThreadSafetyTests =
     open TestInfrastructure.Performance
     open TestInfrastructure.Generators
     open Physics.Sync
+    open System.Numerics
 
     [<Fact>]
     let ``TripleBuffer lock-free read never blocks write`` () =

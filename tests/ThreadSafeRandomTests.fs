@@ -15,6 +15,7 @@ module ThreadSafeRandomTests =
     open TestInfrastructure.Concurrency
     open TestInfrastructure.Performance
     open TestInfrastructure.Random
+    open System.Numerics
 
     [<Fact>]
     let ``Thread-safety concurrent calls never corrupt state`` () =

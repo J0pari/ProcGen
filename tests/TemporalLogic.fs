@@ -4,6 +4,7 @@ module TemporalLogic =
 
     open System
     open global.Xunit
+    open System.Numerics
 
     /// Linear Temporal Logic formula types
     type LTL<'T> =

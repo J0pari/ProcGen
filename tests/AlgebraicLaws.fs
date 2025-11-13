@@ -6,6 +6,7 @@ module AlgebraicLaws =
     open FsCheck
     open FsCheck.FSharp
     open global.Xunit
+    open System.Numerics
 
     let associativity (arb: Arbitrary<'T>) (op: 'T -> 'T -> 'T) : unit =
         let prop (a: 'T) (b: 'T) (c: 'T) = op (op a b) c = op a (op b c)

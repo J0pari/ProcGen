@@ -8,6 +8,7 @@ module Assertions =
     open Core
     open AdaptiveConfig
     open Physics
+    open System.Numerics
 
     let shouldEqual (expected: 'T) (actual: 'T) : unit =
         test <@ actual = expected @>

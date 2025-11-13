@@ -11,6 +11,7 @@ module Performance =
     open BenchmarkDotNet.Environments
     open BenchmarkDotNet.Toolchains.InProcess.Emit
     open global.Xunit
+    open System.Numerics
 
     type TimingResult = {
         Mean: float

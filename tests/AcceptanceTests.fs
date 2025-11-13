@@ -12,6 +12,7 @@ module AcceptanceTests =
     open TestInfrastructure.Statistics
     open TestInfrastructure.TestData
     open ParallelTempering.Core
+    open System.Numerics
 
     [<Fact>]
     let ``Improvements always accepted`` () =

@@ -11,6 +11,7 @@ module UnitsOfMeasureTests =
     open TestInfrastructure.Assertions
     open TestInfrastructure.PropertyDSL
     open TestInfrastructure.Builders
+    open System.Numerics
 
     [<Measure>] type m
     [<Measure>] type s

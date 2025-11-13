@@ -18,6 +18,7 @@ module CExportTests =
     open Physics.Exports
     open Physics.Service
     open Physics
+    open System.Numerics
 
     // Helper functions to bridge test expectations with actual API
     let toC (body: TestInfrastructure.Core.RigidBody) : CBodyData =

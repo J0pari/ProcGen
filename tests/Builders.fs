@@ -4,6 +4,7 @@ module Builders =
 
     open System
     open Core
+    open System.Numerics
 
     type GraphBuilder() =
         let mutable nodes = Set.empty

@@ -15,6 +15,7 @@ module CacheTests =
     open TestInfrastructure.Concurrency
     open TestInfrastructure.Performance
     open Cache
+    open System.Numerics
 
     [<Fact>]
     let ``LRU evicts least recently used`` () =

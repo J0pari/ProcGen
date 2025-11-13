@@ -5,6 +5,7 @@ module Metrology =
     open System
     open MathNet.Numerics.Statistics
     open global.Xunit
+    open System.Numerics
 
     type GaugeRnRResult = {
         TotalVariation: float

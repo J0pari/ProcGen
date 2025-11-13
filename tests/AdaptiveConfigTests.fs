@@ -16,6 +16,7 @@ module AdaptiveConfigTests =
     open TestInfrastructure.Performance
     open TestInfrastructure.Statistics
     open AdaptiveConfig
+    open System.Numerics
 
     [<Fact>]
     let ``Config updates take effect immediately`` () =

@@ -4,6 +4,7 @@ module Random =
 
     open System
     open System.Threading
+    open System.Numerics
 
     type ThreadSafeRandom(seed: int) =
         let rng = System.Random(seed)

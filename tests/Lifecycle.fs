@@ -6,6 +6,7 @@ module Lifecycle =
     open Physics.Exports
     open Physics.Service
     open Physics.Sync
+    open System.Numerics
 
     let withPhysicsEngine (f: unit -> unit) : unit =
         try

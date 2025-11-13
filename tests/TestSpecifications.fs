@@ -10,6 +10,7 @@ module TestSpecifications =
     open global.Xunit
     open Core
     open Generators
+    open System.Numerics
 
 
     type ConvergenceTest<'State> = {

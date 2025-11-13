@@ -8,6 +8,7 @@ module PropertyDSL =
     open global.Xunit
     open Core
     open Generators
+    open System.Numerics
 
     let forAll (arb: Arbitrary<'T>) (property: 'T -> bool) : unit =
         Check.QuickThrowOnFailure (Prop.forAll arb property)

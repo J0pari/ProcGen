@@ -10,6 +10,7 @@ module Statistics =
     open MathNet.Numerics.Optimization
     open Accord.Statistics.Testing
     open global.Xunit
+    open System.Numerics
 
     let mean (samples: float seq) : float = samples |> Seq.average
     let variance (samples: float seq) : float = samples |> Seq.toArray |> ArrayStatistics.Variance
