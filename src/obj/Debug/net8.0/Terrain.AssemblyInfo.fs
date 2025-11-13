@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("Terrain")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9728e90f999d005c1a2548cb845f92d8a02a177c")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d911e771d8e160bc09a839e44328cb02da2e5b9b")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("Terrain")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("Terrain")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]

@@ -1,12 +1,12 @@
 
 ========== RESTORE_ALL ==========
   Determining projects to restore...
-  Restored C:\Users\tmdru\Downloads\files\src\Execution.fsproj (in 246 ms).
-  Restored C:\Users\tmdru\Downloads\files\src\CLI.fsproj (in 246 ms).
-  Restored C:\Users\tmdru\Downloads\files\src\Server.fsproj (in 246 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\Server.fsproj (in 217 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\Physics.fsproj (in 217 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\CLI.fsproj (in 217 ms).
 ========== BUILD_SOLUTION ==========
   Determining projects to restore...
-  Restored C:\Users\tmdru\Downloads\files\src\Core.fsproj (in 229 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\Core.fsproj (in 393 ms).
   2 of 3 projects are up-to-date for restore.
   Execution -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
   Core -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.dll
@@ -23,12 +23,11 @@ C:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(292,13): warning FS0760: It i
     1 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:19.54
+Time Elapsed 00:00:18.65
 ========== BUILD_TESTS ==========
   Determining projects to restore...
-  Restored C:\Users\tmdru\Downloads\files\src\Execution.fsproj (in 182 ms).
-  Restored C:\Users\tmdru\Downloads\files\tests\Tests.fsproj (in 16.76 sec).
-  1 of 3 projects are up-to-date for restore.
+  Restored C:\Users\tmdru\Downloads\files\src\Terrain.fsproj (in 198 ms).
+  2 of 3 projects are up-to-date for restore.
   Execution -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
   Core -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.dll
   GPU.Interop -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Interop.dll
@@ -87,4 +86,4 @@ C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(104,47): error FS0001: 
     9 Warning(s)
     14 Error(s)
 
-Time Elapsed 00:00:27.49
+Time Elapsed 00:00:15.32

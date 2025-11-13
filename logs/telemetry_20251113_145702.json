@@ -1,0 +1,35 @@
+{
+  "artifacts": {},
+  "durations": {
+    "build_solution": 20553,
+    "build_tests": 15954,
+    "restore_all": 1726
+  },
+  "events": [
+    [
+      "restore_all_start",
+      56
+    ],
+    [
+      "restore_all_end",
+      1782
+    ],
+    [
+      "build_solution_start",
+      1795
+    ],
+    [
+      "build_solution_end",
+      22348
+    ],
+    [
+      "build_tests_start",
+      22350
+    ],
+    [
+      "build_tests_end",
+      38304
+    ]
+  ],
+  "total_phases": 3
+}

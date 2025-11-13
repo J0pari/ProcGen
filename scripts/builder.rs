@@ -27,9 +27,6 @@ impl BuildMetrics {
         self.durations.insert(phase.to_string(), duration);
     }
 
-    fn record_artifact(&mut self, name: &str, hash: &str) {
-        self.artifacts.insert(name.to_string(), hash.to_string());
-    }
 
     fn save(&self, path: &Path) -> std::io::Result<()> {
         let json = serde_json::json!({
@@ -191,30 +188,6 @@ impl BuildContext {
         false
     }
 
-    fn compute_sha256(&self, path: &Path) -> Result<String, String> {
-        use sha2::{Sha256, Digest};
-        let bytes = fs::read(path).map_err(|e| e.to_string())?;
-        let hash = Sha256::digest(&bytes);
-        Ok(format!("{:x}", hash))
-    }
-
-    fn build_and_record(&mut self, phase_name: &str, project_file: &str, dll_path: &Path, artifact_name: &str) -> Result<(), String> {
-        let src_dir = self.root.join("src");
-
-        self.run_command(phase_name,
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("build")
-                .arg(project_file))?;
-
-        if !dll_path.exists() {
-            return Err(format!("{} not found after build", dll_path.display()));
-        }
-
-        let hash = self.compute_sha256(dll_path)?;
-        self.metrics.record_artifact(artifact_name, &hash);
-        Ok(())
-    }
 
     fn phase_clean(&mut self) -> Result<(), String> {
         eprintln!("[{}]   Cleaning build artifacts", Self::timestamp());
@@ -314,40 +287,6 @@ nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu g
         }
     }
 
-    fn phase_core(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Debug/net8.0/Core.dll");
-        self.build_and_record("build_core", "Core.fsproj", &dll, "core")
-    }
-
-    fn phase_execution(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Debug/net8.0/Execution.dll");
-        self.build_and_record("build_execution", "Execution.fsproj", &dll, "execution")
-    }
-
-    fn phase_gpu_interop(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Debug/net8.0/GPU.Interop.dll");
-        self.build_and_record("build_gpu_interop", "GPU.Interop.fsproj", &dll, "gpu_interop")
-    }
-
-    fn phase_physics(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Debug/net8.0/Physics.dll");
-        self.build_and_record("build_physics", "Physics.fsproj", &dll, "physics")
-    }
-
-    fn phase_terrain(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Debug/net8.0/Terrain.dll");
-        self.build_and_record("build_terrain", "Terrain.fsproj", &dll, "terrain")
-    }
-
-    fn phase_server(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Server/Debug/net8.0/Server.dll");
-        self.build_and_record("build_server", "Server.fsproj", &dll, "server")
-    }
-
-    fn phase_cli(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/CLI/Debug/net8.0/CLI.dll");
-        self.build_and_record("build_cli", "CLI.fsproj", &dll, "cli")
-    }
 
     fn phase_tests(&mut self, run_tests: bool) -> Result<(), String> {
         let tests_dir = self.root.join("tests");

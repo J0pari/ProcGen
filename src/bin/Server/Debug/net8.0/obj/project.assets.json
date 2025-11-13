@@ -55,6 +55,62 @@
             "locale": "zh-Hant"
           }
         }
+      },
+      "Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Execution": "1.0.0",
+          "FSharp.Core": "8.0.403"
+        },
+        "compile": {
+          "bin/placeholder/Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Core.dll": {}
+        }
+      },
+      "Execution/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "FSharp.Core": "8.0.403"
+        },
+        "compile": {
+          "bin/placeholder/Execution.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Execution.dll": {}
+        }
+      },
+      "GPU.Interop/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Core": "1.0.0",
+          "FSharp.Core": "8.0.403"
+        },
+        "compile": {
+          "bin/placeholder/GPU.Interop.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GPU.Interop.dll": {}
+        }
+      },
+      "Physics/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Core": "1.0.0",
+          "FSharp.Core": "8.0.403",
+          "GPU.Interop": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Physics.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Physics.dll": {}
+        }
       }
     }
   },
@@ -100,11 +156,35 @@
         "lib/netstandard2.1/zh-Hans/FSharp.Core.resources.dll",
         "lib/netstandard2.1/zh-Hant/FSharp.Core.resources.dll"
       ]
+    },
+    "Core/1.0.0": {
+      "type": "project",
+      "path": "Core.fsproj",
+      "msbuildProject": "Core.fsproj"
+    },
+    "Execution/1.0.0": {
+      "type": "project",
+      "path": "Execution.fsproj",
+      "msbuildProject": "Execution.fsproj"
+    },
+    "GPU.Interop/1.0.0": {
+      "type": "project",
+      "path": "GPU.Interop.fsproj",
+      "msbuildProject": "GPU.Interop.fsproj"
+    },
+    "Physics/1.0.0": {
+      "type": "project",
+      "path": "Physics.fsproj",
+      "msbuildProject": "Physics.fsproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "FSharp.Core >= 8.0.403"
+      "Core >= 1.0.0",
+      "Execution >= 1.0.0",
+      "FSharp.Core >= 8.0.403",
+      "GPU.Interop >= 1.0.0",
+      "Physics >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -113,9 +193,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj",
-      "projectName": "Execution",
-      "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj",
+      "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj",
+      "projectName": "Terrain",
+      "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj",
       "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
       "projectStyle": "PackageReference",
@@ -132,7 +212,20 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj"
+            },
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj"
+            },
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj"
+            },
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj"
+            }
+          }
         }
       },
       "restoreAuditProperties": {
