@@ -8,8 +8,8 @@
     ".NETCoreApp,Version=v8.0": {
       "Core/1.0.0": {
         "dependencies": {
-          "FSharp.Core": "8.0.403",
-          "Execution": "1.0.0.0"
+          "Execution": "1.0.0",
+          "FSharp.Core": "8.0.403"
         },
         "runtime": {
           "Core.dll": {}
@@ -64,10 +64,13 @@
           }
         }
       },
-      "Execution/1.0.0.0": {
+      "Execution/1.0.0": {
+        "dependencies": {
+          "FSharp.Core": "8.0.403"
+        },
         "runtime": {
           "Execution.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -87,8 +90,8 @@
       "path": "fsharp.core/8.0.403",
       "hashPath": "fsharp.core.8.0.403.nupkg.sha512"
     },
-    "Execution/1.0.0.0": {
-      "type": "reference",
+    "Execution/1.0.0": {
+      "type": "project",
       "serviceable": false,
       "sha512": ""
     }

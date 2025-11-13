@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("GPU.Interop")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a5910412c067b65c3c743b2f078d8f8428e1a22")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a1563e6f9f98bd1391bf9166e7742fe784acbca")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("GPU.Interop")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("GPU.Interop")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]

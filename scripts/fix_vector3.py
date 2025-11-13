@@ -1,81 +1,82 @@
 #!/usr/bin/env python3
-"""
-Fix all Vector3 references in F# test files to use System.Numerics.Vector3
-instead of the old TestInfrastructure.Core.Vector3 record type.
-"""
 
 import re
-import os
 from pathlib import Path
+from functools import reduce
+from typing import Callable, Tuple
 
-def fix_file(filepath):
-    """Fix Vector3 references in a single file."""
-    with open(filepath, 'r', encoding='utf-8') as f:
-        content = f.read()
+# Type alias for transformation functions
+Transform = Callable[[str], str]
 
-    original = content
+# Kleisli composition: (a -> m b) -> (b -> m c) -> (a -> m c)
+def kleisli_compose(*transforms: Transform) -> Transform:
+    """Compose transformations via function composition (Kleisli arrow in Identity monad)."""
+    return lambda content: reduce(lambda acc, f: f(acc), transforms, content)
 
-    # Fix: Vector3.zero -> Vector3.Zero
-    content = re.sub(r'\bVector3\.zero\b', 'Vector3.Zero', content)
+# Transformation combinators
+def mk_simple_subst(pattern: str, replacement: str) -> Transform:
+    """Create a simple substitution transformation."""
+    return lambda s: re.sub(pattern, replacement, s)
 
-    # Fix: Vector3.unitX -> Vector3.UnitX (and Y, Z)
-    content = re.sub(r'\bVector3\.unitX\b', 'Vector3.UnitX', content)
-    content = re.sub(r'\bVector3\.unitY\b', 'Vector3.UnitY', content)
-    content = re.sub(r'\bVector3\.unitZ\b', 'Vector3.UnitZ', content)
+def mk_complex_subst(pattern: str, replacement: str | Callable, flags=0) -> Transform:
+    """Create a complex substitution with flags."""
+    return lambda s: re.sub(pattern, replacement, s, flags=flags)
 
-    # Fix: Vector3.distanceTo v1 v2 -> Vector3.Distance(v1, v2)
-    content = re.sub(r'\bVector3\.distanceTo\s+(\w+)\s+(\w+)', r'Vector3.Distance(\1, \2)', content)
+def mk_record_update_transform() -> Transform:
+    """Transform record update syntax { v with Field = val } to Vector3 constructor."""
+    def replace(match):
+        var, field, val = match.group(1), match.group(2), match.group(3)
+        fields = {'X': f'Vector3({val}, {var}.Y, {var}.Z)',
+                  'Y': f'Vector3({var}.X, {val}, {var}.Z)',
+                  'Z': f'Vector3({var}.X, {var}.Y, {val})'}
+        return fields.get(field, match.group(0))
 
-    # Fix: Vector3.magnitude v -> v.Length()
-    content = re.sub(r'\bVector3\.magnitude\s+(\w+)', r'\1.Length()', content)
+    return mk_complex_subst(
+        r'\{\s*(\w+)\s+with\s+([XYZ])\s*=\s*([^}]+?)\s*\}',
+        replace,
+        flags=re.DOTALL
+    )
 
-    # Fix: Vector3.normalize v -> Vector3.Normalize(v)
-    content = re.sub(r'\bVector3\.normalize\s+(\w+)', r'Vector3.Normalize(\1)', content)
+# Comonadic extraction: derive transformations from the environment
+transformations = [
+    # Module member capitalization (endofunctor over string substitution)
+    mk_simple_subst(r'\bVector3\.zero\b', 'Vector3.Zero'),
+    mk_simple_subst(r'\bVector3\.unitX\b', 'Vector3.UnitX'),
+    mk_simple_subst(r'\bVector3\.unitY\b', 'Vector3.UnitY'),
+    mk_simple_subst(r'\bVector3\.unitZ\b', 'Vector3.UnitZ'),
 
-    # Fix: Vector3.dot v1 v2 -> Vector3.Dot(v1, v2)
-    content = re.sub(r'\bVector3\.dot\s+(\w+)\s+(\w+)', r'Vector3.Dot(\1, \2)', content)
+    # Method call transformations (applicative functor application)
+    mk_simple_subst(r'\bVector3\.distanceTo\s+(\w+)\s+(\w+)', r'Vector3.Distance(\1, \2)'),
+    mk_simple_subst(r'\bVector3\.magnitude\s+(\w+)', r'\1.Length()'),
+    mk_simple_subst(r'\bVector3\.normalize\s+(\w+)', r'Vector3.Normalize(\1)'),
+    mk_simple_subst(r'\bVector3\.dot\s+(\w+)\s+(\w+)', r'Vector3.Dot(\1, \2)'),
+    mk_simple_subst(r'\bVector3\.cross\s+(\w+)\s+(\w+)', r'Vector3.Cross(\1, \2)'),
 
-    # Fix: Vector3.cross v1 v2 -> Vector3.Cross(v1, v2)
-    content = re.sub(r'\bVector3\.cross\s+(\w+)\s+(\w+)', r'Vector3.Cross(\1, \2)', content)
-
-    # Fix: { X = x; Y = y; Z = z } -> Vector3(x, y, z)
-    # Use DOTALL to match across newlines
-    content = re.sub(
+    # Record construction -> constructor (multiline-aware via DOTALL)
+    mk_complex_subst(
         r'\{\s*X\s*=\s*([^;]+?)\s*;\s*Y\s*=\s*([^;]+?)\s*;\s*Z\s*=\s*([^}]+?)\s*\}',
         r'Vector3(\1, \2, \3)',
-        content,
         flags=re.DOTALL
-    )
+    ),
 
-    # Fix: { v with X = value } -> Vector3(value, v.Y, v.Z)
-    def replace_record_update(match):
-        base_var = match.group(1)
-        field = match.group(2)
-        value = match.group(3)
+    # Record update syntax transformation
+    mk_record_update_transform(),
 
-        if field == 'X':
-            return f'Vector3({value}, {base_var}.Y, {base_var}.Z)'
-        elif field == 'Y':
-            return f'Vector3({base_var}.X, {value}, {base_var}.Z)'
-        elif field == 'Z':
-            return f'Vector3({base_var}.X, {base_var}.Y, {value})'
-        return match.group(0)
+    # Qualified name normalization (natural transformation)
+    mk_simple_subst(r'\bCore\.Vector3\b', 'Vector3'),
+    mk_simple_subst(r'\bTestInfrastructure\.Core\.Vector3\b', 'Vector3'),
+]
 
-    content = re.sub(
-        r'\{\s*(\w+)\s+with\s+([XYZ])\s*=\s*([^}]+?)\s*\}',
-        replace_record_update,
-        content,
-        flags=re.DOTALL
-    )
+# Compose all transformations into a single pipeline
+transform_pipeline: Transform = kleisli_compose(*transformations)
 
-    # Fix: Core.Vector3.zero -> Vector3.Zero (already handled above)
-    # Fix: Core.Vector3 type references in function signatures
-    content = re.sub(r'\bCore\.Vector3\b', 'Vector3', content)
-    content = re.sub(r'\bTestInfrastructure\.Core\.Vector3\b', 'Vector3', content)
+def fix_file(filepath: Path) -> bool:
+    """Apply the transformation pipeline to a file. Returns True if modified."""
+    content = filepath.read_text(encoding='utf-8')
+    transformed = transform_pipeline(content)
 
-    if content != original:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            f.write(content)
+    if transformed != content:
+        filepath.write_text(transformed, encoding='utf-8')
         return True
     return False
 
