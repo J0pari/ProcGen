@@ -1,0 +1,432 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {}
+  },
+  "projects": {
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj",
+        "projectName": "Core",
+        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj",
+        "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\sdk\\8.0.415\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj"
+              }
+            }
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[8.0.403, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj",
+        "projectName": "Execution",
+        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj",
+        "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\sdk\\8.0.415\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[8.0.403, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj",
+        "projectName": "GPU.Interop",
+        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj",
+        "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\sdk\\8.0.415\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj"
+              }
+            }
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[8.0.403, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj",
+        "projectName": "Physics",
+        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj",
+        "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\sdk\\8.0.415\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj"
+              }
+            }
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[8.0.403, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
+        "projectName": "Server",
+        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj",
+        "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\Server\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\sdk\\8.0.415\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj"
+              }
+            }
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[8.0.403, )",
+              "generatePathProperty": true
+            },
+            "Giraffe": {
+              "target": "Package",
+              "version": "[7.0.2, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj",
+        "projectName": "Terrain",
+        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj",
+        "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\dotnet\\sdk\\8.0.415\\FSharp\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj"
+              },
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj"
+              }
+            }
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[8.0.403, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

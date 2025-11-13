@@ -216,6 +216,38 @@ impl BuildContext {
         Ok(())
     }
 
+    fn phase_clean(&mut self) -> Result<(), String> {
+        eprintln!("[{}]   Cleaning build artifacts", Self::timestamp());
+
+        let src_dir = self.root.join("src");
+
+        // Clean obj and bin directories
+        for entry in fs::read_dir(&src_dir).unwrap() {
+            let entry = entry.unwrap();
+            let path = entry.path();
+            if path.is_dir() {
+                let name = path.file_name().unwrap().to_str().unwrap();
+                if name == "obj" || name == "bin" {
+                    let _ = fs::remove_dir_all(&path);
+                }
+            }
+        }
+
+        Ok(())
+    }
+
+    fn phase_restore(&mut self) -> Result<(), String> {
+        let src_dir = self.root.join("src");
+
+        self.run_command("restore_all",
+            Command::new("dotnet")
+                .current_dir(&src_dir)
+                .arg("restore")
+                .arg("Server.sln"))?;
+
+        Ok(())
+    }
+
     fn phase_cuda(&mut self) -> Result<(), String> {
         if !self.root.join("src/gpu").exists() {
             eprintln!("[{}]   CUDA kernels not present (skipping)", Self::timestamp());
@@ -364,7 +396,9 @@ fn main() {
     let mut ctx = BuildContext::new();
     let run_tests = std::env::args().nth(1).as_deref() == Some("tests");
 
-    let result = ctx.phase_cuda()
+    let result = ctx.phase_clean()
+        .and_then(|_| ctx.phase_restore())
+        .and_then(|_| ctx.phase_cuda())
         .and_then(|_| ctx.phase_core())
         .and_then(|_| ctx.phase_execution())
         .and_then(|_| ctx.phase_gpu_interop())
