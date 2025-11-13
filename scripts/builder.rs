@@ -63,18 +63,29 @@ impl BuildContext {
         eprintln!("[{}] {}", Self::timestamp(), name);
         let start = Instant::now();
 
-        let status = cmd.status().map_err(|e| format!("Failed to execute: {}", e))?;
+        let output = cmd.output().map_err(|e| format!("Failed to execute: {}", e))?;
 
         let duration = start.elapsed().as_millis();
         self.metrics.record_duration(name, duration);
 
-        if status.success() {
-            eprintln!("[{}] {} OK ({}ms)", Self::timestamp(), name, duration);
-            Ok(())
-        } else {
+        // Save ALL output to docs/
+        let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
+        let output_file = self.root.join(format!("docs/{}_{}.txt", name, timestamp));
+
+        let stdout_str = String::from_utf8_lossy(&output.stdout);
+        let stderr_str = String::from_utf8_lossy(&output.stderr);
+
+        fs::write(&output_file, stdout_str.as_bytes()).map_err(|e| e.to_string())?;
+        fs::write(output_file.with_extension("stderr"), stderr_str.as_bytes()).map_err(|e| e.to_string())?;
+
+        if !output.status.success() {
             eprintln!("[{}] {} FAILED", Self::timestamp(), name);
-            Err(format!("{} failed with exit code {:?}", name, status.code()))
+            eprintln!("[{}]   Error log: {}", Self::timestamp(), output_file.display());
+            return Err(format!("{} failed", name));
         }
+
+        eprintln!("[{}] {} OK ({}ms)", Self::timestamp(), name, duration);
+        Ok(())
     }
 
     fn timestamp() -> String {
@@ -140,30 +151,54 @@ impl BuildContext {
             return Ok(());
         }
 
-        eprintln!("[{}]   Compiling 8 CUDA kernels", Self::timestamp());
+        eprintln!("[{}]   Compiling 9 CUDA kernels", Self::timestamp());
 
-        let mut cmd = Command::new("nvcc");
-        cmd.current_dir(self.root.join("src"))
-            .arg("-shared")
-            .arg("-o").arg("libgpu_compute.so")
-            .arg("gpu/parallel_tempering.cu")
-            .arg("gpu/hydraulic_erosion.cu")
-            .arg("gpu/marching_cubes.cu")
-            .arg("gpu/verlet_integration.cu")
-            .arg("gpu/collision_detection.cu")
-            .arg("gpu/noise_field.cu")
-            .arg("gpu/spring_forces.cu")
-            .arg("gpu/mc_tables.cu")
-            .arg("-arch=sm_75")
-            .arg("-O3")
-            .arg("--use_fast_math")
-            .arg("-std=c++17")
-            .arg("-I").arg("gpu");
+        #[cfg(target_os = "windows")]
+        {
+            let src_dir = self.root.join("src");
+            let batch_path = src_dir.join("cuda_build_temp.bat");
+
+            let batch_content = r#"@echo off
+call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64
+nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu gpu/hydraulic_erosion.cu gpu/marching_cubes.cu gpu/verlet_integration.cu gpu/collision_detection.cu gpu/noise_field.cu gpu/spring_forces.cu gpu/mc_tables.cu -arch=sm_75 -O3 --use_fast_math -std=c++17 -I gpu
+"#;
+
+            fs::write(&batch_path, batch_content).map_err(|e| e.to_string())?;
+
+            let mut cmd = Command::new(&batch_path);
+            cmd.current_dir(&src_dir);
+
+            let result = self.run_command("cuda_build", &mut cmd);
+
+            let _ = fs::remove_file(&batch_path);
+
+            result
+        }
 
         #[cfg(not(target_os = "windows"))]
-        cmd.arg("-Xcompiler").arg("-fPIC");
+        {
+            let mut cmd = Command::new("nvcc");
+            cmd.current_dir(self.root.join("src"))
+                .arg("-shared")
+                .arg("-o").arg("libgpu_compute.so")
+                .arg("gpu/parallel_tempering.cu")
+                .arg("gpu/convergence.cu")
+                .arg("gpu/hydraulic_erosion.cu")
+                .arg("gpu/marching_cubes.cu")
+                .arg("gpu/verlet_integration.cu")
+                .arg("gpu/collision_detection.cu")
+                .arg("gpu/noise_field.cu")
+                .arg("gpu/spring_forces.cu")
+                .arg("gpu/mc_tables.cu")
+                .arg("-arch=sm_75")
+                .arg("-O3")
+                .arg("--use_fast_math")
+                .arg("-std=c++17")
+                .arg("-I").arg("gpu")
+                .arg("-Xcompiler").arg("-fPIC");
 
-        self.run_command("cuda_build", &mut cmd)
+            self.run_command("cuda_build", &mut cmd)
+        }
     }
 
     fn phase_gpu_compute(&mut self) -> Result<(), String> {
@@ -226,29 +261,11 @@ impl BuildContext {
     fn phase_tests(&mut self, run_tests: bool) -> Result<(), String> {
         let tests_dir = self.root.join("tests");
 
-        let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
-        let output_file = self.root.join(format!("docs/build_tests_{}.txt", timestamp));
-
-        let output = Command::new("dotnet")
-            .current_dir(&tests_dir)
-            .arg("build")
-            .arg("Tests.fsproj")
-            .output()
-            .map_err(|e| format!("Failed to execute build: {}", e))?;
-
-        let stdout_str = String::from_utf8_lossy(&output.stdout);
-        let stderr_str = String::from_utf8_lossy(&output.stderr);
-
-        fs::write(&output_file, stdout_str.as_bytes()).map_err(|e| e.to_string())?;
-        fs::write(output_file.with_extension("stderr"), stderr_str.as_bytes()).map_err(|e| e.to_string())?;
-
-        if !output.status.success() {
-            eprintln!("[{}] build_tests FAILED", Self::timestamp());
-            eprintln!("[{}]   Error log: {}", Self::timestamp(), output_file.display());
-            return Err("Tests build failed".to_string());
-        }
-
-        eprintln!("[{}] build_tests OK", Self::timestamp());
+        self.run_command("build_tests",
+            Command::new("dotnet")
+                .current_dir(&tests_dir)
+                .arg("build")
+                .arg("Tests.fsproj"))?;
 
         if run_tests {
             self.run_command("run_tests",
