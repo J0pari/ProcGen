@@ -473,16 +473,8 @@ module Builders =
         let newBodies =
             Array.mapi (fun i _ ->
                 {
-                    Position = {
-                        X = integrated.Positions.[i].X
-                        Y = integrated.Positions.[i].Y
-                        Z = integrated.Positions.[i].Z
-                    }
-                    Velocity = {
-                        X = integrated.Properties.[i].Velocity.X
-                        Y = integrated.Properties.[i].Velocity.Y
-                        Z = integrated.Properties.[i].Velocity.Z
-                    }
+                    Position = integrated.Positions.[i]
+                    Velocity = integrated.Properties.[i].Velocity
                     Mass = testState.Bodies.[i].Mass
                     Radius = testState.Bodies.[i].Radius
                     Fixed = testState.Bodies.[i].Fixed

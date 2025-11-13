@@ -70,7 +70,7 @@ module Generators =
                 let overlaps =
                     existing
                     |> List.exists (fun (b: RigidBody) ->
-                        let dist = Vector3.distanceTo b.Position pos
+                        let dist = Vector3.Distance(b.Position, pos)
                         dist < (b.Radius + radius))
 
                 if overlaps then
