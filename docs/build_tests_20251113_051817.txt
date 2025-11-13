@@ -1,6 +1,5 @@
   Determining projects to restore...
-  Restored C:\Users\tmdru\Downloads\files\tests\Tests.fsproj (in 447 ms).
-  2 of 3 projects are up-to-date for restore.
+  All projects are up-to-date for restore.
   GPU.Compute -> C:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.dll
   Server -> C:\Users\tmdru\Downloads\files\src\bin\Server\Debug\net8.0\Server.dll
 C:\Users\tmdru\Downloads\files\tests\unknown(1,1): warning FS3551: The source file 'Random.fs' (at position 16/33) already appeared in the compilation list (at position 6/33). Please verify that it is included only once in the project file. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
@@ -53,4 +52,4 @@ C:\Users\tmdru\Downloads\files\tests\ThreadSafeRandomTests.fs(57,22): error FS00
     10 Warning(s)
     12 Error(s)
 
-Time Elapsed 00:00:11.83
+Time Elapsed 00:00:09.93

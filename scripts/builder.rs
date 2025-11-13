@@ -345,6 +345,18 @@ nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu g
 }
 
 fn main() {
+    use std::io::IsTerminal;
+
+    if !std::io::stdout().is_terminal() {
+        eprintln!("ERROR: Builder output is being piped/redirected");
+        eprintln!("Builder must run with full output visible");
+        eprintln!("Do NOT use: ./builder | head");
+        eprintln!("Do NOT use: ./builder | tail");
+        eprintln!("Do NOT use: ./builder | grep");
+        eprintln!("Use: ./builder");
+        std::process::exit(1);
+    }
+
     eprintln!("[{}] ========== BUILD STARTING ==========", BuildContext::timestamp());
 
     let mut ctx = BuildContext::new();
