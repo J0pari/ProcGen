@@ -83,3 +83,27 @@ module CUDA =
         float depositionRate,   // Sediment deposition rate
         int iterations          // Simulation steps
     )
+
+    /// Convergence metrics from GPU
+    [<Struct>]
+    [<StructLayout(LayoutKind.Sequential)>]
+    type ConvergenceMetrics =
+        val mutable GelmanRubin: float32
+        val mutable EffectiveSampleSize: float32
+        val mutable CostStabilization: float32
+        val mutable AvgSwapAcceptance: float32
+        val mutable Iteration: int
+        val mutable HasConverged: int  // bool as int for P/Invoke
+
+    [<DllImport("libgpu_compute.so", CallingConvention = CallingConvention.Cdecl)>]
+    extern void check_convergence_async(
+        float[] costHistory,        // [numChains * historyLength] flattened
+        [<MarshalAs(UnmanagedType.LPArray)>] bool[] swapHistory,
+        int numChains,
+        int historyLength,
+        int swapHistoryLength,
+        float strictness,
+        int iteration,
+        ConvergenceMetrics& outMetrics,
+        nativeint stream            // cudaStream_t
+    )

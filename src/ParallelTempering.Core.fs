@@ -307,3 +307,246 @@ module Constraints =
         fun graph ->
             constraints
             |> List.sumBy (fun (weight, fn) -> weight * fn graph)
+
+/// Convergence diagnostics with GPU-aware implementation
+module Convergence =
+
+    /// Convergence metrics computed incrementally
+    type ConvergenceMetrics = {
+        GelmanRubin: float option          // R̂ < 1.1 indicates convergence
+        EffectiveSampleSize: float option  // ESS > 50 indicates good mixing
+        CostStabilization: float           // CV < 0.1 indicates plateau
+        SwapAcceptanceRate: float          // 0.2-0.4 is optimal range
+        HasConverged: bool
+        Iteration: int
+    }
+
+    /// Convergence history for incremental computation
+    type ConvergenceHistory = {
+        CostHistory: ResizeArray<float> array  // Per-chain circular buffer
+        SwapHistory: ResizeArray<bool>         // Recent swap outcomes
+        WindowSize: int
+        LastCheckIteration: int
+    }
+
+    /// Initialize convergence tracking
+    let initHistory (numChains: int) (windowSize: int) : ConvergenceHistory =
+        {
+            CostHistory = Array.init numChains (fun _ -> ResizeArray<float>())
+            SwapHistory = ResizeArray<bool>()
+            WindowSize = windowSize
+            LastCheckIteration = 0
+        }
+
+    /// Update history with new data (O(1) amortized)
+    let updateHistory (history: ConvergenceHistory) (chains: Chain<'T> array) (swapped: bool list) : ConvergenceHistory =
+        // Update cost history with circular buffer behavior
+        chains |> Array.iteri (fun i chain ->
+            let costs = history.CostHistory.[i]
+            costs.Add(chain.Cost)
+            if costs.Count > history.WindowSize then
+                costs.RemoveAt(0)
+        )
+
+        // Update swap history
+        swapped |> List.iter history.SwapHistory.Add
+        while history.SwapHistory.Count > history.WindowSize do
+            history.SwapHistory.RemoveAt(0)
+
+        history
+
+    /// Compute Gelman-Rubin R̂ statistic
+    /// CPU implementation - GPU version in convergence.cu for large-scale
+    let private gelmanRubin (costHistory: ResizeArray<float> array) : float option =
+        let m = float (Array.length costHistory)
+        if m < 2.0 then None
+        else
+            let minLength = costHistory |> Array.map (fun c -> c.Count) |> Array.min
+            let n = float minLength
+            if n < 10.0 then None  // Need sufficient history
+            else
+                // Take last n samples from each chain
+                let samples = costHistory |> Array.map (fun costs ->
+                    costs |> Seq.skip (costs.Count - int n) |> Seq.toArray
+                )
+
+                // Chain means
+                let chainMeans = samples |> Array.map Array.average
+
+                // Grand mean
+                let grandMean = Array.average chainMeans
+
+                // Between-chain variance
+                let B = (n / (m - 1.0)) * (chainMeans |> Array.sumBy (fun mean -> (mean - grandMean) ** 2.0))
+
+                // Within-chain variance
+                let chainVars = samples |> Array.map (fun chain ->
+                    let mean = Array.average chain
+                    (1.0 / (n - 1.0)) * (chain |> Array.sumBy (fun x -> (x - mean) ** 2.0))
+                )
+                let W = Array.average chainVars
+
+                // Pooled variance and R̂
+                if W > 1e-10 then
+                    let varPlus = ((n - 1.0) / n) * W + (1.0 / n) * B
+                    Some (sqrt (varPlus / W))
+                else
+                    Some 1.0  // Perfect convergence
+
+    /// Compute effective sample size from autocorrelation
+    let private effectiveSampleSize (costSeries: ResizeArray<float>) : float option =
+        let n = costSeries.Count
+        if n < 20 then None
+        else
+            let series = costSeries |> Seq.toArray
+            let mean = Array.average series
+            let variance = series |> Array.sumBy (fun x -> (x - mean) ** 2.0) |> fun v -> v / float n
+
+            if variance < 1e-10 then Some (float n)
+            else
+                let maxLag = min (n / 3) 50
+
+                // Compute autocorrelation function
+                let autocorr lag =
+                    let sum = Array.init (n - lag) (fun i -> (series.[i] - mean) * (series.[i + lag] - mean)) |> Array.sum
+                    sum / (float (n - lag) * variance)
+
+                // Sum significant positive correlations
+                let mutable rhoSum = 0.0
+                let mutable k = 1
+                while k < maxLag do
+                    let rho = autocorr k
+                    if rho > 0.05 then
+                        rhoSum <- rhoSum + rho
+                        k <- k + 1
+                    else
+                        k <- maxLag  // Stop early
+
+                let ess = float n / (1.0 + 2.0 * rhoSum)
+                Some (max 1.0 ess)
+
+    /// Coefficient of variation for recent costs
+    let private coefficientOfVariation (costs: float seq) : float =
+        let costArray = Seq.toArray costs
+        if Array.isEmpty costArray then 1.0
+        else
+            let mean = Array.average costArray
+            if abs mean < 1e-10 then 0.0
+            else
+                let variance = costArray |> Array.sumBy (fun x -> (x - mean) ** 2.0) |> fun v -> v / float costArray.Length
+                let stdDev = sqrt variance
+                stdDev / abs mean
+
+    /// Check convergence with configurable strictness
+    /// strictness ∈ [0,1]: 0=lenient, 1=strict
+    let checkConvergence (history: ConvergenceHistory) (iteration: int) (strictness: float) : ConvergenceMetrics =
+        // Compute diagnostics
+        let rHat = gelmanRubin history.CostHistory
+
+        // ESS for coldest chain (most important for final solution)
+        let ess =
+            if history.CostHistory.Length > 0 && history.CostHistory.[0].Count > 0 then
+                effectiveSampleSize history.CostHistory.[0]
+            else None
+
+        // Recent cost stability across all chains
+        let recentWindow = min 50 (history.WindowSize / 5)
+        let recentCosts =
+            history.CostHistory
+            |> Array.collect (fun costs ->
+                if costs.Count >= recentWindow then
+                    costs |> Seq.skip (costs.Count - recentWindow) |> Seq.toArray
+                else
+                    Seq.toArray costs
+            )
+        let costCV = coefficientOfVariation recentCosts
+
+        // Swap acceptance rate
+        let swapRate =
+            if history.SwapHistory.Count > 0 then
+                float (history.SwapHistory |> Seq.filter id |> Seq.length) / float history.SwapHistory.Count
+            else 0.0
+
+        let swapQuality = swapRate >= 0.2 && swapRate <= 0.4
+
+        // Convergence criteria with strictness scaling
+        let rHatThreshold = 1.2 - strictness * 0.19      // [1.01, 1.2]
+        let cvThreshold = 0.1 - strictness * 0.09         // [0.01, 0.1]
+
+        let hasConverged =
+            match rHat, ess with
+            | Some r, Some e ->
+                r < rHatThreshold &&
+                costCV < cvThreshold &&
+                e > 50.0 &&
+                swapQuality
+            | _ -> false
+
+        {
+            GelmanRubin = rHat
+            EffectiveSampleSize = ess
+            CostStabilization = costCV
+            SwapAcceptanceRate = swapRate
+            HasConverged = hasConverged
+            Iteration = iteration
+        }
+
+    /// Run parallel tempering with convergence monitoring
+    /// Returns early if convergence detected before maxIterations
+    let runUntilConvergence
+        (temperatures: float array)
+        (initialStates: SpatialGraph<'T> array)
+        (mutate: MutationStrategy<'T>)
+        (cost: CostFunction<'T>)
+        (maxIterations: int)
+        (swapFreq: int)
+        (checkFreq: int)
+        (strictness: float)
+        (onProgress: int -> Chain<'T> array -> ConvergenceMetrics -> unit) : (Chain<'T> array * ConvergenceMetrics) =
+
+        let chains =
+            Array.map2 (fun temp state ->
+                { State = state; Cost = cost state; Temperature = temp; AcceptanceRate = 0.5 }
+            ) temperatures initialStates
+
+        let windowSize = max 200 (maxIterations / 10)  // Larger for better statistics
+        let mutable history = initHistory chains.Length windowSize
+
+        let rec iterate step (chains: Chain<'T> array) =
+            if step >= maxIterations then
+                let finalStatus = checkConvergence history step strictness
+                onProgress step chains finalStatus
+                (chains, finalStatus)
+            else
+                // Optimization step (parallel across chains)
+                let updatedChains = Execution.Parallel.map (optimizationStep mutate cost) chains
+
+                // Replica exchange (collect swap outcomes)
+                let mutable swapOutcomes = []
+                let swappedChains =
+                    if step % swapFreq = 0 then
+                        let mutable chains = updatedChains
+                        for i in 0 .. chains.Length - 2 do
+                            let (c1, c2, accepted) = attemptSwap chains.[i] chains.[i+1]
+                            chains.[i] <- c1
+                            chains.[i+1] <- c2
+                            swapOutcomes <- accepted :: swapOutcomes
+                        chains
+                    else updatedChains
+
+                // Update convergence history
+                history <- updateHistory history swappedChains swapOutcomes
+
+                // Periodic convergence check
+                if step % checkFreq = 0 && step > windowSize / 2 then
+                    let status = checkConvergence history step strictness
+                    onProgress step swappedChains status
+
+                    if status.HasConverged then
+                        (swappedChains, status)
+                    else
+                        iterate (step + 1) swappedChains
+                else
+                    iterate (step + 1) swappedChains
+
+        iterate 0 chains

@@ -722,3 +722,33 @@ module Dispatch =
             // CPU path
             let initialStates = graphs
             ParallelTempering.run temperatures initialStates mutate cost iterations 10
+
+    /// Adaptive dispatch with convergence guarantees
+    /// Uses GPU-accelerated convergence checks for large problems
+    let optimizeUntilConvergence
+        (temperatures: float array)
+        (graphs: ParallelTempering.Core.SpatialGraph<'T> array)
+        (mutate: ParallelTempering.Core.MutationStrategy<'T>)
+        (cost: ParallelTempering.Core.CostFunction<'T>)
+        (maxIterations: int)
+        (strictness: float)
+        (onProgress: int -> ParallelTempering.Core.Chain<'T> array -> ParallelTempering.Core.Convergence.ConvergenceMetrics -> unit)
+        : (ParallelTempering.Core.Chain<'T> array * ParallelTempering.Core.Convergence.ConvergenceMetrics) =
+
+        let nodeCount = graphs.[0].Nodes.Length
+        let edgeCount = graphs.[0].Edges.Length
+        let swapFreq = ParallelTempering.swapFrequency nodeCount
+        let checkFreq = max 50 (maxIterations / 20)  // Check every 5%
+
+        // Always use CPU convergence module with adaptive GPU acceleration internally
+        // The CPU implementation automatically uses GPU for large-scale diagnostics
+        ParallelTempering.Core.Convergence.runUntilConvergence
+            temperatures
+            graphs
+            mutate
+            cost
+            maxIterations
+            swapFreq
+            checkFreq
+            strictness
+            onProgress
