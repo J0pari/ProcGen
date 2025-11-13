@@ -1,0 +1,17 @@
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Physics.deps.json
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Physics.dll
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Physics.pdb
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.pdb
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Interop.pdb
+C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.pdb
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.fsproj.AssemblyReference.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.AssemblyInfoInputs.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.AssemblyInfo.fs
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.fsproj.CoreCompileInputs.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.sourcelink.json
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.fsproj.Up2Date
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.dll
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\refint\Physics.dll
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Physics.pdb
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\ref\Physics.dll

@@ -308,12 +308,12 @@ nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu g
     }
 
     fn phase_server(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Debug/net8.0/Server.dll");
+        let dll = self.root.join("src/bin/Server/Debug/net8.0/Server.dll");
         self.build_and_record("build_server", "Server.fsproj", &dll, "server")
     }
 
     fn phase_cli(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Debug/net8.0/CLI.dll");
+        let dll = self.root.join("src/bin/CLI/Debug/net8.0/CLI.dll");
         self.build_and_record("build_cli", "CLI.fsproj", &dll, "cli")
     }
 
