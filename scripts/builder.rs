@@ -399,13 +399,14 @@ fn main() {
     let result = ctx.phase_clean()
         .and_then(|_| ctx.phase_restore())
         .and_then(|_| ctx.phase_cuda())
-        .and_then(|_| ctx.phase_core())
-        .and_then(|_| ctx.phase_execution())
-        .and_then(|_| ctx.phase_gpu_interop())
-        .and_then(|_| ctx.phase_physics())
-        .and_then(|_| ctx.phase_terrain())
-        .and_then(|_| ctx.phase_server())
-        .and_then(|_| ctx.phase_cli())
+        .and_then(|_| {
+            let src_dir = ctx.root.join("src");
+            ctx.run_command("build_solution",
+                Command::new("dotnet")
+                    .current_dir(&src_dir)
+                    .arg("build")
+                    .arg("Server.sln"))
+        })
         .and_then(|_| ctx.phase_tests(run_tests));
 
     ctx.finalize();

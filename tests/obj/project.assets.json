@@ -2656,26 +2656,73 @@
           "build/net6.0/xunit.runner.visualstudio.props": {}
         }
       },
-      "GPU.Compute/1.0.0": {
+      "Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Execution": "1.0.0",
+          "FSharp.Core": "8.0.403"
+        },
+        "compile": {
+          "bin/placeholder/Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Core.dll": {}
+        }
+      },
+      "Execution/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "FSharp.Core": "8.0.403"
         },
         "compile": {
-          "bin/placeholder/GPU.Compute.dll": {}
+          "bin/placeholder/Execution.dll": {}
         },
         "runtime": {
-          "bin/placeholder/GPU.Compute.dll": {}
+          "bin/placeholder/Execution.dll": {}
+        }
+      },
+      "GPU.Interop/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Core": "1.0.0",
+          "FSharp.Core": "8.0.403"
+        },
+        "compile": {
+          "bin/placeholder/GPU.Interop.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GPU.Interop.dll": {}
+        }
+      },
+      "Physics/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Core": "1.0.0",
+          "FSharp.Core": "8.0.403",
+          "GPU.Interop": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Physics.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Physics.dll": {}
         }
       },
       "Server/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "Core": "1.0.0",
+          "Execution": "1.0.0",
           "FSharp.Core": "8.0.403",
-          "GPU.Compute": "1.0.0",
-          "Giraffe": "7.0.2"
+          "GPU.Interop": "1.0.0",
+          "Giraffe": "7.0.2",
+          "Physics": "1.0.0",
+          "Terrain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Server.dll": {}
@@ -2686,6 +2733,23 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Terrain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Core": "1.0.0",
+          "Execution": "1.0.0",
+          "FSharp.Core": "8.0.403",
+          "GPU.Interop": "1.0.0",
+          "Physics": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Terrain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Terrain.dll": {}
+        }
       }
     }
   },
@@ -8492,15 +8556,35 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "GPU.Compute/1.0.0": {
+    "Core/1.0.0": {
       "type": "project",
-      "path": "../src/GPU.Compute.fsproj",
-      "msbuildProject": "../src/GPU.Compute.fsproj"
+      "path": "../src/Core.fsproj",
+      "msbuildProject": "../src/Core.fsproj"
+    },
+    "Execution/1.0.0": {
+      "type": "project",
+      "path": "../src/Execution.fsproj",
+      "msbuildProject": "../src/Execution.fsproj"
+    },
+    "GPU.Interop/1.0.0": {
+      "type": "project",
+      "path": "../src/GPU.Interop.fsproj",
+      "msbuildProject": "../src/GPU.Interop.fsproj"
+    },
+    "Physics/1.0.0": {
+      "type": "project",
+      "path": "../src/Physics.fsproj",
+      "msbuildProject": "../src/Physics.fsproj"
     },
     "Server/1.0.0": {
       "type": "project",
       "path": "../src/Server.fsproj",
       "msbuildProject": "../src/Server.fsproj"
+    },
+    "Terrain/1.0.0": {
+      "type": "project",
+      "path": "../src/Terrain.fsproj",
+      "msbuildProject": "../src/Terrain.fsproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -8509,15 +8593,19 @@
       "Accord.Math >= 3.8.0",
       "Accord.Statistics >= 3.8.0",
       "BenchmarkDotNet >= 0.15.6",
+      "Core >= 1.0.0",
+      "Execution >= 1.0.0",
       "FSharp.Core >= 8.0.403",
       "FSharp.Stats >= 0.6.0",
       "FsCheck >= 3.3.2",
       "FsCheck.Xunit >= 3.3.2",
-      "GPU.Compute >= 1.0.0",
+      "GPU.Interop >= 1.0.0",
       "MathNet.Numerics >= 5.0.0",
       "MathNet.Numerics.FSharp >= 5.0.0",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
+      "Physics >= 1.0.0",
       "Server >= 1.0.0",
+      "Terrain >= 1.0.0",
       "Unquote >= 7.0.1",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.5.3",
@@ -8550,11 +8638,23 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
-              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Core.fsproj"
+            },
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Execution.fsproj"
+            },
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj"
+            },
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Physics.fsproj"
             },
             "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
               "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj"
+            },
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj"
             }
           }
         }

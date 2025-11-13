@@ -1,0 +1,18 @@
+
+========== RESTORE_ALL ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\CLI.fsproj (in 234 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\Server.fsproj (in 234 ms).
+  Restored C:\Users\tmdru\Downloads\files\src\Execution.fsproj (in 234 ms).
+========== BUILD_CORE ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\Core.fsproj (in 203 ms).
+FSC : error FS0078: Unable to find the file 'C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\ref\Execution.dll' in any of C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.21\ref\net8.0 C:\Users\tmdru\Downloads\files\src C:\Program Files\dotnet\sdk\8.0.415\FSharp\ [C:\Users\tmdru\Downloads\files\src\Core.fsproj]
+
+Build FAILED.
+
+FSC : error FS0078: Unable to find the file 'C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\ref\Execution.dll' in any of C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.21\ref\net8.0 C:\Users\tmdru\Downloads\files\src C:\Program Files\dotnet\sdk\8.0.415\FSharp\ [C:\Users\tmdru\Downloads\files\src\Core.fsproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.94
