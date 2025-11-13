@@ -121,7 +121,7 @@ module Assertions =
         with
         | ex -> failwithf "Should not throw but threw: %s" ex.Message
 
-    let shouldBeValidHandle (handle: int) : unit =
+    let shouldBeValidHandle (handle: Physics.Service.BodyHandle) : unit =
         test <@ handle >= 0 @>
 
     let shouldRejectInvalid (f: unit -> unit) : unit =
@@ -138,8 +138,8 @@ module Assertions =
     let shouldBeInvalidHandle (handle: int) : unit =
         test <@ handle < 0 @>
 
-    let shouldBeUnitVector (v: Vector3) : unit =
-        let magnitude = Vector3.magnitude v
+    let shouldBeUnitVector (v: System.Numerics.Vector3) : unit =
+        let magnitude = v.Length()
         shouldBeWithin 0.001 1.0 (float magnitude)
 
     let shouldBeNormalized (values: float array) : unit =
