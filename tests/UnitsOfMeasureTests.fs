@@ -95,8 +95,8 @@ module UnitsOfMeasureTests =
     [<Fact>]
     let ``PhysicsState preserves units through update`` () =
         let state = {
-            Position = { X = 10.0<m>; Y = 20.0<m>; Z = 30.0<m> }
-            Velocity = { X = 1.0<m/s>; Y = 2.0<m/s>; Z = 3.0<m/s> }
+            Position = Vector3(10.0<m>, 20.0<m>, 30.0<m>)
+            Velocity = Vector3(1.0<m/s>, 2.0<m/s>, 3.0<m/s>)
             TimeStep = 0.1<s>
         }
         let newPos = {
@@ -110,9 +110,9 @@ module UnitsOfMeasureTests =
     [<Fact>]
     let ``Verlet integration preserves units`` () =
         let dt = 0.016<s>
-        let pos = { X = 0.0<m>; Y = 0.0<m>; Z = 0.0<m> }
-        let vel = { X = 10.0<m/s>; Y = 0.0<m/s>; Z = 0.0<m/s> }
-        let acc = { X = 0.0<m/s^2>; Y = -9.8<m/s^2>; Z = 0.0<m/s^2> }
+        let pos = Vector3(0.0<m>, 0.0<m>, 0.0<m>)
+        let vel = Vector3(10.0<m/s>, 0.0<m/s>, 0.0<m/s>)
+        let acc = Vector3(0.0<m/s^2>, -9.8<m/s^2>, 0.0<m/s^2>)
 
         let newPos: Vector3<m> = {
             X = pos.X + vel.X * dt + acc.X * dt * dt * 0.5

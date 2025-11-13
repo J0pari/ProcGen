@@ -36,13 +36,13 @@ module Generators =
             let! x = genFloat32Range minVal maxVal
             let! y = genFloat32Range minVal maxVal
             let! z = genFloat32Range minVal maxVal
-            return { X = x; Y = y; Z = z }
+            return Vector3(x, y, z)
         }
 
     let genUnitVector : Gen<Vector3> =
         gen {
             let! v = genVector3 -10.0f 10.0f
-            return Vector3.normalize v
+            return Vector3.Normalize(v)
         }
 
     let genPositionArray (n: int) (bounds: float32) : Gen<Vector3 array> =
@@ -185,7 +185,7 @@ module Generators =
                 Core.PhysicsState.Bodies = bodies
                 Springs = springs
                 TimeStep = timeStep
-                Gravity = { Core.Vector3.X = 0.0f; Y = -9.81f; Z = 0.0f }
+                Gravity = { Vector3.X = 0.0f; Y = -9.81f; Z = 0.0f }
             }
         }
 
@@ -219,11 +219,11 @@ module Generators =
 
     let shrinkVector3 (v: Vector3) : Vector3 seq =
         seq {
-            if abs v.X > 0.1f then yield { v with X = v.X / 2.0f }
-            if abs v.Y > 0.1f then yield { v with Y = v.Y / 2.0f }
-            if abs v.Z > 0.1f then yield { v with Z = v.Z / 2.0f }
+            if abs v.X > 0.1f then yield Vector3(v.X / 2.0f, v.Y, v.Z)
+            if abs v.Y > 0.1f then yield Vector3(v.X, v.Y / 2.0f, v.Z)
+            if abs v.Z > 0.1f then yield Vector3(v.X, v.Y, v.Z / 2.0f)
             if v.X <> 0.0f || v.Y <> 0.0f || v.Z <> 0.0f then
-                yield Vector3.zero
+                yield Vector3.Zero
         }
 
     let shrinkRigidBody (body: RigidBody) : RigidBody seq =
