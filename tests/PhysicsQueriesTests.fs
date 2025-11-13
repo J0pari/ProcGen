@@ -67,7 +67,7 @@ module PhysicsQueriesTests =
         shouldHitAll world (sphereQuery().At(Vector3.Zero).WithRadius(10.0f).Build()) (fun bodies -> bodies.Length = 0)
 
     [<Property>]
-    let ``All hit normals are unit vectors`` (origin: Vector3) (direction: Vector3) =
+    let ``All hit normals are unit vectors`` (origin: System.Numerics.Vector3) (direction: System.Numerics.Vector3) =
         direction.Length() > 0.01f ==> lazy (
             let world = physicsWorld().WithBody(body().At(Vector3(0.0f, 0.0f, 5.0f)).Build()).Build()
             let ray = rayBuilder().From(origin).Direction(Vector3.Normalize(direction)).MaxDistance(100.0f).Build()

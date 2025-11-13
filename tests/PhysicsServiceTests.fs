@@ -91,7 +91,7 @@ module PhysicsServiceTests =
             world.AddRigidBody(body().BuildData()) |> ignore
             world.AddRigidBody(body().BuildData()) |> ignore
             stepN world 10
-            shouldTrack world (fun (stats: Physics.Service.PhysicsStats) ->
+            shouldTrack world (fun stats ->
                 stats.FrameCount = 10 && stats.BodyCount = 2))
 
     [<Fact>]
@@ -100,11 +100,11 @@ module PhysicsServiceTests =
             world.AddRigidBody(body().BuildData()) |> ignore
             stepN world 5
             world.Clear()
-            shouldTrack world (fun (stats: Physics.Service.PhysicsStats) -> stats.BodyCount = 0 && stats.FrameCount = 0))
+            shouldTrack world (fun stats -> stats.BodyCount = 0 && stats.FrameCount = 0))
 
     [<Property>]
     let ``Frame count equals step count`` (steps: PositiveInt) =
         let n = min 100 (int steps)
         TestInfrastructure.Lifecycle.withWorld (fun world ->
             stepN world n
-            shouldTrack world (fun (stats: Physics.Service.PhysicsStats) -> stats.FrameCount = n))
+            shouldTrack world (fun stats -> stats.FrameCount = n))
