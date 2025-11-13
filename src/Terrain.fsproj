@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="ProceduralGeneration.fs" />
     <Compile Include="Terrain.Constraints.fs" />
     <Compile Include="Terrain.Generation.fs" />
     <Compile Include="Terrain.Erosion.fs" />
