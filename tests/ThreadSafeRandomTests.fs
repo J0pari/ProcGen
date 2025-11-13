@@ -6,6 +6,7 @@ module ThreadSafeRandomTests =
     open System.Threading
     open global.Xunit
     open FsCheck
+    open FsCheck.FSharp
     open FsCheck.Xunit
     open TestInfrastructure.Core
     open TestInfrastructure.Assertions

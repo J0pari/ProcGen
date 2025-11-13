@@ -365,7 +365,7 @@ module Builders =
         fullyConnectedGraph 5
 
     /// Convert test Graph to SpatialGraph with generated positions
-    let toSpatialGraph (graph: Graph) : ParallelTempering.Core.SpatialGraph<int> =
+    let toSpatialGraph (graph: Graph) : ParallelTempering.Core.SpatialGraph<ProceduralGeneration.NodeType> =
         let nodeCount = Set.count graph.Nodes
         let nodes = graph.Nodes |> Set.toArray
         let positions =

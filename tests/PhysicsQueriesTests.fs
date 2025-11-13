@@ -29,7 +29,7 @@ module PhysicsQueriesTests =
         let ray = rayBuilder().From(Vector3.Zero).Direction(Vector3.UnitZ).MaxDistance(20.0f).Build()
         match raycast world ray with
         | Some hit ->
-            shouldBeWithinDistance 5.0 (float hit.Distance) 0.1
+            shouldBeWithinDistance 5.0f (float32 hit.Distance) 0.1f
             shouldBeUnitVector hit.Normal
             shouldBeValidHandle hit.BodyHandle
         | None -> Assert.True(false, "Expected hit")
@@ -57,7 +57,7 @@ module PhysicsQueriesTests =
         let world = physicsWorld().WithBody(body().At(Vector3(0.0f, 0.0f, 5.0f)).Build()).Build()
         let ray = rayBuilder().From(Vector3.Zero).Direction(Vector3.UnitZ).MaxDistance(20.0f).Build()
         match raycast world ray with
-        | Some hit -> Assert.True(hit.Distance >= 0.0f && hit.Distance <= 20.0f)
+        | Some hit -> Assert.True(hit.Distance >= 0.0 && hit.Distance <= 20.0)
         | None -> Assert.True(false, "Expected hit")
 
     [<Fact>]
@@ -68,7 +68,7 @@ module PhysicsQueriesTests =
 
     [<Property>]
     let ``All hit normals are unit vectors`` (origin: Vector3) (direction: Vector3) =
-        System.Numerics.Vector3.Length(direction) > 0.01f ==> lazy (
+        direction.Length() > 0.01f ==> lazy (
             let world = physicsWorld().WithBody(body().At(Vector3(0.0f, 0.0f, 5.0f)).Build()).Build()
             let ray = rayBuilder().From(origin).Direction(Vector3.Normalize(direction)).MaxDistance(100.0f).Build()
             match raycast world ray with
