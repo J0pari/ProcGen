@@ -447,8 +447,18 @@ module Assertions =
             Assert.True(predicate interpolated, "shouldInterpolate predicate failed")
         | None -> Assert.True(false, "shouldInterpolate: no interpolated state available")
 
-    let shouldPreventRaces (spec: 'Spec) : unit =
-        Assert.True(true)
+    let shouldPreventRaces (spec: {| Setup: unit -> 'T; Operation: 'T -> int -> unit; Threads: int; OperationsPerThread: int; Validate: 'T -> bool |}) : unit =
+        let state = spec.Setup()
+        let threads =
+            [| for tid in 0 .. spec.Threads - 1 ->
+                System.Threading.Thread(fun () ->
+                    for _ in 1 .. spec.OperationsPerThread do
+                        spec.Operation state tid
+                )
+            |]
+        threads |> Array.iter (fun t -> t.Start())
+        threads |> Array.iter (fun t -> t.Join())
+        Assert.True(spec.Validate state, "shouldPreventRaces: validation failed - race condition detected")
 
     let shouldBeUnique (items: 'T list) : unit =
         let distinct = items |> List.distinct
