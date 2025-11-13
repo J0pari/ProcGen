@@ -252,7 +252,7 @@ module Builders =
         let mutable count = 0
         let mutable distribution = "uniform"
         let mutable bounds = 100.0f
-        let mutable center = Vector3.zero
+        let mutable center = System.Numerics.Vector3.Zero
         let mutable seed = System.DateTime.Now.Ticks |> int
 
         member __.WithCount(n: int) =
@@ -263,7 +263,7 @@ module Builders =
             bounds <- b
             __
 
-        member __.WithCenter(c: Vector3) =
+        member __.WithCenter(c: System.Numerics.Vector3) =
             center <- c
             __
 
@@ -282,7 +282,7 @@ module Builders =
 
         member __.AtSamePoint(pt: System.Numerics.Vector3) =
             distribution <- "samepoint"
-            center <- { X = pt.X; Y = pt.Y; Z = pt.Z }
+            center <- pt
             __
 
         member __.Spherical() =
@@ -300,28 +300,28 @@ module Builders =
                 Array.init count (fun _ -> center)
             | "clustered" ->
                 Array.init count (fun _ ->
-                    {
-                        X = center.X + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
-                        Y = center.Y + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
-                        Z = center.Z + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
-                    })
+                    System.Numerics.Vector3(
+                        center.X + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds,
+                        center.Y + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds,
+                        center.Z + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
+                    ))
             | "uniform" ->
                 Array.init count (fun _ ->
-                    {
-                        X = center.X + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
-                        Y = center.Y + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
-                        Z = center.Z + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
-                    })
+                    System.Numerics.Vector3(
+                        center.X + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds,
+                        center.Y + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds,
+                        center.Z + (float32 (rng.NextDouble() * 2.0 - 1.0)) * bounds
+                    ))
             | "spherical" ->
                 Array.init count (fun _ ->
                     let theta = rng.NextDouble() * 2.0 * Math.PI
                     let phi = Math.Acos(2.0 * rng.NextDouble() - 1.0)
                     let r = float32 (rng.NextDouble() * float bounds)
-                    {
-                        X = center.X + r * float32 (Math.Sin(phi) * Math.Cos(theta))
-                        Y = center.Y + r * float32 (Math.Sin(phi) * Math.Sin(theta))
-                        Z = center.Z + r * float32 (Math.Cos(phi))
-                    })
+                    System.Numerics.Vector3(
+                        center.X + r * float32 (Math.Sin(phi) * Math.Cos(theta)),
+                        center.Y + r * float32 (Math.Sin(phi) * Math.Sin(theta)),
+                        center.Z + r * float32 (Math.Cos(phi))
+                    ))
             | "grid" ->
                 let side = int (Math.Ceiling(Math.Pow(float count, 1.0/3.0)))
                 Array.init count (fun i ->
@@ -329,11 +329,11 @@ module Builders =
                     let y = (i / side) % side
                     let z = i / (side * side)
                     let spacing = 2.0f * bounds / float32 side
-                    {
-                        X = center.X + (float32 x - float32 side / 2.0f) * spacing
-                        Y = center.Y + (float32 y - float32 side / 2.0f) * spacing
-                        Z = center.Z + (float32 z - float32 side / 2.0f) * spacing
-                    })
+                    System.Numerics.Vector3(
+                        center.X + (float32 x - float32 side / 2.0f) * spacing,
+                        center.Y + (float32 y - float32 side / 2.0f) * spacing,
+                        center.Z + (float32 z - float32 side / 2.0f) * spacing
+                    ))
             | _ -> Array.empty
 
     let linearGraph (nodeCount: int) : Graph =

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ThreadSafe.fs" />
+    <Compile Include="SpatialHash.fs" />
+    <Compile Include="ParallelTempering.Core.fs" />
+    <Compile Include="Voxel.Core.fs" />
+    <Compile Include="Noise.fs" />
+  </ItemGroup>
+
+</Project>

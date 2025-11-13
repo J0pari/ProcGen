@@ -1,6 +1,0 @@
-c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Server.fsproj.AssemblyReference.cache
-c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Server.AssemblyInfoInputs.cache
-c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Server.AssemblyInfo.fs
-c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Server.fsproj.CoreCompileInputs.cache
-c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Server.MvcApplicationPartsAssemblyInfo.cache
-c:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Server.sourcelink.json

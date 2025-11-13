@@ -6,7 +6,6 @@ module SpatialHashTests =
     open global.Xunit
     open FsCheck
     open FsCheck.Xunit
-    open TestInfrastructure.Core
     open TestInfrastructure.Assertions
     open TestInfrastructure.PropertyDSL
     open TestInfrastructure.Builders
@@ -26,7 +25,7 @@ module SpatialHashTests =
 
     [<Fact>]
     let ``Boundary semantics distance equals minDistance does not collide`` () =
-        let positions = [| Vector3.zero; { X = 2.0f; Y = 0.0f; Z = 0.0f } |]
+        let positions = [| Vector3.Zero; Vector3(2.0f, 0.0f, 0.0f) |]
         let collisions = SpatialHash.detectCollisions 2.0f positions
         shouldNotDetect collisions
 
@@ -75,8 +74,8 @@ module SpatialHashTests =
 
     [<Fact>]
     let ``Penalty increases with overlap magnitude`` () =
-        let separated = [| Vector3.zero; { X = 10.0f; Y = 0.0f; Z = 0.0f } |]
-        let overlapping = [| Vector3.zero; { X = 0.5f; Y = 0.0f; Z = 0.0f } |]
+        let separated = [| Vector3.Zero; Vector3(10.0f, 0.0f, 0.0f) |]
+        let overlapping = [| Vector3.Zero; Vector3(0.5f, 0.0f, 0.0f) |]
         shouldIncrease (SpatialHash.collisionPenalty 2.0f overlapping) (SpatialHash.collisionPenalty 2.0f separated)
 
     [<Property>]

@@ -7,27 +7,10 @@
 
   <ItemGroup>
     <Compile Include="AdaptiveConfig.fs" />
-    <Compile Include="SpatialHash.fs" />
-    <Compile Include="ThreadSafe.fs" />
-    <Compile Include="Execution.fs" />
-    <Compile Include="ParallelTempering.Core.fs" />
-    <Compile Include="ProceduralGeneration.fs" />
-    <Compile Include="Physics.fs" />
-    <Compile Include="Physics.Service.fs" />
-    <Compile Include="Physics.Constraints.fs" />
-    <Compile Include="Physics.Queries.fs" />
-    <Compile Include="Physics.Exports.fs" />
-    <Compile Include="Physics.Sync.fs" />
     <Compile Include="Deterministic.fs" />
     <Compile Include="Cache.fs" />
     <Compile Include="Observability.fs" />
     <Compile Include="AsyncGeneration.fs" />
-    <Compile Include="Voxel.Core.fs" />
-    <Compile Include="Noise.fs" />
-    <Compile Include="GPU.Wrappers.fs" />
-    <Compile Include="Terrain.Constraints.fs" />
-    <Compile Include="Terrain.Generation.fs" />
-    <Compile Include="Terrain.Erosion.fs" />
     <Compile Include="Server.Production.fs" />
   </ItemGroup>
 
@@ -36,7 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="GPU.Compute.fsproj" />
+    <ProjectReference Include="Core.fsproj" />
+    <ProjectReference Include="Execution.fsproj" />
+    <ProjectReference Include="GPU.Interop.fsproj" />
+    <ProjectReference Include="Physics.fsproj" />
+    <ProjectReference Include="Terrain.fsproj" />
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ module PropertyDSL =
     let associative (arb: Arbitrary<'T>) (f: 'T -> 'T -> 'T) : unit =
         AlgebraicLaws.associativity arb f
 
-    let forAllGraphs (property: ParallelTempering.Core.SpatialGraph<int> -> bool) : unit =
+    let forAllGraphs (property: ParallelTempering.Core.SpatialGraph<ProceduralGeneration.NodeType> -> bool) : unit =
         let graphGen = Generators.genConnectedGraph 5 10 0.3 |> Gen.map Builders.toSpatialGraph
         forAll (Arb.fromGen graphGen) property
 

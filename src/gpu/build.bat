@@ -26,6 +26,18 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 nvcc -c -o hydraulic_erosion.obj hydraulic_erosion.cu -arch=sm_86
 if %errorlevel% neq 0 exit /b %errorlevel%
 
+nvcc -c -o convergence.obj convergence.cu -arch=sm_86
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+nvcc -c -o mc_tables_texture.obj mc_tables_texture.cu -arch=sm_86
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+nvcc -c -o noise_field.obj noise_field.cu -arch=sm_86
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+nvcc -c -o spring_forces.obj spring_forces.cu -arch=sm_86
+if %errorlevel% neq 0 exit /b %errorlevel%
+
 echo Linking shared library...
 
 REM Link into shared DLL
@@ -35,6 +47,10 @@ nvcc -shared -o libgpu_tempering.dll ^
     verlet_integration.obj ^
     marching_cubes.obj ^
     hydraulic_erosion.obj ^
+    convergence.obj ^
+    mc_tables_texture.obj ^
+    noise_field.obj ^
+    spring_forces.obj ^
     -lcudart
 
 if %errorlevel% neq 0 exit /b %errorlevel%

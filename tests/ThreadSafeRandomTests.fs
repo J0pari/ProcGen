@@ -54,11 +54,12 @@ module ThreadSafeRandomTests =
 
     [<Property>]
     let ``Range validation output within bounds`` (min: int) (max: int) =
-        min < max && max - min < 10000 ==> lazy (
+        if min < max && max - min < 10000 then
             let rng = randomBuilder().Build()
             let samples = [for i in 1..100 -> rng.Next(min, max)]
             samples |> List.forall (fun x -> x >= min && x < max)
-        )
+        else
+            true
 
     [<Fact>]
     let ``Statistical quality chi-square test`` () =

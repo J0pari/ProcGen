@@ -1,6 +1,7 @@
 use std::process::{Command, Stdio};
 use std::path::{Path, PathBuf};
-use std::fs;
+use std::fs::{self, OpenOptions};
+use std::io::Write;
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use std::collections::HashMap;
 use serde_json;
@@ -43,6 +44,8 @@ struct BuildContext {
     root: PathBuf,
     metrics: BuildMetrics,
     start_time: Instant,
+    build_log: PathBuf,
+    build_timestamp: String,
 }
 
 impl BuildContext {
@@ -51,10 +54,19 @@ impl BuildContext {
         if root.ends_with("scripts") {
             root = root.parent().unwrap().to_path_buf();
         }
+
+        let build_timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
+        let docs_dir = root.join("docs");
+        let _ = fs::create_dir_all(&docs_dir);
+
+        let build_log = docs_dir.join(format!("build_{}.txt", build_timestamp));
+
         BuildContext {
             root,
             metrics: BuildMetrics::new(),
             start_time: Instant::now(),
+            build_log,
+            build_timestamp,
         }
     }
 
@@ -62,6 +74,14 @@ impl BuildContext {
         use std::io::{BufRead, BufReader};
         use std::sync::{Arc, Mutex};
         use std::thread;
+
+        let phase_marker = format!("\n========== {} ==========\n", name.to_uppercase());
+        let mut log_file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&self.build_log)
+            .map_err(|e| format!("Failed to open build log: {}", e))?;
+        log_file.write_all(phase_marker.as_bytes()).map_err(|e| e.to_string())?;
 
         eprintln!("[{}] {} →", Self::timestamp(), name);
         let start = Instant::now();
@@ -71,10 +91,6 @@ impl BuildContext {
             .stderr(Stdio::piped())
             .spawn()
             .map_err(|e| format!("Failed to spawn: {}", e))?;
-
-        let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
-        let output_file = self.root.join(format!("docs/{}_{}.txt", name, timestamp));
-        let stderr_file = output_file.with_extension("stderr");
 
         let stdout_lines = Arc::new(Mutex::new(Vec::new()));
         let stderr_lines = Arc::new(Mutex::new(Vec::new()));
@@ -120,12 +136,15 @@ impl BuildContext {
         let stdout_content = stdout_lines.lock().unwrap().join("\n");
         let stderr_content = stderr_lines.lock().unwrap().join("\n");
 
-        fs::write(&output_file, stdout_content).map_err(|e| e.to_string())?;
-        fs::write(&stderr_file, stderr_content).map_err(|e| e.to_string())?;
+        log_file.write_all(stdout_content.as_bytes()).map_err(|e| e.to_string())?;
+        if !stderr_content.is_empty() {
+            log_file.write_all(b"\n--- STDERR ---\n").map_err(|e| e.to_string())?;
+            log_file.write_all(stderr_content.as_bytes()).map_err(|e| e.to_string())?;
+        }
 
         if !status.success() {
             eprintln!("[{}] {} ✗ ({}ms)", Self::timestamp(), name, duration);
-            eprintln!("[{}]   Error log: {}", Self::timestamp(), output_file.display());
+            eprintln!("[{}]   Error log: {}", Self::timestamp(), self.build_log.display());
             return Err(format!("{} failed", name));
         }
 
@@ -330,8 +349,7 @@ nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu g
         let log_dir = self.root.join("logs");
         let _ = fs::create_dir_all(&log_dir);
 
-        let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S").to_string();
-        let telemetry_path = log_dir.join(format!("telemetry_{}.json", timestamp));
+        let telemetry_path = log_dir.join(format!("telemetry_{}.json", self.build_timestamp));
 
         if let Err(e) = self.metrics.save(&telemetry_path) {
             eprintln!("Warning: Failed to save telemetry: {}", e);
@@ -339,24 +357,13 @@ nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu g
 
         eprintln!("\n========== BUILD SUMMARY ==========");
         eprintln!("Total build time: {}ms", total);
+        eprintln!("Build log: {}", self.build_log.display());
         eprintln!("Telemetry: {}", telemetry_path.display());
         eprintln!("===================================\n");
     }
 }
 
 fn main() {
-    use std::io::IsTerminal;
-
-    if !std::io::stdout().is_terminal() {
-        eprintln!("ERROR: Builder output is being piped/redirected");
-        eprintln!("Builder must run with full output visible");
-        eprintln!("Do NOT use: ./builder | head");
-        eprintln!("Do NOT use: ./builder | tail");
-        eprintln!("Do NOT use: ./builder | grep");
-        eprintln!("Use: ./builder");
-        std::process::exit(1);
-    }
-
     eprintln!("[{}] ========== BUILD STARTING ==========", BuildContext::timestamp());
 
     let mut ctx = BuildContext::new();

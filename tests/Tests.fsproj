@@ -23,7 +23,6 @@
     <Compile Include="PropertyDSL.fs" />
     <Compile Include="Assertions.fs" />
     <Compile Include="Lifecycle.fs" />
-    <Compile Include="Random.fs" />
     <Compile Include="TestData.fs" />
     <Compile Include="TestSpecifications.fs" />
     <Compile Include="AcceptanceTests.fs" />
@@ -42,10 +41,13 @@
     <Compile Include="ParallelTemperingTests.fs" />
     <Compile Include="GPUIntegrationTests.fs" />
   </ItemGroup>
-
   <ItemGroup>
+    <ProjectReference Include="..\src\Core.fsproj" />
+    <ProjectReference Include="..\src\Execution.fsproj" />
+    <ProjectReference Include="..\src\GPU.Interop.fsproj" />
+    <ProjectReference Include="..\src\Physics.fsproj" />
+    <ProjectReference Include="..\src\Terrain.fsproj" />
     <ProjectReference Include="..\src\Server.fsproj" />
-    <ProjectReference Include="..\src\GPU.Compute.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

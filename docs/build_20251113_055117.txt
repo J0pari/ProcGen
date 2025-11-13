@@ -1,0 +1,99 @@
+
+========== BUILD_GPU_COMPUTE ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\GPU.Compute.fsproj (in 894 ms).
+  GPU.Compute -> C:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.62
+========== BUILD_SERVER ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\Server.fsproj (in 336 ms).
+  1 of 2 projects are up-to-date for restore.
+  GPU.Compute -> C:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.dll
+C:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(292,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\src\Server.fsproj]
+  Server -> C:\Users\tmdru\Downloads\files\src\bin\Server\Debug\net8.0\Server.dll
+
+Build succeeded.
+
+C:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(292,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\src\Server.fsproj]
+    1 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:12.99
+========== BUILD_CLI ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\CLI.fsproj (in 319 ms).
+  CLI -> C:\Users\tmdru\Downloads\files\src\bin\CLI\Debug\net8.0\CLI.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.49
+========== BUILD_TESTS ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\tests\Tests.fsproj (in 1.18 sec).
+  2 of 3 projects are up-to-date for restore.
+  GPU.Compute -> C:\Users\tmdru\Downloads\files\src\bin\GPU.Compute\Debug\net8.0\GPU.Compute.dll
+  Server -> C:\Users\tmdru\Downloads\files\src\bin\Server\Debug\net8.0\Server.dll
+C:\Users\tmdru\Downloads\files\tests\unknown(1,1): warning FS3551: The source file 'Random.fs' (at position 16/33) already appeared in the compilation list (at position 6/33). Please verify that it is included only once in the project file. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\AlgebraicLaws.fs(55,40): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'B has been constrained to be type ''A'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\AlgebraicLaws.fs(55,62): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'C has been constrained to be type ''A'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\AlgebraicLaws.fs(68,41): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'B has been constrained to be type ''A'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\Assertions.fs(128,40): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'T has been constrained to be type 'unit'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\Assertions.fs(432,31): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'Stats has been constrained to be type '{| ActiveBodies: int; BodyCount: int; FrameCount: int64; TotalTime: float<s> |}'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(19,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(29,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(36,63): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(37,63): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(45,61): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(51,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(57,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(63,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(72,57): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(79,59): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(79,107): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(84,64): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(96,85): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(104,47): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\PhysicsQueriesTests.fs(75,31): error FS3214: Method or object constructor 'Length' is not static [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\PhysicsServiceTests.fs(22,13): warning FS0020: The result of this expression has type 'bool' and is implicitly ignored. Consider using 'ignore' to discard this value explicitly, e.g. 'expr |> ignore', or 'let' to bind the result to a name, e.g. 'let result = expr'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SyncThreadSafetyTests.fs(89,23): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SyncThreadSafetyTests.fs(95,23): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SyncThreadSafetyTests.fs(115,23): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+
+Build FAILED.
+
+C:\Users\tmdru\Downloads\files\tests\unknown(1,1): warning FS3551: The source file 'Random.fs' (at position 16/33) already appeared in the compilation list (at position 6/33). Please verify that it is included only once in the project file. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\AlgebraicLaws.fs(55,40): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'B has been constrained to be type ''A'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\AlgebraicLaws.fs(55,62): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'C has been constrained to be type ''A'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\AlgebraicLaws.fs(68,41): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'B has been constrained to be type ''A'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\Assertions.fs(128,40): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'T has been constrained to be type 'unit'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\Assertions.fs(432,31): warning FS0064: This construct causes code to be less generic than indicated by the type annotations. The type variable 'Stats has been constrained to be type '{| ActiveBodies: int; BodyCount: int; FrameCount: int64; TotalTime: float<s> |}'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\PhysicsServiceTests.fs(22,13): warning FS0020: The result of this expression has type 'bool' and is implicitly ignored. Consider using 'ignore' to discard this value explicitly, e.g. 'expr |> ignore', or 'let' to bind the result to a name, e.g. 'let result = expr'. [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SyncThreadSafetyTests.fs(89,23): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SyncThreadSafetyTests.fs(95,23): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SyncThreadSafetyTests.fs(115,23): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(19,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(29,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(36,63): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(37,63): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(45,61): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(51,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(57,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(63,60): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(72,57): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(79,59): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(79,107): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(84,64): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(96,85): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\SpatialHashTests.fs(104,47): error FS0001: Type mismatch. Expecting a    'TestInfrastructure.Core.Vector3 array'    but given a    'Vector3 array'    The type 'TestInfrastructure.Core.Vector3' does not match the type 'Vector3' [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+C:\Users\tmdru\Downloads\files\tests\PhysicsQueriesTests.fs(75,31): error FS3214: Method or object constructor 'Length' is not static [C:\Users\tmdru\Downloads\files\tests\Tests.fsproj]
+    10 Warning(s)
+    15 Error(s)
+
+Time Elapsed 00:00:14.75

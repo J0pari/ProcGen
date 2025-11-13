@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Physics.fs" />
+    <Compile Include="Physics.Service.fs" />
+    <Compile Include="Physics.Constraints.fs" />
+    <Compile Include="Physics.Queries.fs" />
+    <Compile Include="Physics.Exports.fs" />
+    <Compile Include="Physics.Sync.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Core.fsproj" />
+    <ProjectReference Include="GPU.Interop.fsproj" />
+  </ItemGroup>
+
+</Project>
