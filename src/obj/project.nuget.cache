@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JPP5KcJ4qfM=",
+  "dgSpecHash": "vGGu1EN20fk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\tmdru\\Downloads\\files\\src\\Terrain.fsproj",
+  "projectFilePath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Interop.fsproj",
   "expectedPackageFiles": [
     "C:\\Users\\tmdru\\.nuget\\packages\\fsharp.core\\8.0.403\\fsharp.core.8.0.403.nupkg.sha512"
   ],
