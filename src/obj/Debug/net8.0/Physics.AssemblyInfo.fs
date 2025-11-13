@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("Physics")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+86096b9b419b4165083bf58b12d55609c0cdaf89")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+924ece928f3621f134555b493bdf32d9c3fce918")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("Physics")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("Physics")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
