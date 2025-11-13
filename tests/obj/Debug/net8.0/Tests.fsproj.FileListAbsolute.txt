@@ -1,6 +1,0 @@
-C:\Users\tmdru\Downloads\files\tests\bin\Debug\net8.0\CoverletSourceRootsMapping_Tests
-C:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.fsproj.AssemblyReference.cache
-C:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.AssemblyInfoInputs.cache
-C:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.AssemblyInfo.fs
-C:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.fsproj.CoreCompileInputs.cache
-C:\Users\tmdru\Downloads\files\tests\obj\Debug\net8.0\Tests.sourcelink.json
