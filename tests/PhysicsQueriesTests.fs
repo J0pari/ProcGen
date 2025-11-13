@@ -27,7 +27,7 @@ module PhysicsQueriesTests =
     let ``Hit information accurate`` () =
         let world = physicsWorld().WithBody(body().At(Vector3(0.0f, 0.0f, 5.0f)).Build()).Build()
         let ray = rayBuilder().From(Vector3.Zero).Direction(Vector3.UnitZ).MaxDistance(20.0f).Build()
-        match raycast world ray with
+        match Physics.Queries.raycast world ray Physics.Queries.defaultFilter with
         | Some hit ->
             shouldBeWithinDistance 5.0f (float32 hit.Distance) 0.1f
             shouldBeUnitVector hit.Normal
@@ -56,7 +56,7 @@ module PhysicsQueriesTests =
     let ``Hit distance within max distance`` () =
         let world = physicsWorld().WithBody(body().At(Vector3(0.0f, 0.0f, 5.0f)).Build()).Build()
         let ray = rayBuilder().From(Vector3.Zero).Direction(Vector3.UnitZ).MaxDistance(20.0f).Build()
-        match raycast world ray with
+        match Physics.Queries.raycast world ray Physics.Queries.defaultFilter with
         | Some hit -> Assert.True(hit.Distance >= 0.0 && hit.Distance <= 20.0)
         | None -> Assert.True(false, "Expected hit")
 
@@ -71,7 +71,7 @@ module PhysicsQueriesTests =
         direction.Length() > 0.01f ==> lazy (
             let world = physicsWorld().WithBody(body().At(Vector3(0.0f, 0.0f, 5.0f)).Build()).Build()
             let ray = rayBuilder().From(origin).Direction(Vector3.Normalize(direction)).MaxDistance(100.0f).Build()
-            match raycast world ray with
+            match Physics.Queries.raycast world ray Physics.Queries.defaultFilter with
             | Some hit -> abs(Vector3.Length(hit.Normal) - 1.0f) < 0.01f
             | None -> true
         )
