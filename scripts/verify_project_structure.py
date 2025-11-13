@@ -13,102 +13,210 @@ class ProjectVerifier:
         self.errors = []
         self.projects = {}
         self.project_files = defaultdict(set)
-        self.all_source_files = set()
+        self.all_files = set()
+        self.source_files = set()
+        self.metadata_files = set()
+        self.build_files = set()
+        self.binary_files = set()
         self.alternative_builds = defaultdict(set)
         self.transitive_deps = defaultdict(set)
         self.project_extensions = set()
+        self.include_patterns = []
 
     def error(self, msg):
         self.errors.append(msg)
         print(f"ERROR: {msg}")
 
-    def should_exclude(self, path):
-        parts = set(path.parts)
-        if parts & {'obj', 'bin', 'node_modules', '.git', '__pycache__', 'target'}:
-            return True
-        ext = path.suffix.lower()
-        if ext in {'.exe', '.dll', '.so', '.lib', '.exp', '.pdb', '.o', '.a',
-                   '.txt', '.md', '.json', '.xml', '.yml', '.yaml', '.log',
-                   '.sln', '.sh', '.bat', '.ps1', '.props', '.config'}:
-            return True
-        return False
+    def is_build_artifact_dir(self, path):
+        return any(part in {'obj', 'bin', 'node_modules', '.git', '__pycache__', 'target'} for part in path.parts)
+
+    def classify_file(self, path):
+        try:
+            with open(path, 'rb') as f:
+                header = f.read(8192)
+
+            if b'\x00' in header[:512]:
+                return 'binary'
+
+            try:
+                text = header.decode('utf-8', errors='strict')
+            except UnicodeDecodeError:
+                return 'binary'
+
+            lines = text.split('\n')
+            non_empty_lines = [l.strip() for l in lines if l.strip()]
+
+            if len(non_empty_lines) == 0:
+                return 'metadata'
+
+            if any(kw in text for kw in ['<?xml', '<project', '<Project', 'cmake_minimum_required', 'package.json']):
+                return 'build'
+
+            script_headers = sum(1 for line in lines[:5] if any(indicator in line for indicator in ['@echo off', '#!/bin/bash', '#!/bin/sh', 'setlocal']))
+            if script_headers > 0:
+                return 'build'
+
+            code_indicators = sum(1 for line in lines if any(kw in line for kw in
+                ['import ', '#include', 'def ', 'fn ', 'func ', 'class ', 'struct ', 'public ', 'private ',
+                 'namespace ', 'module ', 'let ', 'const ', 'var ', 'type ', '::']))
+
+            function_definitions = sum(1 for line in lines if re.search(r'\b(def|fn|func|function|sub|let\s+\w+\s*=.*=>)\s+\w+\s*\(', line))
+
+            avg_line_length = sum(len(l) for l in non_empty_lines) / len(non_empty_lines)
+            variance = sum((len(l) - avg_line_length) ** 2 for l in non_empty_lines) / len(non_empty_lines)
+
+            has_structure = function_definitions > 0 or code_indicators > len(lines) * 0.1
+            has_low_variance = variance < 500
+
+            if has_structure and has_low_variance:
+                return 'source'
+
+            return 'metadata'
+
+        except Exception:
+            return 'unknown'
+
+    def discover_file_classifications(self):
+        print("=" * 80)
+        print("DISCOVERING AND CLASSIFYING ALL FILES")
+        print("=" * 80)
+
+        for item in ROOT.rglob("*"):
+            if not item.is_file():
+                continue
+            if self.is_build_artifact_dir(item):
+                continue
+
+            self.all_files.add(item)
+            classification = self.classify_file(item)
+
+            if classification == 'binary':
+                self.binary_files.add(item)
+            elif classification == 'build':
+                self.build_files.add(item)
+            elif classification == 'source':
+                self.source_files.add(item)
+            elif classification == 'metadata':
+                self.metadata_files.add(item)
+
+        print(f"  Total files: {len(self.all_files)}")
+        print(f"  Source files: {len(self.source_files)}")
+        print(f"  Build files: {len(self.build_files)}")
+        print(f"  Metadata files: {len(self.metadata_files)}")
+        print(f"  Binary files: {len(self.binary_files)}")
+
+    def discover_include_patterns(self):
+        print("\n" + "=" * 80)
+        print("DISCOVERING INCLUDE PATTERNS")
+        print("=" * 80)
+
+        pattern_candidates = [
+            r'#include\s+[<"]([^>"]+)[>"]',
+            r'import\s+(\S+)',
+            r'open\s+(\w+(?:\.\w+)*)',
+            r'require\s+["\']([^"\']+)["\']',
+            r'use\s+(\w+(?:::\w+)*)',
+            r'from\s+(\S+)\s+import',
+        ]
+
+        pattern_samples = defaultdict(set)
+
+        for source_file in self.source_files:
+            try:
+                content = source_file.read_text(errors='ignore')
+                for line in content.split('\n')[:100]:
+                    for pattern in pattern_candidates:
+                        if re.search(pattern, line):
+                            pattern_samples[pattern].add(source_file.suffix)
+            except Exception:
+                pass
+
+        for pattern, exts in pattern_samples.items():
+            self.include_patterns.append(pattern)
+            print(f"  Pattern: {pattern}")
+            print(f"    Used by: {', '.join(sorted(exts))}")
+
+        if not self.include_patterns:
+            print("  No include patterns discovered")
 
     def discover_transitive_dependencies(self):
         print("\n" + "=" * 80)
         print("DISCOVERING TRANSITIVE DEPENDENCIES")
         print("=" * 80)
 
-        for source_file in self.all_source_files:
-            if source_file.suffix.lower() not in {'.c', '.cpp', '.cu', '.h', '.hpp', '.cuh', '.fs'}:
-                continue
-
+        for source_file in self.source_files:
             try:
                 content = source_file.read_text(errors='ignore')
                 src_dir = source_file.parent
 
                 for line in content.split('\n'):
-                    include_match = re.search(r'#include\s+[<"]([^>"]+)[>"]', line)
-                    if include_match:
-                        header_name = include_match.group(1)
-                        header_path = (src_dir / header_name).resolve()
-                        if header_path.exists() and header_path in self.all_source_files:
-                            self.transitive_deps[header_path].add(source_file)
+                    for pattern in self.include_patterns:
+                        match = re.search(pattern, line)
+                        if match:
+                            ref = match.group(1)
 
-                    open_match = re.search(r'open\s+(\w+(?:\.\w+)*)', line)
-                    if open_match:
-                        pass
+                            candidates = [
+                                src_dir / ref,
+                                src_dir / f"{ref}.h",
+                                src_dir / f"{ref}.hpp",
+                                src_dir / f"{ref}.cuh",
+                                src_dir / f"{ref}.hh",
+                            ]
+
+                            for cand in candidates:
+                                resolved = cand.resolve()
+                                if resolved.exists() and resolved in self.source_files:
+                                    self.transitive_deps[resolved].add(source_file)
+                                    break
 
             except Exception:
                 pass
 
         if self.transitive_deps:
-            print("\nFound transitive dependencies:")
+            print(f"\nFound {len(self.transitive_deps)} transitive dependencies:")
             for header, sources in sorted(self.transitive_deps.items()):
                 print(f"  {header.relative_to(ROOT)}")
                 print(f"    Included by {len(sources)} source files")
+        else:
+            print("  No transitive dependencies discovered")
 
     def discover_alternative_builds(self):
         print("\n" + "=" * 80)
         print("DISCOVERING ALTERNATIVE BUILD SYSTEMS")
         print("=" * 80)
 
-        build_scripts = []
-        for pattern in ['Makefile', '*.mk', 'CMakeLists.txt', '*.cmake', 'build.sh', 'build.bat']:
-            build_scripts.extend(ROOT.rglob(pattern))
-
-        for script in build_scripts:
-            print(f"\nBuild script: {script.relative_to(ROOT)}")
+        for build_file in self.build_files:
+            print(f"\nBuild file: {build_file.relative_to(ROOT)}")
 
             try:
-                content = script.read_text(errors='ignore')
-                script_dir = script.parent
+                content = build_file.read_text(errors='ignore')
+                build_dir = build_file.parent
 
                 referenced_files = set()
                 for line in content.split('\n'):
                     for match in re.finditer(r'[\w/\-]+\.\w+', line):
                         filename = match.group(0)
-                        candidate = (script_dir / filename).resolve()
-                        if candidate.exists() and candidate.is_file():
-                            if not self.should_exclude(candidate):
-                                referenced_files.add(candidate)
+                        candidate = (build_dir / filename).resolve()
+                        if candidate.exists() and candidate in self.source_files:
+                            referenced_files.add(candidate)
 
                 if referenced_files:
                     print(f"  References {len(referenced_files)} source files:")
                     for f in sorted(referenced_files):
                         rel = f.relative_to(ROOT)
                         print(f"    - {rel}")
-                        self.alternative_builds[f].add(script.relative_to(ROOT))
+                        self.alternative_builds[f].add(build_file.relative_to(ROOT))
 
             except Exception as e:
                 print(f"  Could not parse: {e}")
 
     def discover_project_types(self):
-        print("=" * 80)
+        print("\n" + "=" * 80)
         print("DISCOVERING PROJECT TYPES")
         print("=" * 80)
 
-        for item in ROOT.rglob("*proj"):
-            if item.is_file():
+        for item in self.build_files:
+            if '*proj' in item.name or item.suffix.endswith('proj'):
                 ext = item.suffix
                 if ext not in self.project_extensions:
                     self.project_extensions.add(ext)
@@ -117,13 +225,13 @@ class ProjectVerifier:
         if not self.project_extensions:
             print("  No project files found")
 
-    def discover_sources(self):
+    def discover_project_sources(self):
         print("\n" + "=" * 80)
-        print("DISCOVERING SOURCE FILES")
+        print("DISCOVERING PROJECT SOURCE FILES")
         print("=" * 80)
 
         for ext in self.project_extensions:
-            for proj_file in ROOT.rglob(f"*{ext}"):
+            for proj_file in [f for f in self.build_files if f.suffix == ext]:
                 proj_dir = proj_file.parent
                 proj_name = proj_file.stem
                 self.projects[proj_name] = proj_file
@@ -154,30 +262,6 @@ class ProjectVerifier:
                 except Exception as e:
                     print(f"  Could not parse (skipping): {e}")
 
-        print("\n" + "=" * 80)
-        print("SCANNING FILESYSTEM FOR ALL SOURCE FILES")
-        print("=" * 80)
-
-        source_dirs = set(p.parent for p in self.projects.values())
-
-        for src_dir in source_dirs:
-            print(f"\nScanning: {src_dir.relative_to(ROOT)}")
-            files_found = []
-            for item in src_dir.rglob("*"):
-                if item.is_file() and not self.should_exclude(item) and item.suffix not in self.project_extensions:
-                    self.all_source_files.add(item)
-                    files_found.append(item)
-
-            print(f"Found {len(files_found)} source files:")
-            by_ext = defaultdict(list)
-            for f in sorted(files_found):
-                by_ext[f.suffix].append(f.name)
-
-            for ext in sorted(by_ext.keys()):
-                print(f"\n  {ext} files ({len(by_ext[ext])}):")
-                for name in sorted(by_ext[ext]):
-                    print(f"    - {name}")
-
     def verify(self):
         print("\n" + "=" * 80)
         print("VERIFICATION RESULTS")
@@ -185,17 +269,22 @@ class ProjectVerifier:
 
         all_managed = set(self.project_files.keys()) | set(self.alternative_builds.keys()) | set(self.transitive_deps.keys())
 
-        print(f"\nTotal source files found: {len(self.all_source_files)}")
+        source_exts = defaultdict(int)
+        for f in self.source_files:
+            source_exts[f.suffix] += 1
+
+        print(f"\nTotal source files: {len(self.source_files)}")
+        print(f"Source file types: {', '.join(f'{ext}({count})' for ext, count in sorted(source_exts.items()))}")
         print(f"Files assigned to projects: {len(self.project_files)}")
         print(f"Files in alternative builds: {len(self.alternative_builds)}")
         print(f"Transitive dependencies: {len(self.transitive_deps)}")
         print(f"Total managed: {len(all_managed)}")
 
-        orphans = self.all_source_files - all_managed
+        orphans = self.source_files - all_managed
 
         if orphans:
             print(f"\nTRUE ORPHANS ({len(orphans)}):")
-            print("These files are not referenced by any build system:")
+            print("These source files are not referenced by any build system:")
             for orphan in sorted(orphans):
                 rel = orphan.relative_to(ROOT)
                 print(f"  - {rel}")
@@ -232,8 +321,10 @@ class ProjectVerifier:
         return len(self.errors) == 0
 
     def run(self):
+        self.discover_file_classifications()
         self.discover_project_types()
-        self.discover_sources()
+        self.discover_project_sources()
+        self.discover_include_patterns()
         self.discover_alternative_builds()
         self.discover_transitive_dependencies()
         return self.verify()
