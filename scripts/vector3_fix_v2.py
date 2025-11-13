@@ -19,7 +19,7 @@ def record_construct_transform():
         return f'Vector3({x}, {y}, {z})'
 
     return subst(
-        r'\{\s*X\s*=\s*([^;{]+?)\s*;\s*Y\s*=\s*([^;{]+?)\s*;\s*Z\s*=\s*([^}{]+?)\s*\}',
+        r'\{\s*(?:Vector3\.)?X\s*=\s*([^;{]+?)\s*;\s*Y\s*=\s*([^;{]+?)\s*;\s*Z\s*=\s*([^}{]+?)\s*\}',
         replace,
         re.DOTALL
     )
