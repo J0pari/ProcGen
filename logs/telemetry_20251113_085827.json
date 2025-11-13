@@ -1,0 +1,58 @@
+{
+  "artifacts": {
+    "core": "6658e42d5fd6ecb96cfbcc99a14152ff0c6840da3abcbbfb191a5a946cd5392d",
+    "execution": "16205693d1917adcc10def1fe8bb3a703ee5ab3af5c414deb35e8849ca33a66a",
+    "gpu_interop": "fca741ecebd505dfc4a93aaa589e7cd59a443f31b02cf1df5c081378d06533d1",
+    "physics": "8e98c7582924106b3607b51b9c10d531488b4dc5855311535ccd2d546421857b"
+  },
+  "durations": {
+    "build_core": 6055,
+    "build_execution": 2811,
+    "build_gpu_interop": 5926,
+    "build_physics": 5241,
+    "build_terrain": 1273
+  },
+  "events": [
+    [
+      "build_core_start",
+      11
+    ],
+    [
+      "build_core_end",
+      6066
+    ],
+    [
+      "build_execution_start",
+      6141
+    ],
+    [
+      "build_execution_end",
+      8952
+    ],
+    [
+      "build_gpu_interop_start",
+      8991
+    ],
+    [
+      "build_gpu_interop_end",
+      14917
+    ],
+    [
+      "build_physics_start",
+      14950
+    ],
+    [
+      "build_physics_end",
+      20191
+    ],
+    [
+      "build_terrain_start",
+      20269
+    ],
+    [
+      "build_terrain_end",
+      21542
+    ]
+  ],
+  "total_phases": 5
+}
