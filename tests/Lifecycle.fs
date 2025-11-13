@@ -7,18 +7,6 @@ module Lifecycle =
     open Physics.Service
     open Physics.Sync
 
-    /// Stub WorkerThread for testing
-    type WorkerThread(targetHz: float) =
-        let mutable running = false
-        let mutable fps = 0.0
-
-        member _.Start() = running <- true
-        member _.Stop() = running <- false
-        member _.GetFPS() = fps
-
-        interface IDisposable with
-            member _.Dispose() = running <- false
-
     let withPhysicsEngine (f: unit -> unit) : unit =
         try
             physics_init() |> ignore
@@ -41,13 +29,13 @@ module Lifecycle =
         finally
             shutdownWorld()
 
-    let withWorker (targetHz: float) (f: WorkerThread -> unit) : unit =
-        let worker = new WorkerThread(targetHz)
+    let withWorker (targetHz: float) (f: PhysicsWorker -> unit) : unit =
+        let world = PhysicsWorld(defaultWorldConfig)
+        let worker = new PhysicsWorker(world, targetHz)
         try
             f worker
         finally
-            if worker :> IDisposable |> Option.ofObj |> Option.isSome then
-                (worker :> IDisposable).Dispose()
+            (worker :> IDisposable).Dispose()
 
     let withAsync (f: unit -> unit) : unit =
         f()
