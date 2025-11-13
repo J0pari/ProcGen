@@ -1,0 +1,249 @@
+================================================================================
+DISCOVERING PROJECT TYPES
+================================================================================
+  Found project type: .fsproj
+
+================================================================================
+DISCOVERING SOURCE FILES
+================================================================================
+
+Project: CLI
+Location: src\CLI.fsproj
+Files declared in project (1):
+  - CLI.fs
+
+Project: Core
+Location: src\Core.fsproj
+Files declared in project (5):
+  - Noise.fs
+  - ParallelTempering.Core.fs
+  - SpatialHash.fs
+  - ThreadSafe.fs
+  - Voxel.Core.fs
+
+Project: Execution
+Location: src\Execution.fsproj
+Files declared in project (1):
+  - Execution.fs
+
+Project: GPU.Interop
+Location: src\GPU.Interop.fsproj
+Files declared in project (2):
+  - GPU.Compute.fs
+  - GPU.Wrappers.fs
+
+Project: Physics
+Location: src\Physics.fsproj
+Files declared in project (6):
+  - Physics.Constraints.fs
+  - Physics.Exports.fs
+  - Physics.Queries.fs
+  - Physics.Service.fs
+  - Physics.Sync.fs
+  - Physics.fs
+
+Project: Server
+Location: src\Server.fsproj
+Files declared in project (6):
+  - AdaptiveConfig.fs
+  - AsyncGeneration.fs
+  - Cache.fs
+  - Deterministic.fs
+  - Observability.fs
+  - Server.Production.fs
+
+Project: Terrain
+Location: src\Terrain.fsproj
+Files declared in project (4):
+  - ProceduralGeneration.fs
+  - Terrain.Constraints.fs
+  - Terrain.Erosion.fs
+  - Terrain.Generation.fs
+
+Project: Tests
+Location: tests\Tests.fsproj
+Files declared in project (30):
+  - AcceptanceTests.fs
+  - AdaptiveConfigTests.fs
+  - AlgebraicLaws.fs
+  - Assertions.fs
+  - Builders.fs
+  - CExportTests.fs
+  - CacheTests.fs
+  - Concurrency.fs
+  - ConstraintsTests.fs
+  - Core.fs
+  - GPUIntegrationTests.fs
+  - Generators.fs
+  - Lifecycle.fs
+  - Metrology.fs
+  - MutationsTests.fs
+  - ParallelTemperingTests.fs
+  - Performance.fs
+  - PhysicsQueriesTests.fs
+  - PhysicsServiceTests.fs
+  - PhysicsTests.fs
+  - PropertyDSL.fs
+  - Random.fs
+  - SpatialHashTests.fs
+  - Statistics.fs
+  - SyncThreadSafetyTests.fs
+  - TemporalLogic.fs
+  - TestData.fs
+  - TestSpecifications.fs
+  - ThreadSafeRandomTests.fs
+  - UnitsOfMeasureTests.fs
+
+================================================================================
+SCANNING FILESYSTEM FOR ALL SOURCE FILES
+================================================================================
+
+Scanning: tests
+Found 30 source files:
+
+  .fs files (30):
+    - AcceptanceTests.fs
+    - AdaptiveConfigTests.fs
+    - AlgebraicLaws.fs
+    - Assertions.fs
+    - Builders.fs
+    - CExportTests.fs
+    - CacheTests.fs
+    - Concurrency.fs
+    - ConstraintsTests.fs
+    - Core.fs
+    - GPUIntegrationTests.fs
+    - Generators.fs
+    - Lifecycle.fs
+    - Metrology.fs
+    - MutationsTests.fs
+    - ParallelTemperingTests.fs
+    - Performance.fs
+    - PhysicsQueriesTests.fs
+    - PhysicsServiceTests.fs
+    - PhysicsTests.fs
+    - PropertyDSL.fs
+    - Random.fs
+    - SpatialHashTests.fs
+    - Statistics.fs
+    - SyncThreadSafetyTests.fs
+    - TemporalLogic.fs
+    - TestData.fs
+    - TestSpecifications.fs
+    - ThreadSafeRandomTests.fs
+    - UnitsOfMeasureTests.fs
+
+Scanning: src
+Found 36 source files:
+
+  .cu files (10):
+    - collision_detection.cu
+    - convergence.cu
+    - hydraulic_erosion.cu
+    - marching_cubes.cu
+    - mc_tables.cu
+    - mc_tables_texture.cu
+    - noise_field.cu
+    - parallel_tempering.cu
+    - spring_forces.cu
+    - verlet_integration.cu
+
+  .cuh files (1):
+    - sheaf_template.cuh
+
+  .fs files (25):
+    - AdaptiveConfig.fs
+    - AsyncGeneration.fs
+    - CLI.fs
+    - Cache.fs
+    - Deterministic.fs
+    - Execution.fs
+    - GPU.Compute.fs
+    - GPU.Wrappers.fs
+    - Noise.fs
+    - Observability.fs
+    - ParallelTempering.Core.fs
+    - Physics.Constraints.fs
+    - Physics.Exports.fs
+    - Physics.Queries.fs
+    - Physics.Service.fs
+    - Physics.Sync.fs
+    - Physics.fs
+    - ProceduralGeneration.fs
+    - Server.Production.fs
+    - SpatialHash.fs
+    - Terrain.Constraints.fs
+    - Terrain.Erosion.fs
+    - Terrain.Generation.fs
+    - ThreadSafe.fs
+    - Voxel.Core.fs
+
+================================================================================
+DISCOVERING ALTERNATIVE BUILD SYSTEMS
+================================================================================
+
+Build script: src\gpu\build.bat
+  References 10 source files:
+    - src\gpu\collision_detection.cu
+    - src\gpu\convergence.cu
+    - src\gpu\hydraulic_erosion.cu
+    - src\gpu\marching_cubes.cu
+    - src\gpu\mc_tables.cu
+    - src\gpu\mc_tables_texture.cu
+    - src\gpu\noise_field.cu
+    - src\gpu\parallel_tempering.cu
+    - src\gpu\spring_forces.cu
+    - src\gpu\verlet_integration.cu
+
+================================================================================
+DISCOVERING TRANSITIVE DEPENDENCIES
+================================================================================
+
+Found transitive dependencies:
+  src\gpu\mc_tables.cu
+    Included by 1 source files
+  src\gpu\sheaf_template.cuh
+    Included by 8 source files
+
+================================================================================
+VERIFICATION RESULTS
+================================================================================
+
+Total source files found: 66
+Files assigned to projects: 55
+Files in alternative builds: 10
+Transitive dependencies: 2
+Total managed: 66
+
+ALTERNATIVE BUILD FILES (10):
+These files are built by alternative systems (not project files):
+  - src\gpu\collision_detection.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\convergence.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\hydraulic_erosion.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\marching_cubes.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\mc_tables.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\mc_tables_texture.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\noise_field.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\parallel_tempering.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\spring_forces.cu
+    Built by: src\gpu\build.bat
+  - src\gpu\verlet_integration.cu
+    Built by: src\gpu\build.bat
+
+TRANSITIVE DEPENDENCIES (2):
+These files are included/imported by other source files:
+  - src\gpu\mc_tables.cu
+    Included by: 1 files
+  - src\gpu\sheaf_template.cuh
+    Included by: 8 files
+
+PASSED
+Errors: 0

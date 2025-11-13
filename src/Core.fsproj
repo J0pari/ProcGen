@@ -12,4 +12,8 @@
     <Compile Include="Noise.fs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="Execution.fsproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,38 @@
+{
+  "artifacts": {
+    "core": "88228efa9e1c9664ddff50ce337ab0983a3ed742db1f15e447fa0f01897b727b",
+    "execution": "587ed18c0e2c45bd8df05ab0c9d2c749878fda4d6d832b1464bb33530acfb759"
+  },
+  "durations": {
+    "build_core": 5724,
+    "build_execution": 1050,
+    "build_gpu_interop": 1267
+  },
+  "events": [
+    [
+      "build_core_start",
+      11
+    ],
+    [
+      "build_core_end",
+      5735
+    ],
+    [
+      "build_execution_start",
+      5810
+    ],
+    [
+      "build_execution_end",
+      6860
+    ],
+    [
+      "build_gpu_interop_start",
+      6911
+    ],
+    [
+      "build_gpu_interop_end",
+      8178
+    ]
+  ],
+  "total_phases": 3
+}

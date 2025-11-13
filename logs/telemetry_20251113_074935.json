@@ -1,0 +1,17 @@
+{
+  "artifacts": {},
+  "durations": {
+    "build_core": 1251
+  },
+  "events": [
+    [
+      "build_core_start",
+      10
+    ],
+    [
+      "build_core_end",
+      1261
+    ]
+  ],
+  "total_phases": 1
+}

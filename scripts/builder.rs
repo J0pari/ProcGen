@@ -282,18 +282,38 @@ nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu g
         }
     }
 
-    fn phase_gpu_compute(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/GPU.Compute/Debug/net8.0/GPU.Compute.dll");
-        self.build_and_record("build_gpu_compute", "GPU.Compute.fsproj", &dll, "gpu_compute")
+    fn phase_core(&mut self) -> Result<(), String> {
+        let dll = self.root.join("src/bin/Debug/net8.0/Core.dll");
+        self.build_and_record("build_core", "Core.fsproj", &dll, "core")
+    }
+
+    fn phase_execution(&mut self) -> Result<(), String> {
+        let dll = self.root.join("src/bin/Debug/net8.0/Execution.dll");
+        self.build_and_record("build_execution", "Execution.fsproj", &dll, "execution")
+    }
+
+    fn phase_gpu_interop(&mut self) -> Result<(), String> {
+        let dll = self.root.join("src/bin/Debug/net8.0/GPU.Interop.dll");
+        self.build_and_record("build_gpu_interop", "GPU.Interop.fsproj", &dll, "gpu_interop")
+    }
+
+    fn phase_physics(&mut self) -> Result<(), String> {
+        let dll = self.root.join("src/bin/Debug/net8.0/Physics.dll");
+        self.build_and_record("build_physics", "Physics.fsproj", &dll, "physics")
+    }
+
+    fn phase_terrain(&mut self) -> Result<(), String> {
+        let dll = self.root.join("src/bin/Debug/net8.0/Terrain.dll");
+        self.build_and_record("build_terrain", "Terrain.fsproj", &dll, "terrain")
     }
 
     fn phase_server(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/Server/Debug/net8.0/Server.dll");
+        let dll = self.root.join("src/bin/Debug/net8.0/Server.dll");
         self.build_and_record("build_server", "Server.fsproj", &dll, "server")
     }
 
     fn phase_cli(&mut self) -> Result<(), String> {
-        let dll = self.root.join("src/bin/CLI/Debug/net8.0/CLI.dll");
+        let dll = self.root.join("src/bin/Debug/net8.0/CLI.dll");
         self.build_and_record("build_cli", "CLI.fsproj", &dll, "cli")
     }
 
@@ -345,7 +365,11 @@ fn main() {
     let run_tests = std::env::args().nth(1).as_deref() == Some("tests");
 
     let result = ctx.phase_cuda()
-        .and_then(|_| ctx.phase_gpu_compute())
+        .and_then(|_| ctx.phase_core())
+        .and_then(|_| ctx.phase_execution())
+        .and_then(|_| ctx.phase_gpu_interop())
+        .and_then(|_| ctx.phase_physics())
+        .and_then(|_| ctx.phase_terrain())
         .and_then(|_| ctx.phase_server())
         .and_then(|_| ctx.phase_cli())
         .and_then(|_| ctx.phase_tests(run_tests));

@@ -1,0 +1,17 @@
+{
+  "artifacts": {},
+  "durations": {
+    "build_gpu_compute": 298
+  },
+  "events": [
+    [
+      "build_gpu_compute_start",
+      17
+    ],
+    [
+      "build_gpu_compute_end",
+      315
+    ]
+  ],
+  "total_phases": 1
+}
