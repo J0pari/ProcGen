@@ -21,8 +21,10 @@ impl BuildMetrics {
         }
     }
 
-    fn record_duration(&mut self, phase: &str, duration_ms: u128) {
-        self.durations.insert(phase.to_string(), duration_ms);
+    fn record_phase(&mut self, phase: &str, start_time: u128, duration: u128) {
+        self.events.push((format!("{}_start", phase), start_time));
+        self.events.push((format!("{}_end", phase), start_time + duration));
+        self.durations.insert(phase.to_string(), duration);
     }
 
     fn record_artifact(&mut self, name: &str, hash: &str) {
@@ -31,6 +33,7 @@ impl BuildMetrics {
 
     fn save(&self, path: &Path) -> std::io::Result<()> {
         let json = serde_json::json!({
+            "events": self.events,
             "durations": self.durations,
             "artifacts": self.artifacts,
             "total_phases": self.durations.len(),
@@ -84,7 +87,8 @@ impl BuildContext {
         log_file.write_all(phase_marker.as_bytes()).map_err(|e| e.to_string())?;
 
         eprintln!("[{}] {} →", Self::timestamp(), name);
-        let start = Instant::now();
+        let phase_start = Instant::now();
+        let start_time = self.start_time.elapsed().as_millis();
 
         let mut child = cmd
             .stdout(Stdio::piped())
@@ -130,8 +134,8 @@ impl BuildContext {
 
         let status = child.wait().map_err(|e| format!("Failed to wait: {}", e))?;
 
-        let duration = start.elapsed().as_millis();
-        self.metrics.record_duration(name, duration);
+        let duration = phase_start.elapsed().as_millis();
+        self.metrics.record_phase(name, start_time, duration);
 
         let stdout_content = stdout_lines.lock().unwrap().join("\n");
         let stderr_content = stderr_lines.lock().unwrap().join("\n");
@@ -142,13 +146,14 @@ impl BuildContext {
             log_file.write_all(stderr_content.as_bytes()).map_err(|e| e.to_string())?;
         }
 
+        let ts = Self::timestamp();
         if !status.success() {
-            eprintln!("[{}] {} ✗ ({}ms)", Self::timestamp(), name, duration);
-            eprintln!("[{}]   Error log: {}", Self::timestamp(), self.build_log.display());
+            eprintln!("[{}] {} ✗ ({}ms)", ts, name, duration);
+            eprintln!("[{}]   Error log: {}", ts, self.build_log.display());
             return Err(format!("{} failed", name));
         }
 
-        eprintln!("[{}] {} ✓ ({}ms)", Self::timestamp(), name, duration);
+        eprintln!("[{}] {} ✓ ({}ms)", ts, name, duration);
         Ok(())
     }
 
@@ -159,12 +164,6 @@ impl BuildContext {
             .as_secs();
         let dt = chrono::DateTime::<chrono::Utc>::from_timestamp(now as i64, 0).unwrap();
         dt.format("%H:%M:%S").to_string()
-    }
-
-    fn strip_line_numbers(text: &str) -> String {
-        use regex::Regex;
-        let re = Regex::new(r"(\.fs)\((\d+),(\d+)\):").unwrap();
-        re.replace_all(text, "$1:").to_string()
     }
 
     fn cuda_needs_rebuild(&self) -> bool {
@@ -197,6 +196,24 @@ impl BuildContext {
         let bytes = fs::read(path).map_err(|e| e.to_string())?;
         let hash = Sha256::digest(&bytes);
         Ok(format!("{:x}", hash))
+    }
+
+    fn build_and_record(&mut self, phase_name: &str, project_file: &str, dll_path: &Path, artifact_name: &str) -> Result<(), String> {
+        let src_dir = self.root.join("src");
+
+        self.run_command(phase_name,
+            Command::new("dotnet")
+                .current_dir(&src_dir)
+                .arg("build")
+                .arg(project_file))?;
+
+        if !dll_path.exists() {
+            return Err(format!("{} not found after build", dll_path.display()));
+        }
+
+        let hash = self.compute_sha256(dll_path)?;
+        self.metrics.record_artifact(artifact_name, &hash);
+        Ok(())
     }
 
     fn phase_cuda(&mut self) -> Result<(), String> {
@@ -266,60 +283,18 @@ nvcc -shared -o libgpu_compute.so gpu/parallel_tempering.cu gpu/convergence.cu g
     }
 
     fn phase_gpu_compute(&mut self) -> Result<(), String> {
-        let src_dir = self.root.join("src");
-
-        self.run_command("build_gpu_compute",
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("build")
-                .arg("GPU.Compute.fsproj"))?;
-
-        let dll = src_dir.join("bin/GPU.Compute/Debug/net8.0/GPU.Compute.dll");
-        if !dll.exists() {
-            return Err("GPU.Compute.dll not found after build".to_string());
-        }
-
-        let hash = self.compute_sha256(&dll)?;
-        self.metrics.record_artifact("gpu_compute", &hash);
-        Ok(())
+        let dll = self.root.join("src/bin/GPU.Compute/Debug/net8.0/GPU.Compute.dll");
+        self.build_and_record("build_gpu_compute", "GPU.Compute.fsproj", &dll, "gpu_compute")
     }
 
     fn phase_server(&mut self) -> Result<(), String> {
-        let src_dir = self.root.join("src");
-
-        self.run_command("build_server",
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("build")
-                .arg("Server.fsproj"))?;
-
-        let dll = src_dir.join("bin/Server/Debug/net8.0/Server.dll");
-        if !dll.exists() {
-            return Err("Server.dll not found after build".to_string());
-        }
-
-        let hash = self.compute_sha256(&dll)?;
-        self.metrics.record_artifact("server", &hash);
-        Ok(())
+        let dll = self.root.join("src/bin/Server/Debug/net8.0/Server.dll");
+        self.build_and_record("build_server", "Server.fsproj", &dll, "server")
     }
 
     fn phase_cli(&mut self) -> Result<(), String> {
-        let src_dir = self.root.join("src");
-
-        self.run_command("build_cli",
-            Command::new("dotnet")
-                .current_dir(&src_dir)
-                .arg("build")
-                .arg("CLI.fsproj"))?;
-
-        let dll = src_dir.join("bin/CLI/Debug/net8.0/CLI.dll");
-        if !dll.exists() {
-            return Err("CLI.dll not found after build".to_string());
-        }
-
-        let hash = self.compute_sha256(&dll)?;
-        self.metrics.record_artifact("cli", &hash);
-        Ok(())
+        let dll = self.root.join("src/bin/CLI/Debug/net8.0/CLI.dll");
+        self.build_and_record("build_cli", "CLI.fsproj", &dll, "cli")
     }
 
     fn phase_tests(&mut self, run_tests: bool) -> Result<(), String> {

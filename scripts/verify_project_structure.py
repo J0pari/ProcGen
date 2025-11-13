@@ -16,6 +16,7 @@ class ProjectVerifier:
         self.all_source_files = set()
         self.alternative_builds = defaultdict(set)
         self.transitive_deps = defaultdict(set)
+        self.project_extensions = set()
 
     def error(self, msg):
         self.errors.append(msg)
@@ -101,38 +102,57 @@ class ProjectVerifier:
             except Exception as e:
                 print(f"  Could not parse: {e}")
 
-    def discover_sources(self):
+    def discover_project_types(self):
         print("=" * 80)
+        print("DISCOVERING PROJECT TYPES")
+        print("=" * 80)
+
+        for item in ROOT.rglob("*proj"):
+            if item.is_file():
+                ext = item.suffix
+                if ext not in self.project_extensions:
+                    self.project_extensions.add(ext)
+                    print(f"  Found project type: {ext}")
+
+        if not self.project_extensions:
+            print("  No project files found")
+
+    def discover_sources(self):
+        print("\n" + "=" * 80)
         print("DISCOVERING SOURCE FILES")
         print("=" * 80)
 
-        for proj_file in ROOT.rglob("*.fsproj"):
-            proj_dir = proj_file.parent
-            proj_name = proj_file.stem
-            self.projects[proj_name] = proj_file
+        for ext in self.project_extensions:
+            for proj_file in ROOT.rglob(f"*{ext}"):
+                proj_dir = proj_file.parent
+                proj_name = proj_file.stem
+                self.projects[proj_name] = proj_file
 
-            print(f"\nProject: {proj_name}")
-            print(f"Location: {proj_file.relative_to(ROOT)}")
+                print(f"\nProject: {proj_name}")
+                print(f"Location: {proj_file.relative_to(ROOT)}")
 
-            tree = ET.parse(proj_file)
-            root = tree.getroot()
+                try:
+                    tree = ET.parse(proj_file)
+                    root = tree.getroot()
 
-            compile_items = []
-            for item_group in root.findall(".//ItemGroup"):
-                for elem in item_group:
-                    if elem.tag in {"Compile", "Content", "EmbeddedResource", "None"}:
-                        include = elem.get("Include")
-                        if include:
-                            compile_items.append(include)
+                    compile_items = []
+                    for item_group in root.findall(".//ItemGroup"):
+                        for elem in item_group:
+                            if elem.tag in {"Compile", "Content", "EmbeddedResource", "None"}:
+                                include = elem.get("Include")
+                                if include:
+                                    compile_items.append(include)
 
-            print(f"Files declared in project ({len(compile_items)}):")
-            for item in sorted(compile_items):
-                file_path = (proj_dir / item).resolve()
-                print(f"  - {item}")
-                if file_path.exists():
-                    self.project_files[file_path].add(proj_name)
-                else:
-                    self.error(f"{proj_name} references non-existent: {item}")
+                    print(f"Files declared in project ({len(compile_items)}):")
+                    for item in sorted(compile_items):
+                        file_path = (proj_dir / item).resolve()
+                        print(f"  - {item}")
+                        if file_path.exists():
+                            self.project_files[file_path].add(proj_name)
+                        else:
+                            self.error(f"{proj_name} references non-existent: {item}")
+                except Exception as e:
+                    print(f"  Could not parse (skipping): {e}")
 
         print("\n" + "=" * 80)
         print("SCANNING FILESYSTEM FOR ALL SOURCE FILES")
@@ -144,7 +164,7 @@ class ProjectVerifier:
             print(f"\nScanning: {src_dir.relative_to(ROOT)}")
             files_found = []
             for item in src_dir.rglob("*"):
-                if item.is_file() and not self.should_exclude(item) and item.suffix != '.fsproj':
+                if item.is_file() and not self.should_exclude(item) and item.suffix not in self.project_extensions:
                     self.all_source_files.add(item)
                     files_found.append(item)
 
@@ -212,6 +232,7 @@ class ProjectVerifier:
         return len(self.errors) == 0
 
     def run(self):
+        self.discover_project_types()
         self.discover_sources()
         self.discover_alternative_builds()
         self.discover_transitive_dependencies()
