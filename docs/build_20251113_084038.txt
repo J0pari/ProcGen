@@ -1,0 +1,72 @@
+
+========== BUILD_CORE ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\Execution.fsproj (in 192 ms).
+  Execution -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
+  Core -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.49
+========== BUILD_EXECUTION ==========
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Execution -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.80
+========== BUILD_GPU_INTEROP ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\Core.fsproj (in 208 ms).
+  Execution -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
+  Core -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.dll
+  GPU.Interop -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Interop.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.80
+========== BUILD_PHYSICS ==========
+  Determining projects to restore...
+  Restored C:\Users\tmdru\Downloads\files\src\Execution.fsproj (in 200 ms).
+  Execution -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
+  Core -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.dll
+  GPU.Interop -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Interop.dll
+C:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(292,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\src\Physics.fsproj]
+  Physics -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Physics.dll
+
+Build succeeded.
+
+C:\Users\tmdru\Downloads\files\src\Physics.Sync.fs(292,13): warning FS0760: It is recommended that objects supporting the IDisposable interface are created using the syntax 'new Type(args)', rather than 'Type(args)' or 'Type' as a function value representing the constructor, to indicate that resources may be owned by the generated value [C:\Users\tmdru\Downloads\files\src\Physics.fsproj]
+    1 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.25
+========== BUILD_TERRAIN ==========
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Execution -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Execution.dll
+  Core -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Core.dll
+  GPU.Interop -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\GPU.Interop.dll
+  Physics -> C:\Users\tmdru\Downloads\files\src\bin\Debug\net8.0\Physics.dll
+C:\Users\tmdru\Downloads\files\src\ProceduralGeneration.fs(52,34): error FS0039: The value, namespace, type or module 'Execution' is not defined. Maybe you want one of the following:   Exception   ExecutionEngineException [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+C:\Users\tmdru\Downloads\files\src\Terrain.Generation.fs(174,25): error FS0039: The value, namespace, type or module 'Deterministic' is not defined. [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+C:\Users\tmdru\Downloads\files\src\Terrain.Generation.fs(208,25): error FS0039: The value, namespace, type or module 'Deterministic' is not defined. [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+C:\Users\tmdru\Downloads\files\src\Terrain.Generation.fs(252,25): error FS0039: The value, namespace, type or module 'Deterministic' is not defined. [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+
+Build FAILED.
+
+C:\Users\tmdru\Downloads\files\src\ProceduralGeneration.fs(52,34): error FS0039: The value, namespace, type or module 'Execution' is not defined. Maybe you want one of the following:   Exception   ExecutionEngineException [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+C:\Users\tmdru\Downloads\files\src\Terrain.Generation.fs(174,25): error FS0039: The value, namespace, type or module 'Deterministic' is not defined. [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+C:\Users\tmdru\Downloads\files\src\Terrain.Generation.fs(208,25): error FS0039: The value, namespace, type or module 'Deterministic' is not defined. [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+C:\Users\tmdru\Downloads\files\src\Terrain.Generation.fs(252,25): error FS0039: The value, namespace, type or module 'Deterministic' is not defined. [C:\Users\tmdru\Downloads\files\src\Terrain.fsproj]
+    0 Warning(s)
+    4 Error(s)
+
+Time Elapsed 00:00:02.82

@@ -12,9 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="Execution.fsproj" />
     <ProjectReference Include="Core.fsproj" />
     <ProjectReference Include="GPU.Interop.fsproj" />
     <ProjectReference Include="Physics.fsproj" />
+    <ProjectReference Include="Server.fsproj" />
   </ItemGroup>
 
 </Project>

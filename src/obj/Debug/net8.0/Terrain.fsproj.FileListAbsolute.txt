@@ -1,0 +1,5 @@
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.fsproj.AssemblyReference.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.AssemblyInfoInputs.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.AssemblyInfo.fs
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.fsproj.CoreCompileInputs.cache
+C:\Users\tmdru\Downloads\files\src\obj\Debug\net8.0\Terrain.sourcelink.json
