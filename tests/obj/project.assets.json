@@ -8550,8 +8550,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
-              "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
+            "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
+              "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
             },
             "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
               "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj"

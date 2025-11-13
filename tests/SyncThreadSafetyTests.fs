@@ -23,7 +23,7 @@ module SyncThreadSafetyTests =
                 if tid % 2 = 0 then buf.Write(tid) else buf.Read() |> ignore
             Threads = 8
             OperationsPerThread = 10000
-            Duration = TimeSpan.FromSeconds(5.0)
+            Duration = Some (TimeSpan.FromSeconds(5.0))
             Cleanup = ignore
             ValidateInvariant = None
         }
@@ -32,10 +32,14 @@ module SyncThreadSafetyTests =
     let ``Command queue thread-safe enqueue`` () =
         let queue = PhysicsCommandQueue()
         withAsync (fun () ->
+            let agent = MailboxProcessor.Start(fun inbox -> async { return () })
             let operations = [|
                 for i in 1..100 -> async {
-                    let (replyChannel, replyAsync) = AsyncReplyChannel.CreateWithTimeout(1000)
-                    queue.Enqueue(AddBody(rigidBodyBuilder().BuildData(), replyChannel))
+                    let! replyChannel = agent.PostAndAsyncReply(fun channel ->
+                        let bodyData = rigidBodyBuilder().BuildData()
+                        queue.Enqueue(AddBody(bodyData, channel))
+                        channel)
+                    return replyChannel
                 }
             |]
             Async.Parallel operations |> Async.RunSynchronously |> ignore
@@ -75,7 +79,7 @@ module SyncThreadSafetyTests =
     [<Fact>]
     let ``Snapshot interpolation extrapolates position`` () =
         let manager = SnapshotManager()
-        let body = rigidBodyBuilder().At(System.Numerics.Vector3.Zero).WithVelocity(Vector3(10.0f, 0.0f, 0.0f)).BuildData()
+        let body = rigidBodyBuilder().At(System.Numerics.Vector3.Zero).WithVelocity(System.Numerics.Vector3(10.0f, 0.0f, 0.0f)).BuildData()
         manager.Capture(body)
         shouldInterpolate manager 0.5f (fun interpolated ->
             abs(interpolated.Position.X - 5.0f) < 0.1f)

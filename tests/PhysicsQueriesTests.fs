@@ -4,6 +4,7 @@ module PhysicsQueriesTests =
 
     open System.Numerics
     open global.Xunit
+    open FsCheck
     open FsCheck.Xunit
     open TestInfrastructure.Core
     open TestInfrastructure.Assertions

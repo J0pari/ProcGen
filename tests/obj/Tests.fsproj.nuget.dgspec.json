@@ -4,14 +4,14 @@
     "c:\\Users\\tmdru\\Downloads\\files\\tests\\Tests.fsproj": {}
   },
   "projects": {
-    "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
+    "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
+        "projectUniqueName": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
         "projectName": "GPU.Compute",
-        "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
+        "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj",
         "packagesPath": "C:\\Users\\tmdru\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\obj\\GPU.Compute\\",
+        "outputPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\obj\\GPU.Compute\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tmdru\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -89,8 +89,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
-                "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
               }
             }
           }
@@ -163,8 +163,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
-                "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
+              "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj": {
+                "projectPath": "C:\\Users\\tmdru\\Downloads\\files\\src\\GPU.Compute.fsproj"
               },
               "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj": {
                 "projectPath": "c:\\Users\\tmdru\\Downloads\\files\\src\\Server.fsproj"
