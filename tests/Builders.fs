@@ -365,11 +365,12 @@ module Builders =
         fullyConnectedGraph 5
 
     /// Convert test Graph to SpatialGraph with generated positions
-    let toSpatialGraph (graph: Graph) : ParallelTempering.Core.SpatialGraph<GraphNode> =
+    let toSpatialGraph (graph: Graph) : ParallelTempering.Core.SpatialGraph<ProceduralGeneration.NodeType> =
         let nodeCount = Set.count graph.Nodes
-        let nodes = graph.Nodes |> Set.toArray
+        let intNodes = graph.Nodes |> Set.toArray
+        let nodes = intNodes |> Array.map (fun i -> ProceduralGeneration.NodeType.Standard (float i))
         let positions =
-            nodes
+            intNodes
             |> Array.mapi (fun i _ ->
                 System.Numerics.Vector3(float32 i * 10.0f, 0.0f, 0.0f))
         let edges =

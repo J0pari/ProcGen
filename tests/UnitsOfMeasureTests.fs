@@ -179,17 +179,21 @@ module UnitsOfMeasureTests =
 
     [<Property>]
     let ``Velocity units compose correctly`` (d: PositiveInt) (t: PositiveInt) =
-        let distance = float d * 1.0<m>
-        let time = float t * 1.0<s>
+        let (PositiveInt dVal) = d
+        let (PositiveInt tVal) = t
+        let distance = float dVal * 1.0<m>
+        let time = float tVal * 1.0<s>
         let velocity: float<m/s> = distance / time
-        float velocity = (float d / float t)
+        float velocity = (float dVal / float tVal)
 
     [<Property>]
     let ``Energy units compose from force and distance`` (f: PositiveInt) (d: PositiveInt) =
-        let force = float f * 1.0<N>
-        let distance = float d * 1.0<m>
+        let (PositiveInt fVal) = f
+        let (PositiveInt dVal) = d
+        let force = float fVal * 1.0<N>
+        let distance = float dVal * 1.0<m>
         let energy: float<J> = force * distance
-        float energy = (float f * float d)
+        float energy = (float fVal * float dVal)
 
     [<Fact>]
     let ``Type annotations compile successfully`` () =

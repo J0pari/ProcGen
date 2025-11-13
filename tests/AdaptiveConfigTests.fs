@@ -5,7 +5,6 @@ module AdaptiveConfigTests =
     open System
     open global.Xunit
     open FsCheck
-    open FsCheck.Arb
     open FsCheck.FSharp
     open FsCheck.Xunit
     open TestInfrastructure.Core
