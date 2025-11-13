@@ -342,7 +342,7 @@ module Assertions =
             s.Properties |> Array.fold (fun acc prop ->
                 let v = prop.Velocity
                 Vector3(acc.X + v.X * float32 prop.Mass, acc.Y + v.Y * float32 prop.Mass, acc.Z + v.Z * float32 prop.Mass))
-                Vector3(0.0f, 0.0f, 0.0f)
+                (Vector3(0.0f, 0.0f, 0.0f))
         let initial = totalMomentum state
         let mutable current = state
         for _ in 1..steps do
