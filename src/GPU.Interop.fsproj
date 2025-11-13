@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Compile Include="GPU.Compute.fs" />
-    <Compile Include="GPU.Wrappers.fs" />
   </ItemGroup>
 
   <ItemGroup>

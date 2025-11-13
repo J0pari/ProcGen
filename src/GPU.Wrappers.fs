@@ -5,6 +5,7 @@ open System.Numerics
 open System.Runtime.InteropServices
 open ParallelTempering.Core
 open Voxel
+open Physics
 open GPU.Compute
 
 /// CUDA error types
@@ -413,6 +414,71 @@ module GPUCollision =
                 detectGPU minDistance graph
             else
                 Ok (SpatialHash.detectCollisions minDistance graph.Positions)
+
+/// GPU-accelerated Verlet integration
+module GPUVerlet =
+
+    let integrate (state: PhysicsState) : Result<PhysicsState, CudaError> =
+        // Validate physics state
+        if state.Positions.Length <> state.Properties.Length then
+            Error (InvalidArgument $"Position count {state.Positions.Length} != Property count {state.Properties.Length}")
+        elif state.Positions.Length = 0 then
+            Error (InvalidArgument "Cannot integrate empty physics state")
+        elif float state.TimeStep <= 0.0 || System.Double.IsNaN(float state.TimeStep) || System.Double.IsInfinity(float state.TimeStep) then
+            Error (InvalidArgument $"TimeStep must be positive and finite, got {state.TimeStep}")
+        elif state.Properties |> Array.exists (fun p -> float p.Mass <= 0.0 || System.Double.IsNaN(float p.Mass) || System.Double.IsInfinity(float p.Mass)) then
+            Error (InvalidArgument "All masses must be positive and finite")
+        elif state.Positions.Length > System.Int32.MaxValue / 3 then
+            Error (BufferOverflow $"Position count {state.Positions.Length} would overflow marshaling buffer")
+        elif not (Wrappers.available()) then
+            Ok (Verlet.integrate state)
+        else
+            CudaInstance.cuda {
+                let positions =
+                    state.Positions
+                    |> Array.collect (fun v -> [| float v.X; float v.Y; float v.Z |])
+
+                let velocities =
+                    state.Properties
+                    |> Array.collect (fun p -> [| float p.Velocity.X; float p.Velocity.Y; float p.Velocity.Z |])
+
+                let forces = Array.zeroCreate<float> (state.Positions.Length * 3)
+
+                let masses =
+                    state.Properties
+                    |> Array.map (fun p -> float p.Mass)
+
+                do! Marshaling.withPinned positions (fun pinnedPos ->
+                    Marshaling.withPinned velocities (fun pinnedVel ->
+                        Marshaling.withPinned forces (fun pinnedForces ->
+                            Marshaling.withPinned masses (fun pinnedMasses ->
+                                CUDA.verlet_integrate(
+                                    pinnedPos,
+                                    pinnedVel,
+                                    pinnedForces,
+                                    state.Positions.Length,
+                                    float state.TimeStep,
+                                    pinnedMasses
+                                )
+                                Ok ()
+                            )
+                        )
+                    )
+                )
+
+                let! newPositions = Marshaling.toVector3Array positions
+                let! newVelocities = Marshaling.toVector3Array velocities
+
+                if newVelocities.Length <> state.Properties.Length then
+                    return! Error (InvalidArgument $"Velocity result count {newVelocities.Length} != Property count {state.Properties.Length}")
+                else
+                    let newProperties =
+                        Array.mapi2 (fun i (props: PhysicalProperties) (vel: Vector3) ->
+                            { props with Velocity = vel }
+                        ) state.Properties newVelocities
+
+                    return { state with Positions = newPositions; Properties = newProperties }
+            }
 
 /// GPU-accelerated marching cubes for voxel meshing
 module GPUMarchingCubes =

@@ -11,6 +11,7 @@
     <Compile Include="Physics.Queries.fs" />
     <Compile Include="Physics.Exports.fs" />
     <Compile Include="Physics.Sync.fs" />
+    <Compile Include="GPU.Wrappers.fs" />
   </ItemGroup>
 
   <ItemGroup>
