@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\Core.fsproj" />
-    <ProjectReference Include="..\src\Execution.fsproj" />
     <ProjectReference Include="..\src\GPU.Interop.fsproj" />
     <ProjectReference Include="..\src\Physics.fsproj" />
     <ProjectReference Include="..\src\Terrain.fsproj" />
