@@ -7,9 +7,9 @@
   <ItemGroup>
     <Compile Include="ThreadSafe.fs" />
     <Compile Include="SpatialHash.fs" />
+    <Compile Include="ParallelTempering.Core.fs" />
     <Compile Include="ProceduralGeneration.fs" />
     <Compile Include="Deterministic.fs" />
-    <Compile Include="ParallelTempering.Core.fs" />
     <Compile Include="Voxel.Core.fs" />
     <Compile Include="Noise.fs" />
   </ItemGroup>
