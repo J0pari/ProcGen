@@ -36,8 +36,8 @@ module CExportTests =
     let fromC (cBody: CBodyData) : TestInfrastructure.Core.RigidBody =
         let serviceBody = fromCBodyData cBody
         {
-            TestInfrastructure.Core.RigidBody.Position = Vector3(serviceBody.Position.X, serviceBody.Position.Y, serviceBody.Position.Z)
-            TestInfrastructure.Core.RigidBody.Velocity = Vector3(serviceBody.Velocity.X, serviceBody.Velocity.Y, serviceBody.Velocity.Z)
+            TestInfrastructure.Core.RigidBody.Position = { X = serviceBody.Position.X; Y = serviceBody.Position.Y; Z = serviceBody.Position.Z }
+            TestInfrastructure.Core.RigidBody.Velocity = { X = serviceBody.Velocity.X; Y = serviceBody.Velocity.Y; Z = serviceBody.Velocity.Z }
             TestInfrastructure.Core.RigidBody.Mass = float32 (float serviceBody.Mass)
             TestInfrastructure.Core.RigidBody.Radius = 1.0f
             TestInfrastructure.Core.RigidBody.Fixed = serviceBody.IsStatic

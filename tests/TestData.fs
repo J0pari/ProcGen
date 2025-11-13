@@ -26,19 +26,19 @@ module TestData =
 
     type CollisionCase = {
         MinDistance: float32
-        Pos1: Vector3
-        Pos2: Vector3
+        Pos1: Core.Vector3
+        Pos2: Core.Vector3
         ShouldCollide: bool
         ExpectedDistance: float32
     }
 
     let collisionCases = [
-        { MinDistance = 1.0f; Pos1 = Vector3.Zero; Pos2 = Vector3(10.0f, 0.0f, 0.0f)
+        { MinDistance = 1.0f; Pos1 = Vector3.zero; Pos2 = { X = 10.0f; Y = 0.0f; Z = 0.0f }
           ShouldCollide = false; ExpectedDistance = 10.0f }
-        { MinDistance = 1.0f; Pos1 = Vector3.Zero; Pos2 = Vector3(0.5f, 0.0f, 0.0f)
+        { MinDistance = 1.0f; Pos1 = Vector3.zero; Pos2 = { X = 0.5f; Y = 0.0f; Z = 0.0f }
           ShouldCollide = true; ExpectedDistance = 0.5f }
-        { MinDistance = 1.0f; Pos1 = Vector3.Zero; Pos2 = Vector3(1.0f, 0.0f, 0.0f)
+        { MinDistance = 1.0f; Pos1 = Vector3.zero; Pos2 = { X = 1.0f; Y = 0.0f; Z = 0.0f }
           ShouldCollide = false; ExpectedDistance = 1.0f }
-        { MinDistance = 2.0f; Pos1 = Vector3.Zero; Pos2 = Vector3(1.0f, 1.0f, 1.0f)
+        { MinDistance = 2.0f; Pos1 = Vector3.zero; Pos2 = { X = 1.0f; Y = 1.0f; Z = 1.0f }
           ShouldCollide = true; ExpectedDistance = 1.732f }
     ]
