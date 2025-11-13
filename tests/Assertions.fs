@@ -427,7 +427,7 @@ module Assertions =
         | Some false -> Assert.True(false, "shouldSleep: body is not sleeping")
         | None -> Assert.True(false, "shouldSleep: body not found")
 
-    let shouldTrack (world: Physics.Service.PhysicsWorld) (predicate: {| TotalTime: float<Physics.s>; FrameCount: int64; BodyCount: int; ActiveBodies: int |} -> bool) : unit =
+    let shouldTrack (world: Physics.Service.PhysicsWorld) (predicate: 'Stats -> bool) : unit =
         let stats = world.GetStatistics()
         Assert.True(predicate stats, "shouldTrack predicate failed")
 

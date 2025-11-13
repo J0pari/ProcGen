@@ -652,24 +652,6 @@ module Builders =
 
     let boxQuery() = BoxQueryBuilder()
 
-    // Filter builder
-    type FilterBuilder() =
-        let mutable excludeStatic = false
-        let mutable excludeDynamic = false
-
-        member this.ExcludeStatic() =
-            excludeStatic <- true
-            this
-
-        member this.ExcludeDynamic() =
-            excludeDynamic <- true
-            this
-
-        member this.Build() =
-            { ExcludeStatic = excludeStatic; ExcludeDynamic = excludeDynamic }
-
-    let withFilter() = FilterBuilder()
-
     // Physics world builder that returns a builder with WithBody methods
     type PhysicsWorldBuilder() =
         let mutable bodies = []
@@ -736,10 +718,6 @@ module Builders =
 
     let intersect = SpatialHash.intersect
     let collisionPenalty = SpatialHash.collisionPenalty
-
-    // Physics query functions (stubs for now)
-    let raycast (world: PhysicsWorld) (ray: Ray) : RaycastHit option =
-        None  // Stub implementation
 
     // Body builder extensions for physics service
     type BodyBuilder with
